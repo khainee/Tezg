@@ -34,6 +34,6 @@ elif url_parts.scheme == 'postgresql':
 
     BASE = declarative_base()
     SESSION = start()
-    else:
-        LOGGER.warning("Unsupported database type in DATABASE_URL. The application cannot function without a supported database.")
-        exit(1)
+else:
+    LOGGER.warning("Unsupported database type in DATABASE_URL. The application cannot function without a supported database.")
+    exit(1)
