@@ -6,7 +6,7 @@ if DATABASE_URL is None:
 
 url_parts = urlparse(DATABASE_URL)
 
-if url_parts.scheme == 'mongodb':
+if url_parts.scheme in ['mongodb', 'mongodb+srv']:
     from pymongo import MongoClient
     from bot import DATABASE_URL, LOGGER
 
