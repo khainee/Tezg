@@ -83,3 +83,33 @@ async def _token(client, message):
         await sent_message.edit(f"**ERROR:** ```{e}```")
     else:
         await message.reply_text(Messages.FLOW_IS_NONE, quote=True)
+
+@Client.on_message(filters.private & filters.incoming & filters.command(["set_auth"]))
+async def set_auth(client, message):
+    if len(message.command) != 2:
+        await message.reply_text("Invalid command usage. Correct format: set_auth <auth_code>")
+        return
+
+    token = message.command[1]
+    if len(token) != 73 or token[1] != "/":
+        await message.reply_text("Invalid auth code format.")
+        return
+
+    creds = None
+    global flow
+    if flow:
+        try:
+            user_id = message.from_user.id
+            sent_message = await message.reply_text("🕵️**Checking received code...**", quote=True)
+            creds = flow.step2_exchange(token)
+            gDriveDB._set(user_id, creds)
+            LOGGER.info(f'AuthSuccess: {user_id}')
+            await sent_message.edit(Messages.AUTH_SUCCESSFULLY)
+            flow = None
+        except FlowExchangeError:
+            await sent_message.edit(Messages.INVALID_AUTH_CODE)
+        except Exception as e:
+            await sent_message.edit(f"**ERROR:** ```{e}```")
+    else:
+        await message.reply_text(Messages.FLOW_IS_NONE, quote=True)
+
