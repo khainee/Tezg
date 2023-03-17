@@ -1,6 +1,6 @@
 from bot.helpers.sql_helper import url_parts
 
-if url_parts.scheme == 'mongodb':
+if url_parts.scheme in ['mongodb', 'mongodb+srv']:
     import pickle
     import threading
     from bot.helpers.sql_helper import gDrive
