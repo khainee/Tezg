@@ -87,7 +87,7 @@ async def _token(client, message):
 @Client.on_message(filters.private & filters.incoming & filters.command(BotCommands.Authroize))
 async def set_auth(client, message):
     if len(message.command) == 1:
-        await message.reply_text("Invalid command usage. Correct format: /BotCommands.Authroize <auth_code>")
+        await message.reply_text(f"Invalid command usage. Correct format: /{BotCommands.Authroize} <auth_code>")
         return
 
     token = message.command[1]
