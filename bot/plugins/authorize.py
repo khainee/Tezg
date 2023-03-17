@@ -63,8 +63,7 @@ def _revoke(client, message):
 
 @Client.on_message(filters.private & filters.incoming & filters.text & ~CustomFilters.auth_users)
 async def _token(client, message):
-  code = url.split("?code=")[1].split("&")[0]
-  token = code.split()[-1]
+  token = message.text.split()[-1]
   WORD = len(token)
   if WORD == 73 and token[1] == "/":
     creds = None
@@ -73,7 +72,7 @@ async def _token(client, message):
       try:
         user_id = message.from_user.id
         sent_message = await message.reply_text("🕵️**Checking received code...**", quote=True)
-        creds = flow.step2_exchange(code)
+        creds = flow.step2_exchange(message.text)
         gDriveDB._set(user_id, creds)
         LOGGER.info(f'AuthSuccess: {user_id}')
         await sent_message.edit(Messages.AUTH_SUCCESSFULLY)
