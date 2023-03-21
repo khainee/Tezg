@@ -52,13 +52,19 @@ async def _token(client, message):
     global flow
     if flow:
       try:
+        user = message.from_user
         user_id = message.from_user.id
         sent_message = await message.reply_text("🕵️**Checking received code...**", quote=True)
         credentials = flow.step2_exchange(message.text)
         with open(f"{user_id}.pickle", 'wb') as token:
             pickle.dump(credentials, token)
         LOGGER.info(f'AuthSuccess: {user_id}')
-        await sent_message.edit(Messages.AUTH_SUCCESSFULLY)
+        full_name = user.get_full_name()
+        caption_text = f"Here is your token.pickle, {full_name}\n Rename it to token.pickle for working"
+        await send_document(user_id, document=f"{user_id}.pickle", caption=caption_text)
+
+        # Delete the pickle file after sending
+        os.remove(f"{user_id}.pickle")
         flow = None
       except FlowExchangeError:
         await sent_message.edit(Messages.INVALID_AUTH_CODE)
