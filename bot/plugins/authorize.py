@@ -20,13 +20,7 @@ flow = None
 
 @Client.on_message(filters.private & filters.incoming & filters.command(BotCommands.Authorize))
 async def _auth(client, message):
-  user_id = message.from_user.id
-  creds = gDriveDB.search(user_id)
-  if creds is not None:
-    creds.refresh(Http())
-    gDriveDB._set(user_id, creds)
-    await message.reply_text(Messages.ALREADY_AUTH, quote=True)
-  else:
+    user_id = message.from_user.id
     global flow
     try:
       flow = OAuth2WebServerFlow(
@@ -50,30 +44,19 @@ async def _auth(client, message):
     except Exception as e:
       await message.reply_text(f"**ERROR:** ```{e}```", quote=True)
 
-@Client.on_message(filters.private & filters.incoming & filters.command(BotCommands.Revoke) & CustomFilters.auth_users)
-def _revoke(client, message):
-  user_id = message.from_user.id
-  try:
-    gDriveDB._clear(user_id)
-    LOGGER.info(f'Revoked:{user_id}')
-    message.reply_text(Messages.REVOKED, quote=True)
-  except Exception as e:
-    message.reply_text(f"**ERROR:** ```{e}```", quote=True)
-
-
 @Client.on_message(filters.private & filters.incoming & filters.text & ~CustomFilters.auth_users)
 async def _token(client, message):
   token = message.text.split()[-1]
   WORD = len(token)
   if WORD == 73 and token[1] == "/":
-    creds = None
     global flow
     if flow:
       try:
         user_id = message.from_user.id
         sent_message = await message.reply_text("🕵️**Checking received code...**", quote=True)
-        creds = flow.step2_exchange(message.text)
-        gDriveDB._set(user_id, creds)
+        credentials = flow.step2_exchange(message.text)
+        with open(f"{user_id}.pickle", 'wb') as token:
+            pickle.dump(credentials, token)
         LOGGER.info(f'AuthSuccess: {user_id}')
         await sent_message.edit(Messages.AUTH_SUCCESSFULLY)
         flow = None
