@@ -28,7 +28,7 @@ def _send_log(client, message):
 async def _restart(client, message):
   shutil.rmtree(DOWNLOAD_DIRECTORY)
   LOGGER.info('Deleted DOWNLOAD_DIRECTORY successfully.')
-  await message.reply_text('**♻️ Restarting!**', quote=True)
+  sent_message = await message.reply_text('**♻️ Restarting!**', quote=True)
   LOGGER.info(f'{message.from_user.id}: Restarting...')
   execl(executable, executable, "-m", "bot")
   await sent_message.edit('**♻️ Restarted Successfully!**', quote=True)
