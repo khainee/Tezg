@@ -56,7 +56,8 @@ async def _telegram_file(client, message):
   elif isinstance(message.photo, list):
       file = message.photo[-1]  # Use the largest available photo
       file.mime_type = "image/png"
-  await sent_message.edit(Messages.DOWNLOAD_TG_FILE.format(file.file_name, humanbytes(file.file_size), file.mime_type))  LOGGER.info(f'Download:{user_id}: {file.file_id}')
+  await sent_message.edit(Messages.DOWNLOAD_TG_FILE.format(file.file_name, humanbytes(file.file_size), file.mime_type))
+  LOGGER.info(f'Download:{user_id}: {file.file_id}')
   try:
     file_path = await message.download(file_name=DOWNLOAD_DIRECTORY)
     file_name = os.path.basename(file_path)
