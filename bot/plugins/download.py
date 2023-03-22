@@ -44,7 +44,7 @@ async def _download(client, message):
             return await _youtu(client, message, user_id, sent_message, link)
 
 @Client.on_message(filters.private & filters.incoming & (filters.document | filters.audio | filters.video | filters.photo) & CustomFilters.auth_users)
-asybc def _telegram_file(client, message):
+async def _telegram_file(client, message):
   user_id = message.from_user.id
   sent_message = await message.reply_text('🕵️**Checking File...**', quote=True)
   if message.document:
