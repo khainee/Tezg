@@ -48,18 +48,13 @@ async def _telegram_file(client, message):
   user_id = message.from_user.id
   sent_message = await message.reply_text('🕵️**Checking File...**', quote=True)
   if message.document:
-      file = message.document
-      await sent_message.edit(Messages.DOWNLOAD_TG_FILE.format(file.file_name, humanbytes(file.file_size), file.file.mime_type))
+      await sent_message.edit(Messages.DOWNLOAD_TG_FILE.format(message.document.file_name, humanbytes(message.document.file_size), message.document.file.mime_type))
   elif message.video:
-      file = message.video
-      await sent_message.edit(Messages.DOWNLOAD_TG_FILE.format(file.file_name, humanbytes(file.file_size), file.file.mime_type))
+      await sent_message.edit(Messages.DOWNLOAD_TG_FILE.format(message.video.file_name, humanbytes(message.video.file_size), message.video.file.mime_type))
   elif message.audio:
-      file = message.audio
-      await sent_message.edit(Messages.DOWNLOAD_TG_FILE.format(file.file_name, humanbytes(file.file_size), file.file.mime_type))
+      await sent_message.edit(Messages.DOWNLOAD_TG_FILE.format(message.audio.file_name, humanbytes(message.audio.file_size), message.audio.file.mime_type))
   elif message.photo:
-      file = message.photo
-      await sent_message.edit(Messages.DOWNLOAD_TG_FILE.format(file.file_name, humanbytes(file.file_size), file.file.mime_type))
-  LOGGER.info(f'Download:{user_id}: {file.file_id}')
+      await sent_message.edit(Messages.DOWNLOAD_TG_FILE.format(message.photo.file_name, humanbytes(message.photo.file_size), message.photo.file.mime_type))  LOGGER.info(f'Download:{user_id}: {file.file_id}')
   try:
     file_path = await message.download(file_name=DOWNLOAD_DIRECTORY)
     file_name = os.path.basename(file_path)
