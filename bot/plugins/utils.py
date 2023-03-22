@@ -16,7 +16,7 @@ def _send_log(client, message):
         message.chat.id,
         document=f,
         file_name=f.name,
-        reply_to_message_id=message.message_id
+        reply_to_message_id=message.id
         )
       LOGGER.info(f'Log file sent to {message.from_user.id}')
     except FloodWait as e:
