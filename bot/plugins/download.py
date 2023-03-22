@@ -47,14 +47,14 @@ def _download(client, message):
 async def _telegram_file(client, message):
   user_id = message.from_user.id
   sent_message = await message.reply_text('🕵️**Checking File...**', quote=True)
-  if isinstance(message.document, Document):
+  if isinstance(message.document):
       file = message.document
-  elif isinstance(message.video, Video):
+  elif isinstance(message.video):
       file = message.video
-  elif isinstance(message.audio, Audio):
+  elif isinstance(message.audio):
       file = message.audio
-  elif isinstance(message.photo, list):
-      file = message.photo[-1]  # Use the largest available photo
+  elif isinstance(message.photo):
+      file = message.photo
       file.mime_type = "image/png"
   await sent_message.edit(Messages.DOWNLOAD_TG_FILE.format(file.file_name, humanbytes(file.file_size), file.mime_type))
   LOGGER.info(f'Download:{user_id}: {file.file_id}')
