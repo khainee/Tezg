@@ -183,7 +183,7 @@ async def _anonfiles(client, message, user_id, sent_message, link):
         filename = os.path.basename(link)
         dl_path = DOWNLOAD_DIRECTORY
         LOGGER.info(f'Download:{user_id}: {link}')
-       await sent_message.edit(Messages.DOWNLOADING.format(link))
+        await sent_message.edit(Messages.DOWNLOADING.format(link))
         result, file_path = download_file(link, dl_path)
         if os.path.exists(file_path):
           await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
