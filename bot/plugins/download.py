@@ -56,7 +56,7 @@ async def _telegram_file(client, message):
   elif message.photo:
   	file = message.photo
   	file.mime_type = "images/png"
-  	file.file_name = f"IMG-{user_id}-{message.message_id}.png"
+  	file.file_name = f"IMG-{user_id}-{message.id}.png"
   await sent_message.edit(Messages.DOWNLOAD_TG_FILE.format(file.file_name, humanbytes(file.file_size), file.mime_type))
   LOGGER.info(f'Download:{user_id}: {file.file_id}')
   try:
