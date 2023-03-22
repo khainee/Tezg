@@ -44,9 +44,9 @@ def _download(client, message):
             return _youtu(client, message, user_id, sent_message, link)
 
 @Client.on_message(filters.private & filters.incoming & (filters.document | filters.audio | filters.video | filters.photo) & CustomFilters.auth_users)
-def _telegram_file(client, message):
+async def _telegram_file(client, message):
   user_id = message.from_user.id
-  sent_message = message.reply_text('🕵️**Checking File...**', quote=True)
+  sent_message = await message.reply_text('🕵️**Checking File...**', quote=True)
   if message.document:
     file = message.document
   elif message.video:
@@ -57,15 +57,15 @@ def _telegram_file(client, message):
   	file = message.photo
   	file.mime_type = "images/png"
   	file.file_name = f"IMG-{user_id}-{message.message_id}.png"
-  sent_message.edit(Messages.DOWNLOAD_TG_FILE.format(file.file_name, humanbytes(file.file_size), file.mime_type))
+  await sent_message.edit(Messages.DOWNLOAD_TG_FILE.format(file.file_name, humanbytes(file.file_size), file.mime_type))
   LOGGER.info(f'Download:{user_id}: {file.file_id}')
   try:
     file_path = message.download(file_name=DOWNLOAD_DIRECTORY)
-    sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
+    await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
     msg = GoogleDrive(user_id).upload_file(file_path, file.mime_type)
-    sent_message.edit(msg)
+    await sent_message.edit(msg)
   except RPCError:
-    sent_message.edit(Messages.WENT_WRONG)
+    await sent_message.edit(Messages.WENT_WRONG)
   LOGGER.info(f'Deleteing: {file_path}')
   os.remove(file_path)
 
