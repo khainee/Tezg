@@ -1,5 +1,5 @@
 class config:
-    BOT_TOKEN = "5734808985:AAHGRWajbjUlJD1QoDmcZUZ9UgxDAfgCkus"
+    BOT_TOKEN = "6088041437:AAF_MqVbJYDbKbWM3qY-BnQxgY1ydDT9KRI"
     APP_ID = "10112326"
     API_HASH = "76b4e277c75aaf991589d78eca42946a"
     DATABASE_URL = "mongodb://mongo:TpghbMFn6sO3JyPFzrRP@containers-us-west-148.railway.app:6601"
