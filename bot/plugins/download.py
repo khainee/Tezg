@@ -27,21 +27,21 @@ async def _download(client, message):
         else:
             link = message.text
         if 'drive.google.com' in link:
-            return _gd(client, message, user_id, sent_message, link)
+            return await _gd(client, message, user_id, sent_message, link)
         elif 'facebook' in link:
-            return _fb(client, message, user_id, sent_message, link)
+            return await _fb(client, message, user_id, sent_message, link)
         elif 'solidfiles' in link:
-            return _solidfiles(client, message, user_id, sent_message, link)
+            return await _solidfiles(client, message, user_id, sent_message, link)
         elif 'anonfiles' in link:
-            return _anonfiles(client, message, user_id, sent_message, link)
+            return await _anonfiles(client, message, user_id, sent_message, link)
         elif 'mediafire.com' in link:
-            return _mediafire(client, message, user_id, sent_message, link)
+            return await _mediafire(client, message, user_id, sent_message, link)
         elif 'zippyshare.com' in link:
-            return _zippyshare(client, message, user_id, sent_message, link)
+            return await _zippyshare(client, message, user_id, sent_message, link)
         elif 'pornhub.com' in link:
-            return _pornhub(client, message, user_id, sent_message, link)
+            return await _pornhub(client, message, user_id, sent_message, link)
         elif 'youtu' in link:
-            return _youtu(client, message, user_id, sent_message, link)
+            return await _youtu(client, message, user_id, sent_message, link)
 
 @Client.on_message(filters.private & filters.incoming & (filters.document | filters.audio | filters.video | filters.photo) & CustomFilters.auth_users)
 async def _telegram_file(client, message):
