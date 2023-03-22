@@ -7,7 +7,7 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 def _start(client, message):
     client.send_message(chat_id = message.chat.id,
         text = tr.START_MSG.format(message.from_user.mention),
-        reply_to_message_id = message.message_id
+        reply_to_message_id = message.id
     )
 
 
@@ -16,7 +16,7 @@ def _help(client, message):
     client.send_message(chat_id = message.chat.id,
         text = tr.HELP_MSG[1],
         reply_markup = InlineKeyboardMarkup(map(1)),
-        reply_to_message_id = message.message_id
+        reply_to_message_id = message.id
     )
 
 help_callback_filter = filters.create(lambda _, __, query: query.data.startswith('help+'))
@@ -24,9 +24,9 @@ help_callback_filter = filters.create(lambda _, __, query: query.data.startswith
 @Client.on_callback_query(help_callback_filter)
 def help_answer(c, callback_query):
     chat_id = callback_query.from_user.id
-    message_id = callback_query.message.message_id
+    message_id = callback_query.message.id
     msg = int(callback_query.data.split('+')[1])
-    c.edit_message_text(chat_id = chat_id,    message_id = message_id,
+    c.edit_message_text(chat_id = chat_id,    message_id = message.id,
         text = tr.HELP_MSG[msg],    reply_markup = InlineKeyboardMarkup(map(msg))
     )
 
