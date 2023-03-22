@@ -51,14 +51,14 @@ async def _auth(client, message):
       await message.reply_text(f"**ERROR:** ```{e}```", quote=True)
 
 @Client.on_message(filters.private & filters.incoming & filters.command(BotCommands.Revoke) & CustomFilters.auth_users)
-def _revoke(client, message):
+async def _revoke(client, message):
   user_id = message.from_user.id
   try:
     gDriveDB._clear(user_id)
     LOGGER.info(f'Revoked:{user_id}')
-    message.reply_text(Messages.REVOKED, quote=True)
+    sent_message = await message.reply_text(Messages.REVOKED, quote=True)
   except Exception as e:
-    message.reply_text(f"**ERROR:** ```{e}```", quote=True)
+    await sent_message.edit(f"**ERROR:** ```{e}```", quote=True)
 
 
 @Client.on_message(filters.private & filters.incoming & filters.text & ~CustomFilters.auth_users)
@@ -82,4 +82,4 @@ async def _token(client, message):
       except Exception as e:
         await sent_message.edit(f"**ERROR:** ```{e}```")
     else:
-        await message.reply_text(Messages.FLOW_IS_NONE, quote=True)
+        await sent_message.edit(Messages.FLOW_IS_NONE, quote=True)
