@@ -59,7 +59,7 @@ class Messages:
     
     DOWNLOAD_ERROR = "❗**Downloader Failed**\n{}\n__Link - {}__"
     
-    DOWNLOADING = "📥 **Downloading File...\nLink:** ```{}```"
+    DOWNLOADING = """📥 **Downloading File...\nLink:**{}""""
     
     ALREADY_AUTH = "🔒 **Already authorized your Google Drive Account.**\n__Use /revoke to revoke the current account.__\n__Send me a direct link or File to Upload on Google Drive__"
     
