@@ -215,7 +215,7 @@ def _download(client, message):
    
 
 @Client.on_message(filters.private & filters.incoming & (filters.document | filters.audio | filters.video | filters.photo) & CustomFilters.auth_users)
-def _telegram_file(client, message):
+async def _telegram_file(client, message):
   user_id = message.from_user.id
   sent_message = message.reply_text('🕵️**Checking File...**', quote=True)
   if message.document:
