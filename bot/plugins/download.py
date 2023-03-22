@@ -47,13 +47,13 @@ def _download(client, message):
 async def _telegram_file(client, message):
   user_id = message.from_user.id
   sent_message = await message.reply_text('🕵️**Checking File...**', quote=True)
-  if isinstance(message.document):
+  if message.document:
       file = message.document
-  elif isinstance(message.video):
+  elif message.video:
       file = message.video
-  elif isinstance(message.audio):
+  elif message.audio:
       file = message.audio
-  elif isinstance(message.photo):
+  elif message.photo:
       file = message.photo
       file.mime_type = "image/png"
   await sent_message.edit(Messages.DOWNLOAD_TG_FILE.format(file.file_name, humanbytes(file.file_size), file.mime_type))
