@@ -44,30 +44,24 @@ async def _download(client, message):
             return await _youtu(client, message, user_id, sent_message, link)
 
 @Client.on_message(filters.private & filters.incoming & (filters.document | filters.audio | filters.video | filters.photo) & CustomFilters.auth_users)
-async def _telegram_file(client, message):
+def _telegram_file(client, message):
   user_id = message.from_user.id
   sent_message = await message.reply_text('🕵️**Checking File...**', quote=True)
   if message.document:
-      file = message.document
-      await sent_message.edit(Messages.DOWNLOAD_TG_FILE.format(message.document.file_name, humanbytes(message.document.file_size), message.document.mime_type))
-      LOGGER.info(f'Download:{user_id}: {message.document.file_id}')
+    file = message.document
   elif message.video:
-      file = message.video
-      await sent_message.edit(Messages.DOWNLOAD_TG_FILE.format(message.video.file_name, humanbytes(message.video.file_size), message.video.mime_type))
-      LOGGER.info(f'Download:{user_id}: {message.video.file_id}')
+    file = message.video
   elif message.audio:
-      file = message.audio
-      await sent_message.edit(Messages.DOWNLOAD_TG_FILE.format(message.audio.file_name, humanbytes(message.audio.file_size), message.audio.mime_type))
-      LOGGER.info(f'Download:{user_id}: {message.audio.file_id}')
+    file = message.audio
   elif message.photo:
-      file = message.photo
-      await sent_message.edit(Messages.DOWNLOAD_TG_FILE.format(message.photo.file_name, humanbytes(message.photo.file_size), message.photo.mime_type))
-      LOGGER.info(f'Download:{user_id}: {message.photo.file_id}')
+  	file = message.photo
+  	file.mime_type = "images/png"
+  	file.file_name = f"IMG-{user_id}-{message.message_id}.png"
+  await sent_message.edit(Messages.DOWNLOAD_TG_FILE.format(file.file_name, humanbytes(file.file_size), file.mime_type))
+  LOGGER.info(f'Download:{user_id}: {file.file_id}')
   try:
-    file_path = await message.download(file_name=DOWNLOAD_DIRECTORY)
-    file_name = os.path.basename(file_path)
-    file_size = humanbytes(os.path.getsize(file_path))
-    await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(file_name, file_size))
+    file_path = message.download(file_name=DOWNLOAD_DIRECTORY)
+    await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
     msg = GoogleDrive(user_id).upload_file(file_path, file.mime_type)
     await sent_message.edit(msg)
   except RPCError:
