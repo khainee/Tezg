@@ -25,9 +25,10 @@ def _send_log(client, message):
       message.reply_text(e, quote=True)
 
 @Client.on_message(filters.private & filters.incoming & filters.command(['restart']) & filters.user(SUDO_USERS), group=2)
-def _restart(client, message):
+async def _restart(client, message):
   shutil.rmtree(DOWNLOAD_DIRECTORY)
   LOGGER.info('Deleted DOWNLOAD_DIRECTORY successfully.')
-  message.reply_text('**♻️Restarted Successfully !**', quote=True)
+  await message.reply_text('**♻️ Restarting!**', quote=True)
   LOGGER.info(f'{message.from_user.id}: Restarting...')
   execl(executable, executable, "-m", "bot")
+  await sent_message.edit('**♻️ Restarted Successfully!**', quote=True)
