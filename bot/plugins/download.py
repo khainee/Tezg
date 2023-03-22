@@ -62,7 +62,7 @@ async def _telegram_file(client, message):
     file_type = file.mime_type
   except Exception as e:
     await sent_message.edit(f"**ERROR:** ```{e}```")
-  await sent_message.edit(Messages.DOWNLOAD_TG_FILE)
+  await sent_message.edit(Messages.DOWNLOAD_TG_FILE.format(file_name, file_size, file_type))
   LOGGER.info(f'Download:{user_id}: {file.file_id}')
   try:
     file_path = await message.download(file_name=DOWNLOAD_DIRECTORY)
