@@ -57,16 +57,17 @@ async def _telegram_file(client, message):
       file = message.photo
       file.mime_type = "image/png"
   try:
-      file_name = file.file_name
-      file_size = humanbytes(file.file_size)
-      file_type = file.mime_type
-      print(file_type, file_size, file_name)
+    file_name = file.file_name
+    file_size = humanbytes(file.file_size)
+    file_type = file.mime_type
   except Exception as e:
-      await sent_message.edit(f"**ERROR:** ```{e}```")
-  await sent_message.edit('📥 **Downloading File...**\n\n'
-                        '**Filename:** ```' + file_name + '```\n\n'
-                        '**Size:** ```' + file_size + '```\n\n'
-                        '**Type:** ```' + file_type + '```')
+    await sent_message.edit(f"**ERROR:** ```{e}```")
+
+  message_text = '📥 **Downloading File...**\n\n' \
+                 '**Filename:** ```{}```\n\n' \
+                 '**Size:** ```{}```\n\n' \
+                 '**Type:** ```{}```'.format(file_name, file_size, file_type)
+  await sent_message.edit(message_text)
   LOGGER.info(f'Download:{user_id}: {file.file_id}')
   try:
     file_path = await message.download(file_name=DOWNLOAD_DIRECTORY)
