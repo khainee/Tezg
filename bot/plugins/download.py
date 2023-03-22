@@ -60,6 +60,7 @@ async def _telegram_file(client, message):
       file_name = file.file_name
       file_size = humanbytes(file.file_size)
       file_type = file.mime_type
+      print(file_type, file_size, file_name)
   except Exception as e:
       await sent_message.edit(f"**ERROR:** ```{e}```")
   await sent_message.edit(f"📥 **Downloading File...**\n**Filename:** ```{file_name}```\n**Size:** ```{file_size}```\n**Type:** ```{file_type}```")
