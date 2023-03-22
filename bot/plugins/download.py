@@ -18,10 +18,10 @@ from bot.config import Messages, BotCommands
 from pyrogram.errors import FloodWait, RPCError
 
 @Client.on_message(filters.private & filters.incoming & filters.text & (filters.command(BotCommands.Download) | filters.regex('^(ht|f)tp*')) & CustomFilters.auth_users)
-def _download(client, message):
+async def _download(client, message):
     user_id = message.from_user.id
     if not message.media:
-        sent_message = message.reply_text('🕵️**Checking link...**', quote=True)
+        sent_message = await message.reply_text('🕵️**Checking link...**', quote=True)
         if message.command:
             link = message.command[1]
         else:
@@ -76,34 +76,34 @@ async def _telegram_file(client, message):
   os.remove(file_path)
 
 @Client.on_message(filters.incoming & filters.private & filters.command(BotCommands.YtDl) & CustomFilters.auth_users)
-def _ytdl(client, message):
+async def _ytdl(client, message):
   user_id = message.from_user.id
   if len(message.command) > 1:
-    sent_message = message.reply_text('🕵️**Checking Link...**', quote=True)
+    sent_message = await message.reply_text('🕵️**Checking Link...**', quote=True)
     link = message.command[1]
     LOGGER.info(f'YTDL:{user_id}: {link}')
-    sent_message.edit(Messages.DOWNLOADING.format(link))
+    await sent_message.edit(Messages.DOWNLOADING.format(link))
     result, file_path = utube_dl(link)
     if result:
-      sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
+      await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
       msg = GoogleDrive(user_id).upload_file(file_path)
-      sent_message.edit(msg)
+      await sent_message.edit(msg)
       LOGGER.info(f'Deleteing: {file_path}')
       os.remove(file_path)
     else:
-      sent_message.edit(Messages.DOWNLOAD_ERROR.format(file_path, link))
+      await sent_message.edit(Messages.DOWNLOAD_ERROR.format(file_path, link))
   else:
-    message.reply_text(Messages.PROVIDE_YTDL_LINK, quote=True)
+    await sent_message.edit(Messages.PROVIDE_YTDL_LINK, quote=True)
 
 #downloader
 
-def _gd(client, message, user_id, sent_message, link):
-      sent_message.edit(Messages.CLONING.format(link))
+async def _gd(client, message, user_id, sent_message, link):
+      await sent_message.edit(Messages.CLONING.format(link))
       LOGGER.info(f'Copy:{user_id}: {link}')
       msg = GoogleDrive(user_id).clone(link)
-      sent_message.edit(msg)
+      await sent_message.edit(msg)
 
-def _fb(client, message, user_id, sent_message, link):
+async def _fb(client, message, user_id, sent_message, link):
       url = message.text
       try:
         r  = requests.post("https://yt1s.io/api/ajaxSearch/facebook", data={"q": url, "vt": "facebook"}).text
@@ -121,13 +121,13 @@ def _fb(client, message, user_id, sent_message, link):
               filename = os.path.basename(link)
               dl_path = DOWNLOAD_DIRECTORY
               LOGGER.info(f'Download:{user_id}: {link}')
-              sent_message.edit(Messages.DOWNLOADING.format(link))
+              await sent_message.edit(Messages.DOWNLOADING.format(link))
               result, file_path = download_file(link, dl_path)
 
               if os.path.exists(file_path):
-                sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
+                await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
                 msg = GoogleDrive(user_id).upload_file(file_path)
-                sent_message.edit(msg)
+                await sent_message.edit(msg)
                 LOGGER.info(f'Deleteing: {file_path}')
                 os.remove(file_path)  
             except:
@@ -136,21 +136,21 @@ def _fb(client, message, user_id, sent_message, link):
               filename = os.path.basename(link)
               dl_path = DOWNLOAD_DIRECTORY
               LOGGER.info(f'Download:{user_id}: {link}')
-              sent_message.edit(Messages.DOWNLOADING.format(link))
+              await sent_message.edit(Messages.DOWNLOADING.format(link))
               result, file_path = download_file(link, dl_path)
 
               if os.path.exists(file_path):
-                sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
+                await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
                 msg = GoogleDrive(user_id).upload_file(file_path)
-                sent_message.edit(msg)
+                await sent_message.edit(msg)
                 LOGGER.info(f'Deleteing: {file_path}')
                 os.remove(file_path)  
         
         
       except:
-        sent_message = message.reply_text('🕵️**Your Facebook Link is Private & SO i cAnNot Download**', quote=True)
+        await sent_message.edit('🕵️**Your Facebook Link is Private & SO i cAnNot Download**', quote=True)
 
-def _solidfiles(client, message, user_id, sent_message, link):
+async def _solidfiles(client, message, user_id, sent_message, link):
       url = message.text
       headers = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36'
@@ -163,18 +163,18 @@ def _solidfiles(client, message, user_id, sent_message, link):
         filename = os.path.basename(link)
         dl_path = DOWNLOAD_DIRECTORY
         LOGGER.info(f'Download:{user_id}: {link}')
-        sent_message.edit(Messages.DOWNLOADING.format(link))
+        await sent_message.edit(Messages.DOWNLOADING.format(link))
         result, file_path = download_file(link, dl_path)
         if os.path.exists(file_path):
-          sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
+          await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
           msg = GoogleDrive(user_id).upload_file(file_path)
-          sent_message.edit(msg)
+          await sent_message.edit(msg)
           LOGGER.info(f'Deleteing: {file_path}')
           os.remove(file_path)
       except:
-        sent_message = message.reply_text('🕵️**Solidfiles link error...**', quote=True)
+        await sent_message.edit('🕵️**Solidfiles link error...**', quote=True)
 
-def _anonfiles(client, message, user_id, sent_message, link):
+async def _anonfiles(client, message, user_id, sent_message, link):
       url = message.text
       try:
         bypasser = lk21.Bypass()
@@ -183,18 +183,18 @@ def _anonfiles(client, message, user_id, sent_message, link):
         filename = os.path.basename(link)
         dl_path = DOWNLOAD_DIRECTORY
         LOGGER.info(f'Download:{user_id}: {link}')
-        sent_message.edit(Messages.DOWNLOADING.format(link))
+       await sent_message.edit(Messages.DOWNLOADING.format(link))
         result, file_path = download_file(link, dl_path)
         if os.path.exists(file_path):
-          sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
+          await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
           msg = GoogleDrive(user_id).upload_file(file_path)
-          sent_message.edit(msg)
+          await sent_message.edit(msg)
           LOGGER.info(f'Deleteing: {file_path}')
           os.remove(file_path)
       except:
-        sent_message = message.reply_text('🕵️**Anonfiles link error...**', quote=True)
+        await sent_message.edit('🕵️**Anonfiles link error...**', quote=True)
 
-def _mediafire(client, message, user_id, sent_message, link):
+async def _mediafire(client, message, user_id, sent_message, link):
       url = message.text
       try:
         link = re.findall(r'\bhttps?://.*mediafire\.com\S+', url)[0]
@@ -207,18 +207,18 @@ def _mediafire(client, message, user_id, sent_message, link):
       filename = os.path.basename(link)
       dl_path = DOWNLOAD_DIRECTORY
       LOGGER.info(f'Download:{user_id}: {link}')
-      sent_message.edit(Messages.DOWNLOADING.format(link))
+      await sent_message.edit(Messages.DOWNLOADING.format(link))
       result, file_path = download_file(link, dl_path)
       if os.path.exists(file_path):
-        sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
+        await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
         msg = GoogleDrive(user_id).upload_file(file_path)
-        sent_message.edit(msg)
+        await sent_message.edit(msg)
         LOGGER.info(f'Deleteing: {file_path}')
         os.remove(file_path)
       else:
-        sent_message = message.reply_text('🕵️**mediafire link error...**', quote=True)
+        await sent_message.edit('🕵️**mediafire link error...**', quote=True)
 
-def _zippyshare(client, message, user_id, sent_message, link):
+async def _zippyshare(client, message, user_id, sent_message, link):
       url = message.text
       dl_url = ''
       try:
@@ -243,42 +243,42 @@ def _zippyshare(client, message, user_id, sent_message, link):
       filename = urllib.parse.unquote(dl_url.split('/')[-1])
       dl_path = DOWNLOAD_DIRECTORY
       LOGGER.info(f'Download:{user_id}: {link}')
-      sent_message.edit(Messages.DOWNLOADING.format(link))
+      await sent_message.edit(Messages.DOWNLOADING.format(link))
       result, file_path = download_file(link, dl_path)
       if os.path.exists(file_path):
-        sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path),
+        await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path),
                                                                   humanbytes(os.path.getsize(file_path))))
         msg = GoogleDrive(user_id).upload_file(file_path)
-        sent_message.edit(msg)
+        await sent_message.edit(msg)
         LOGGER.info(f'Deleteing: {file_path}')
         os.remove(file_path)
       else:
-        sent_message = message.reply_text('🕵️** zippy link error...**', quote=True)
+        await sent_message.edit('🕵️** zippy link error...**', quote=True)
 
-def _pornhub(client, message, user_id, sent_message, link):
+async def _pornhub(client, message, user_id, sent_message, link):
       link = message.text
       LOGGER.info(f'YTDL:{user_id}: {link}')
-      sent_message.edit(Messages.DOWNLOADING.format(link))
+      await sent_message.edit(Messages.DOWNLOADING.format(link))
       result, file_path = utube_dl(link)
       if result:
-        sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
+        await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
         msg = GoogleDrive(user_id).upload_file(file_path)
-        sent_message.edit(msg)
+        await sent_message.edit(msg)
         LOGGER.info(f'Deleteing: {file_path}')
         os.remove(file_path)
       else:
-        sent_message = message.reply_text('🕵️**PORNHUB ERROR**', quote=True)
+        await sent_message.edit('🕵️**PORNHUB ERROR**', quote=True)
 
-def _youtu(client, message, user_id, sent_message, link):
+async def _youtu(client, message, user_id, sent_message, link):
       link = message.text
       LOGGER.info(f'YTDL:{user_id}: {link}')
-      sent_message.edit(Messages.DOWNLOADING.format(link))
+      await sent_message.edit(Messages.DOWNLOADING.format(link))
       result, file_path = utube_dl(link)
       if result:
-        sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
+        await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
         msg = GoogleDrive(user_id).upload_file(file_path)
-        sent_message.edit(msg)
+        await sent_message.edit(msg)
         LOGGER.info(f'Deleteing: {file_path}')
         os.remove(file_path)
       else:
-        sent_message = message.reply_text('🕵️**YOUTUBE ERROR**', quote=True)
+        await sent_message.edit('🕵️**YOUTUBE ERROR**', quote=True)
