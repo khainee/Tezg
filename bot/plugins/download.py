@@ -65,8 +65,7 @@ async def _telegram_file(client, message):
 
   message_text = '📥 **Downloading File...**\n\n' \
                  '**Filename:** ```{}```\n\n' \
-                 '**Size:** ```{}```\n\n' \
-                 '**Type:** ```{}```'.format(file_name, file_size, file_type)
+                 '**Size:** ```{}```\n\n'.format(file_name, file_size)
   await sent_message.edit(message_text)
   LOGGER.info(f'Download:{user_id}: {file.file_id}')
   try:
