@@ -61,7 +61,9 @@ async def _telegram_file(client, message):
   LOGGER.info(f'Download:{user_id}: {file.file_id}')
   try:
     file_path = message.download(file_name=DOWNLOAD_DIRECTORY)
-    await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
+    file_name = os.path.basename(file_path)
+    file_size = humanbytes(os.path.getsize(file_path))
+    await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(file_name, file_size)
     msg = GoogleDrive(user_id).upload_file(file_path, file.mime_type)
     await sent_message.edit(msg)
   except RPCError:
