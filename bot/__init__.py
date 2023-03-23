@@ -1,6 +1,7 @@
 import os
 import logging
 from pyrogram import Client
+from asyncio import get_event_loop
 
 logging.basicConfig(
     level=logging.INFO,
@@ -42,12 +43,6 @@ except KeyError:
 plugins = dict(root="bot/plugins")
 
 LOGGER.info("Initializing Pyrogram Client")
-bot = Client(
-    "G-DriveBot",
-    bot_token=BOT_TOKEN,
-    api_id=APP_ID,
-    api_hash=API_HASH,
-    plugins=plugins,
-    workdir=DOWNLOAD_DIRECTORY
-)
-bot_loop = bot.loop
+bot = Client("G-DriveBot", bot_token=BOT_TOKEN, api_id=APP_ID, api_hash=API_HASH, plugins=plugins, workdir=DOWNLOAD_DIRECTORY)
+Conversation(bot)
+bot_loop = get_event_loop()
