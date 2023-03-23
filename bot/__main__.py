@@ -1,5 +1,6 @@
 import os
 import logging
+import asyncio
 from pyrogram import Client
 from pyrogram.handlers import MessageHandler
 from bot import bot, DOWNLOAD_DIRECTORY
@@ -28,6 +29,7 @@ if __name__ == "__main__":
     if not os.path.isdir(DOWNLOAD_DIRECTORY):
         os.makedirs(DOWNLOAD_DIRECTORY)
     LOGGER.info('Starting Bot !')
-    bot.run_until_complete(main())
-    bot.run_forever()
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
+    bot.run() # this will run the bot indefinitely
     LOGGER.info('Bot Stopped !')
