@@ -20,8 +20,8 @@ async def main():
             chat_id, msg_id = map(int, f)
         try:
             await bot.edit_message_text(chat_id, msg_id, "Restarted successfully!")  
-        except:
-            pass   
+        except Exception as e:
+            await bot.send_message(chat_id=msg_id, text=f"**ERROR:** ```{e}```")
         os.remove(".restartmsg")
 
 
