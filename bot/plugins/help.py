@@ -1,3 +1,4 @@
+import asyncio
 from pyrogram import Client, filters
 from bot.config import Messages
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
