@@ -18,6 +18,13 @@ async def ping(client, message):
     end_time = int(round(time() * 1000))
     await sent_message.edit(f'{end_time - start_time} ms')
 
+@bot.on_message(filters.private & filters.incoming & filters.command(['ping1']), group=2)
+async def _ping(client, message):
+    start_time = int(round(time() * 1000))
+    reply = await sendMessage(message, "Starting Ping")
+    end_time = int(round(time() * 1000))
+    await editMessage(reply, f'{end_time - start_time} ms')
+
 
 @Client.on_message(filters.private & filters.incoming & filters.command(['help']), group=2)
 def _help(client, message):
