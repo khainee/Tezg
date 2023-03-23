@@ -6,6 +6,7 @@ name: Python application
 on:
   workflow_dispatch:
   push:
+    branches: [ "MongoDB" ]
 
 jobs:
   build:
