@@ -10,6 +10,18 @@ from pyrogram import Client, filters
 from pyrogram.errors import FloodWait, RPCError
 from bot import SUDO_USERS, DOWNLOAD_DIRECTORY, LOGGER
 
+def get_readable_file_size(size_in_bytes):
+    if size_in_bytes is None:
+        return '0B'
+    index = 0
+    while size_in_bytes >= 1024:
+        size_in_bytes /= 1024
+        index += 1
+    try:
+        return f'{round(size_in_bytes, 2)}{SIZE_UNITS[index]}'
+    except IndexError:
+        return 'File too large'
+
 @bot.on_message(filters.private & filters.incoming & filters.command(['start']))
 async def stats(client, message):
     total, used, free, disk = disk_usage('/')
