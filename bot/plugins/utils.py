@@ -29,7 +29,9 @@ async def stats(client, message):
     total, used, free, disk = disk_usage('/')
     swap = swap_memory()
     memory = virtual_memory()
-    stats = f'<b>Total Disk Space:</b> {get_readable_file_size(total)}\n'\
+    stats = f'<b>Bot Uptime:</b> {get_readable_time(time() - botStartTime)}\n'\
+            f'<b>OS Uptime:</b> {get_readable_time(time() - boot_time())}\n\n'\
+            f'<b>Total Disk Space:</b> {get_readable_file_size(total)}\n'\
             f'<b>Used:</b> {get_readable_file_size(used)} | <b>Free:</b> {get_readable_file_size(free)}\n\n'\
             f'<b>Upload:</b> {get_readable_file_size(net_io_counters().bytes_sent)}\n'\
             f'<b>Download:</b> {get_readable_file_size(net_io_counters().bytes_recv)}\n\n'\
