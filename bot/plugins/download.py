@@ -76,8 +76,7 @@ async def _telegram_file(client, message):
 async def progress(current, total):
     """Callback function to update progress of download"""
     progress = math.floor(current * 100 / total)
-    await message.edit_text(f"📤 **Uploading:** `{progress}%`")
-
+    
 @Client.on_message(filters.incoming & filters.private & filters.command(BotCommands.YtDl) & CustomFilters.auth_users)
 async def _ytdl(client, message):
   user_id = message.from_user.id
