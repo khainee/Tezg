@@ -31,8 +31,5 @@ async def _restart(client, message):
     LOGGER.info('Deleted DOWNLOAD_DIRECTORY successfully.')
     restart_message = await message.reply_text('**♻️ Restarting!**', quote=True)
     LOGGER.info(f'{message.from_user.id}: Restarting...')
-    async with aiopen(".restartmsg", "w") as f:
-        await f.truncate(0)
-        await f.write(f"{restart_message.chat.id}\n{restart_message.id}\n")
     os.execl(sys.executable, sys.executable, "-m", "bot")
     await sent_message.edit_text('**✅ Restarted Successfully!**')
