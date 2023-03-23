@@ -11,14 +11,14 @@ LOGGER = logging.getLogger(__name__)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 async def main():
-    if ospath.isfile(".restartmsg"):
+    if os.path.isfile(".restartmsg"):
         with open(".restartmsg") as f:
             chat_id, msg_id = map(int, f)
         try:
             await bot.edit_message_text(chat_id, msg_id, "Restarted successfully!")  
         except:
             pass   
-        osremove(".restartmsg")
+        os.remove(".restartmsg")
 
 
 if __name__ == "__main__":
