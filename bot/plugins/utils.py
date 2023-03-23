@@ -11,7 +11,7 @@ from bot import SUDO_USERS, DOWNLOAD_DIRECTORY, LOGGER
 
 
 @Client.on_message(filters.private & filters.incoming & filters.command(['log']) & filters.user(SUDO_USERS), group=2)
-def _send_log(client, message):
+async def _send_log(client, message):
   with open('log.txt', 'rb') as f:
     try:
       await client.send_document(message.chat.id, document=f, file_name=f.name, reply_to_message_id=message.id)
