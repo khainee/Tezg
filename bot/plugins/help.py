@@ -26,7 +26,7 @@ async def ping(client, message):
 @Client.on_message(filters.private & filters.incoming & filters.command(['help']), group=2)
 def _help(client, message):
     client.send_message(chat_id = message.chat.id,
-        text = tr.HELP_MSG[1],
+        text = Messages.HELP_MSG[1],
         reply_markup = InlineKeyboardMarkup(map(1)),
         reply_to_message_id = message.id
     )
@@ -39,7 +39,7 @@ def help_answer(c, callback_query):
     message_id = callback_query.message.id
     msg = int(callback_query.data.split('+')[1])
     c.edit_message_text(chat_id = chat_id,    message_id = message_id,
-        text = tr.HELP_MSG[msg],    reply_markup = InlineKeyboardMarkup(map(msg))
+        text = Messages.HELP_MSG[msg],    reply_markup = InlineKeyboardMarkup(map(msg))
     )
 
 
@@ -48,7 +48,7 @@ def map(pos):
         button = [
             [InlineKeyboardButton(text = '-->', callback_data = "help+2")]
         ]
-    elif(pos==len(tr.HELP_MSG)-1):
+    elif(pos==len(Messages.HELP_MSG)-1):
 
         button = [
             [
