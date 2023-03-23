@@ -48,7 +48,7 @@ async def _download(client, message):
 async def progress(current, total):
     """Callback function to update progress of download"""
     progress = math.floor(current * 100 / total)
-    await sent_message.edit(f"📤 **Uploading:** `{progress}%`")
+    await message.edit_text(f"📤 **Uploading:** `{progress}%`")
 
 @Client.on_message(filters.private & filters.incoming & (filters.document | filters.audio | filters.video | filters.photo) & CustomFilters.auth_users)
 async def _telegram_file(client, message):
