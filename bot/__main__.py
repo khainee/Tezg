@@ -1,7 +1,7 @@
 import os
 import logging
 from pyrogram import Client
-from bot import bot
+from bot import bot, DOWNLOAD_DIRECTORY
 
 logging.basicConfig(
     level=logging.DEBUG,
