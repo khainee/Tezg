@@ -45,11 +45,6 @@ async def _download(client, message):
         elif 'youtu' in link:
             return await _youtu(client, message, user_id, sent_message, link)
 
-async def progress(current, total):
-    """Callback function to update progress of download"""
-    progress = math.floor(current * 100 / total)
-    await message.edit_text(f"📤 **Uploading:** `{progress}%`")
-
 @Client.on_message(filters.private & filters.incoming & (filters.document | filters.audio | filters.video | filters.photo) & CustomFilters.auth_users)
 async def _telegram_file(client, message):
   user_id = message.from_user.id
@@ -77,6 +72,11 @@ async def _telegram_file(client, message):
     await sent_message.edit(Messages.WENT_WRONG)
   LOGGER.info(f'Deleteing: {file_path}')
   os.remove(file_path)
+
+async def progress(current, total):
+    """Callback function to update progress of download"""
+    progress = math.floor(current * 100 / total)
+    await message.edit_text(f"📤 **Uploading:** `{progress}%`")
 
 @Client.on_message(filters.incoming & filters.private & filters.command(BotCommands.YtDl) & CustomFilters.auth_users)
 async def _ytdl(client, message):
