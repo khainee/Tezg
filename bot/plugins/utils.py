@@ -8,7 +8,7 @@ from sys import executable
 from psutil import disk_usage, cpu_percent, swap_memory, cpu_count, virtual_memory, net_io_counters, boot_time
 from pyrogram import Client, filters
 from pyrogram.errors import FloodWait, RPCError
-from bot import SUDO_USERS, DOWNLOAD_DIRECTORY, LOGGER
+from bot import SUDO_USERS, DOWNLOAD_DIRECTORY, LOGGER, bot
 
 def get_readable_file_size(size_in_bytes):
     if size_in_bytes is None:
