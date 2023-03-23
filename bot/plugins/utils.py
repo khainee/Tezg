@@ -1,5 +1,6 @@
 import os
 import shutil
+import sys
 from os import execl
 from time import sleep
 from sys import executable
@@ -26,9 +27,11 @@ def _send_log(client, message):
 
 @Client.on_message(filters.private & filters.incoming & filters.command(['restart']) & filters.user(SUDO_USERS), group=2)
 async def _restart(client, message):
-  shutil.rmtree(DOWNLOAD_DIRECTORY)
-  LOGGER.info('Deleted DOWNLOAD_DIRECTORY successfully.')
-  sent_message = await message.reply_text('**♻️ Restarting!**', quote=True)
-  LOGGER.info(f'{message.from_user.id}: Restarting...')
-  execl(executable, executable, "-m", "bot")
-  await sent_message.edit('**♻️ Restarted Successfully!**', quote=True)
+    shutil.rmtree(DOWNLOAD_DIRECTORY)
+    LOGGER.info('Deleted DOWNLOAD_DIRECTORY successfully.')
+    sent_message = await message.reply_text('**♻️ Restarting!**', quote=True)
+    LOGGER.info(f'{message.from_user.id}: Restarting...')
+
+    # Restart the bot using execl
+    os.execl(sys.executable, sys.executable, "-m", "bot")
+    await sent_message.edit_text('**✅ Restarted Successfully!**')
