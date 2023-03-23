@@ -25,6 +25,6 @@ if __name__ == "__main__":
     if not os.path.isdir(DOWNLOAD_DIRECTORY):
         os.makedirs(DOWNLOAD_DIRECTORY)
     LOGGER.info('Starting Bot !')
-    bot.run_until_complete(main())
-    bot.run_forever()
+    bot.loop.run_until_complete(main())
+    bot.loop.run_forever()
     LOGGER.info('Bot Stopped !')
