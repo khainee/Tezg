@@ -33,5 +33,5 @@ async def _restart(client, message):
     LOGGER.info(f'{message.from_user.id}: Restarting...')
     with open(".restartmsg", "w") as f:
         f.truncate(0)
-        f.write(f"{restart_msg.chat.id}\n{restart_msg.id}\n")
+        f.write(f"{restart_message.chat.id}\n{restart_message.id}\n")
     osexecl(executable, executable, "-m", "bot")
