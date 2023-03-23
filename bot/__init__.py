@@ -50,3 +50,4 @@ bot = Client(
     plugins=plugins,
     workdir=DOWNLOAD_DIRECTORY
 )
+bot_loop = bot.loop
