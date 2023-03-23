@@ -1,6 +1,7 @@
 import os
 import logging
 from pyrogram import Client
+from pyrogram.handlers import MessageHandler
 from bot import bot, DOWNLOAD_DIRECTORY
 from bot.plugins import authorize, copy, delete, download, help, set_parent, utils
 
