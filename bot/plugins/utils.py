@@ -1,4 +1,5 @@
 import os
+import asyncio
 import shutil
 import sys
 from os import execl
