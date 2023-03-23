@@ -11,6 +11,12 @@ logging.basicConfig(
 LOGGER = logging.getLogger(__name__)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
+def _start(client, message):
+    client.send_message(chat_id = message.chat.id,
+        text = tr.START_MSG.format(message.from_user.mention),
+        reply_to_message_id = message.id
+    )
+
 async def main():
     if os.path.isfile(".restartmsg"):
         with open(".restartmsg") as f:
@@ -26,6 +32,7 @@ if __name__ == "__main__":
     if not os.path.isdir(DOWNLOAD_DIRECTORY):
         os.makedirs(DOWNLOAD_DIRECTORY)
     LOGGER.info('Starting Bot !')
+    bot.add_handler(MessageHandler(start, filters=command("start")))
     bot.loop.run_until_complete(main())
     bot.loop.run_forever()
     LOGGER.info('Bot Stopped !')
