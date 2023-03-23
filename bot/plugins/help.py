@@ -1,15 +1,19 @@
 from pyrogram import Client, filters
-from bot.config import Messages as tr
+from bot.config import Messages
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from time import time
 from bot import bot
 
+#@bot.on_message(filters.private & filters.incoming & filters.command(['start']), group=2)
+#def _start(client, message):
+#    client.send_message(chat_id = message.chat.id,
+#        text = tr.START_MSG.format(message.from_user.mention),
+#        reply_to_message_id = message.id
+#    )
+
 @bot.on_message(filters.private & filters.incoming & filters.command(['start']), group=2)
-def _start(client, message):
-    client.send_message(chat_id = message.chat.id,
-        text = tr.START_MSG.format(message.from_user.mention),
-        reply_to_message_id = message.id
-    )
+async def start(client, message):
+    await message.reply_text(Messages.START_MSG.format(message.from_user.mention))
 
 @bot.on_message(filters.private & filters.incoming & filters.command(['ping']), group=2)
 async def ping(client, message):
