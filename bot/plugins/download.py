@@ -48,7 +48,7 @@ async def _download(client, message):
 @Client.on_message(filters.private & filters.incoming & (filters.document | filters.audio | filters.video | filters.photo) & CustomFilters.auth_users)
 async def _telegram_file(client, message):
   user_id = message.from_user.id
-  sent_message = await message.reply_text('🕵️Checking File...', quote=True)
+  sent_message = await message.reply_text('🕵️**Checking File...**', quote=True)
   if message.document:
     file = message.document
   elif message.video:
@@ -56,28 +56,22 @@ async def _telegram_file(client, message):
   elif message.audio:
     file = message.audio
   elif message.photo:
-   file = message.photo
-   file.mime_type = "images/png"
-   file.file_name = f"IMG-{user_id}-{message.id}.png"
+  	file = message.photo
+  	file.mime_type = "images/png"
+  	file.file_name = f"IMG-{user_id}-{message.id}.png"
   await sent_message.edit(Messages.DOWNLOAD_TG_FILE.format(file.file_name, humanbytes(file.file_size), file.mime_type))
   LOGGER.info(f'Download:{user_id}: {file.file_id}')
   try:
-    file_path = await message.download(file_name=DOWNLOAD_DIRECTORY, progress=progress_callback)
+    file_path = await message.download(file_name=DOWNLOAD_DIRECTORY, progress=progress)
     file_name = os.path.basename(file_path)
     file_size = humanbytes(os.path.getsize(file_path))
     await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(file_name, file_size))
-    msg = GoogleDrive(user_id).upload_file(file_path, file.mime_type, progress_callback)
+    msg = GoogleDrive(user_id).upload_file(file_path, file.mime_type)
     await sent_message.edit(msg)
   except RPCError:
     await sent_message.edit(Messages.WENT_WRONG)
   LOGGER.info(f'Deleteing: {file_path}')
   os.remove(file_path)
-
-async def progress_callback(current, total):
-    """Callback function to update the progress bar"""
-    percentage = round(current * 100 / total)
-    text = f"Uploading: {percentage}%"
-    await CallbackQuery.edit_message_text(text=text)
 
 @Client.on_message(filters.incoming & filters.private & filters.command(BotCommands.YtDl) & CustomFilters.auth_users)
 async def _ytdl(client, message):
@@ -98,6 +92,12 @@ async def _ytdl(client, message):
       await sent_message.edit(Messages.DOWNLOAD_ERROR.format(file_path, link))
   else:
     await sent_message.edit(Messages.PROVIDE_YTDL_LINK, quote=True)
+
+#progress
+
+async def progress(current, total):
+    progress = current * 100 / total
+    await sent_message.edit(Messages.DOWNLOAD_PROGRESS.format(file.file_name, humanbytes(current), humanbytes(total), progress))
 
 #downloader
 
