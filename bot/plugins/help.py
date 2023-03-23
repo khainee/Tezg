@@ -11,6 +11,10 @@ def _start(client, message):
         reply_to_message_id = message.id
     )
 
+#@bot.on_message(filters.private & filters.incoming & filters.command(['start']), group=2)
+#async def _start(client, message):
+#    await message.reply_text
+
 @bot.on_message(filters.private & filters.incoming & filters.command(['ping']), group=2)
 async def ping(client, message):
     start_time = int(round(time() * 1000))
