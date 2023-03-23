@@ -34,4 +34,4 @@ async def _restart(client, message):
     with open(".restartmsg", "w") as f:
         f.truncate(0)
         f.write(f"{restart_message.chat.id}\n{restart_message.id}\n")
-    osexecl(executable, executable, "-m", "bot")
+    execl(executable, executable, "-m", "bot")
