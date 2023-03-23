@@ -38,6 +38,8 @@ except KeyError:
   LOGGER.error('One or more configuration values are missing exiting now.')
   exit(1)
 
+plugins = dict(root="bot/plugins")
+
 LOGGER.info("Initializing Pyrogram Client")
 bot = Client(
     "G-DriveBot",
