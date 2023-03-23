@@ -19,17 +19,16 @@ async def main():
         with open(".restartmsg") as f:
             chat_id, msg_id = map(int, f)
         try:
-            await bot.edit_message_text(chat_id, msg_id, "Restarted successfully!")  
+            await bot.edit_message_text(chat_id=chat_id, message_id=msg_id, text="Restarted successfully!")  
         except Exception as e:
-            await bot.send_message(chat_id=msg_id, text=f"**ERROR:** ```{e}```")
+            await bot.send_message(chat_id=chat_id, text=f"**ERROR:** ```{e}```")
         os.remove(".restartmsg")
-
 
 if __name__ == "__main__":
     if not os.path.isdir(DOWNLOAD_DIRECTORY):
         os.makedirs(DOWNLOAD_DIRECTORY)
     LOGGER.info('Starting Bot !')
+    bot.run()
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main())
-    bot.run() # this will run the bot indefinitely
     LOGGER.info('Bot Stopped !')
