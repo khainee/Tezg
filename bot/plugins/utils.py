@@ -32,4 +32,4 @@ async def _restart(client, message):
     restart_message = await message.reply_text('**♻️ Restarting!**', quote=True)
     LOGGER.info(f'{message.from_user.id}: Restarting...')
     os.execl(sys.executable, sys.executable, "-m", "bot")
-    await sent_message.edit_text('**✅ Restarted Successfully!**')
+    await restart_message.edit_text('**✅ Restarted Successfully!**')
