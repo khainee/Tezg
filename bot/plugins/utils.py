@@ -29,9 +29,10 @@ def _send_log(client, message):
 async def _restart(client, message):
     shutil.rmtree(DOWNLOAD_DIRECTORY)
     LOGGER.info('Deleted DOWNLOAD_DIRECTORY successfully.')
-    sent_message = await message.reply_text('**♻️ Restarting!**', quote=True)
+    restart_message = await message.reply_text('**♻️ Restarting!**', quote=True)
     LOGGER.info(f'{message.from_user.id}: Restarting...')
-
-    # Restart the bot using execl
+    async with aiopen(".restartmsg", "w") as f:
+        await f.truncate(0)
+        await f.write(f"{restart_message.chat.id}\n{restart_message.id}\n")
     os.execl(sys.executable, sys.executable, "-m", "bot")
     await sent_message.edit_text('**✅ Restarted Successfully!**')
