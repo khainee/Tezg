@@ -53,3 +53,10 @@ def map(pos):
             ],
         ]
     return button
+
+@Client.on_message(filters.private & filters.incoming & filters.command(['ping']), group=2)
+async def ping(client, message):
+    start_time = int(round(time() * 1000))
+    reply = await sendMessage(message, "Starting Ping")
+    end_time = int(round(time() * 1000))
+    await editMessage(reply, f'{end_time - start_time} ms')
