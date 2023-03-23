@@ -37,3 +37,13 @@ try:
 except KeyError:
   LOGGER.error('One or more configuration values are missing exiting now.')
   exit(1)
+
+LOGGER.info("Initializing Pyrogram Client")
+bot = Client(
+    "G-DriveBot",
+    bot_token=BOT_TOKEN,
+    api_id=APP_ID,
+    api_hash=API_HASH,
+    plugins=plugins,
+    workdir=DOWNLOAD_DIRECTORY
+)
