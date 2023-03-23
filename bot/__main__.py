@@ -2,6 +2,7 @@ import os
 import logging
 from pyrogram import Client
 from bot import bot, DOWNLOAD_DIRECTORY
+from bot.plugins import authorize, copy, delete, download, help, set_parent, utils
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -25,6 +26,6 @@ if __name__ == "__main__":
     if not os.path.isdir(DOWNLOAD_DIRECTORY):
         os.makedirs(DOWNLOAD_DIRECTORY)
     LOGGER.info('Starting Bot !')
-    bot_loop.run_until_complete(main())
-    bot_loop.run_forever()
+    bot.loop.run_until_complete(main())
+    bot.loop.run_forever()
     LOGGER.info('Bot Stopped !')
