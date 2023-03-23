@@ -10,6 +10,8 @@ from pyrogram import Client, filters
 from pyrogram.errors import FloodWait, RPCError
 from bot import SUDO_USERS, DOWNLOAD_DIRECTORY, LOGGER, bot
 
+SIZE_UNITS = ['B', 'KB', 'MB', 'GB', 'TB', 'PB']
+
 def get_readable_file_size(size_in_bytes):
     if size_in_bytes is None:
         return '0B'
