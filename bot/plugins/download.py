@@ -1,6 +1,8 @@
 import os
 import re
 import json
+import math
+import time
 import lk21
 import requests
 import wget
@@ -43,6 +45,11 @@ async def _download(client, message):
         elif 'youtu' in link:
             return await _youtu(client, message, user_id, sent_message, link)
 
+async def progress(current, total):
+    """Callback function to update progress of download"""
+    progress = math.floor(current * 100 / total)
+    await sent_message.edit(f"📤 **Uploading:** `{progress}%`")
+
 @Client.on_message(filters.private & filters.incoming & (filters.document | filters.audio | filters.video | filters.photo) & CustomFilters.auth_users)
 async def _telegram_file(client, message):
   user_id = message.from_user.id
@@ -54,9 +61,9 @@ async def _telegram_file(client, message):
   elif message.audio:
     file = message.audio
   elif message.photo:
-  	file = message.photo
-  	file.mime_type = "images/png"
-  	file.file_name = f"IMG-{user_id}-{message.id}.png"
+        file = message.photo
+        file.mime_type = "images/png"
+        file.file_name = f"IMG-{user_id}-{message.id}.png"
   await sent_message.edit(Messages.DOWNLOAD_TG_FILE.format(file.file_name, humanbytes(file.file_size), file.mime_type))
   LOGGER.info(f'Download:{user_id}: {file.file_id}')
   try:
@@ -90,12 +97,6 @@ async def _ytdl(client, message):
       await sent_message.edit(Messages.DOWNLOAD_ERROR.format(file_path, link))
   else:
     await sent_message.edit(Messages.PROVIDE_YTDL_LINK, quote=True)
-
-#progress
-
-async def progress(current, total):
-    progress = current * 100 / total
-    await sent_message.edit(Messages.DOWNLOAD_PROGRESS.format(file.file_name, humanbytes(current), humanbytes(total), progress))
 
 #downloader
 
