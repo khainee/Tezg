@@ -13,17 +13,12 @@ from bot import SUDO_USERS, DOWNLOAD_DIRECTORY, LOGGER
 def _send_log(client, message):
   with open('log.txt', 'rb') as f:
     try:
-      client.send_document(
-        message.chat.id,
-        document=f,
-        file_name=f.name,
-        reply_to_message_id=message.id
-        )
+      await client.send_document(message.chat.id, document=f, file_name=f.name, reply_to_message_id=message.id)
       LOGGER.info(f'Log file sent to {message.from_user.id}')
     except FloodWait as e:
-      sleep(e.x)
+      await asyncio.sleep(e.x)
     except RPCError as e:
-      message.reply_text(e, quote=True)
+      await message.reply_text(e, quote=True)
 
 @Client.on_message(filters.private & filters.incoming & filters.command(['restart']) & filters.user(SUDO_USERS), group=2)
 async def _restart(client, message):
