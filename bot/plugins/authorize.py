@@ -1,7 +1,7 @@
 import re
 import json
 from httplib2 import Http
-from bot import LOGGER, G_DRIVE_CLIENT_ID, G_DRIVE_CLIENT_SECRET
+from bot import LOGGER, G_DRIVE_CLIENT_ID, G_DRIVE_CLIENT_SECRET, bot
 from bot.config import Messages
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
@@ -18,7 +18,7 @@ REDIRECT_URI = "https://khainee.github.io/G-Drive-Bot/gdrive-auth"
 
 flow = None
 
-@Client.on_message(filters.private & filters.incoming & filters.command(BotCommands.Authorize))
+@bot.on_message(filters.private & filters.incoming & filters.command(BotCommands.Authorize))
 async def _auth(client, message):
   user_id = message.from_user.id
   creds = gDriveDB.search(user_id)
@@ -50,7 +50,7 @@ async def _auth(client, message):
     except Exception as e:
       await message.reply_text(f"**ERROR:** ```{e}```", quote=True)
 
-@Client.on_message(filters.private & filters.incoming & filters.command(BotCommands.Revoke) & CustomFilters.auth_users)
+@bot.on_message(filters.private & filters.incoming & filters.command(BotCommands.Revoke) & CustomFilters.auth_users)
 async def _revoke(client, message):
   user_id = message.from_user.id
   try:
@@ -61,7 +61,7 @@ async def _revoke(client, message):
     await sent_message.edit(f"**ERROR:** ```{e}```", quote=True)
 
 
-@Client.on_message(filters.private & filters.incoming & filters.text & ~CustomFilters.auth_users)
+@bot.on_message(filters.private & filters.incoming & filters.text & ~CustomFilters.auth_users)
 async def _token(client, message):
   token = message.text.split()[-1]
   WORD = len(token)
