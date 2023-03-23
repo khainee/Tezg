@@ -7,7 +7,7 @@ from bot import bot
 #@bot.on_message(filters.private & filters.incoming & filters.command(['start']), group=2)
 #def _start(client, message):
 #    client.send_message(chat_id = message.chat.id,
-#        text = tr.START_MSG.format(message.from_user.mention),
+#        text = Messages.START_MSG.format(message.from_user.mention),
 #        reply_to_message_id = message.id
 #    )
 
