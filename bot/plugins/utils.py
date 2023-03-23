@@ -24,7 +24,7 @@ def get_readable_file_size(size_in_bytes):
     except IndexError:
         return 'File too large'
 
-@bot.on_message(filters.private & filters.incoming & filters.command(['start']))
+@bot.on_message(filters.private & filters.incoming & filters.command(['stats']))
 async def stats(client, message):
     total, used, free, disk = disk_usage('/')
     swap = swap_memory()
