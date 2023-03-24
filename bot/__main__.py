@@ -19,4 +19,6 @@ if __name__ == "__main__":
         os.makedirs(DOWNLOAD_DIRECTORY)
         LOGGER.info(f'Creating {DOWNLOAD_DIRECTORY}')
 
+LOGGER.info('Starting Bot !')
 bot.run()
+LOGGER.info('Bot Stopped !')
