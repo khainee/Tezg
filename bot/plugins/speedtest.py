@@ -10,6 +10,8 @@ async def speedtest(client, message):
     test.get_best_server()
     test.download()
     test.upload()
+    test.results.share()
+    result = test.results.dict()
     string_speed = f'''
 ╭─《 🚀 SPEEDTEST INFO 》
 ├ <b>Upload:</b> <code>{speed_convert(result['upload'], False)}</code>
