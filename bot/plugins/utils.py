@@ -3,7 +3,7 @@ import asyncio
 import shutil
 import sys
 from os import execl
-from time import sleep
+from time import sleep, time
 from sys import executable
 from psutil import disk_usage, cpu_percent, swap_memory, cpu_count, virtual_memory, net_io_counters, boot_time
 from pyrogram import Client, filters
