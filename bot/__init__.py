@@ -44,4 +44,4 @@ except KeyError:
 plugins = dict(root="bot/plugins")
 
 LOGGER.info("Initializing Pyrogram Client")
-bot = Client("G-DriveBot", bot_token=BOT_TOKEN, api_id=APP_ID, api_hash=API_HASH, plugins=plugins, workdir=DOWNLOAD_DIRECTORY)
+bot = Client("G-DriveBot", bot_token=BOT_TOKEN, api_id=APP_ID, api_hash=API_HASH, workdir=DOWNLOAD_DIRECTORY)
