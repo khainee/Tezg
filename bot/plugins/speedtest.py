@@ -1,7 +1,7 @@
 from bot import bot
 from speedtest import Speedtest
 from pyrogram import filters
-from bot.helpers.utils import get_readable_file_size
+from bot.helpers.utils import get_readable_file_size, CustomFilters
 
 @bot.on_message(filters.private & filters.incoming & filters.command(['speedtest']) & CustomFilters.auth_users)
 async def speedtest(client, message):
