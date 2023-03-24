@@ -71,18 +71,16 @@ python3 -m bot
 
 ### COMMANDS FOR THE BOT TO BE USED-
 ```
-- start - useless command
-- help - How to use me
-- auth - Authorizing GDrive Account
-- setfolder - Set Custom Upload Folder
-- copy - Copy GDrive Files
-- revoke - Revoke GDrive Account
-- del - Delete GDrive Files
+start - useless command
+help - How to use me
+auth - Authorizing GDrive Account
+setfolder - Set Custom Upload Folder
+copy - Copy GDrive Files
+revoke - Revoke GDrive Account
+del - Delete GDrive Files
+speedtest - Get server speedtest
+ping - Ping the Bot
 ```
-## Credits
-- [Dan](https://github.com/delivrance) for creating [PyroGram](https://pyrogram.org)
-- [Spechide](https://github.com/Spechide) for [gDriveDB.py](./bot/helpers/sql_helper/gDriveDB.py)
-- [Shivam Jha](https://github.com/lzzy12) for [Clone Feature](./bot/helpers/gdrive_utils/gDrive.py) from [python-aria-mirror-bot](https://github.com/lzzy12/python-aria-mirror-bot)
 
 ## Copyright & License
 - Copyright (©) 2021 by [Adnan Ahmad](https://github.com/viperadnan-git)
