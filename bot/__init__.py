@@ -1,7 +1,7 @@
 import os
 import logging
 from pyrogram import Client
-from asyncio import get_event_loop
+from time import time
 
 logging.basicConfig(
     level=logging.INFO,
@@ -11,6 +11,7 @@ logging.basicConfig(
 LOGGER = logging.getLogger(__name__)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
+botStartTime = time()
 
 ENV = bool(os.environ.get('ENV', False))
 try:
