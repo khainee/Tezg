@@ -17,7 +17,7 @@ logging.getLogger("pyrogram").setLevel(logging.WARNING)
 if __name__ == "__main__":
     if not os.path.isdir(DOWNLOAD_DIRECTORY):
         os.makedirs(DOWNLOAD_DIRECTORY)
-        LOGGER.info('Creating f"{DOWNLOAD_DIRECTORY}"')
+        LOGGER.info(f'Creating {DOWNLOAD_DIRECTORY}')
 
 LOGGER.info('Starting Bot !')
 bot.run_forever()
