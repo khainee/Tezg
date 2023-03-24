@@ -5,7 +5,7 @@ from pyrogram import Client
 from pyrogram.handlers import MessageHandler
 from bot import bot, DOWNLOAD_DIRECTORY
 from bot.config import Messages as tr
-from bot.plugins import authorize, copy, delete, download, help, set_parent, utils
+from bot.plugins import authorize, copy, delete, download, help, set_parent, utils, speedtest
 
 logging.basicConfig(
     level=logging.DEBUG,

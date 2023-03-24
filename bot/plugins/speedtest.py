@@ -35,7 +35,7 @@ async def speedtest(client, message):
 ├ <b>ISP:</b> <code>{result['client']['isp']}</code>
 ╰ <b>ISP Rating:</b> <code>{result['client']['isprating']}</code>
 '''
-    await speed.edit(string_speed, quote=True)
+    await speed.edit(string_speed)
 
 def speed_convert(size, byte=True):
     if not byte: size = size / 8
