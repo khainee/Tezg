@@ -5,7 +5,7 @@ from pyrogram import Client
 from pyrogram.handlers import MessageHandler
 from bot import bot, DOWNLOAD_DIRECTORY
 from bot.config import Messages as tr
-from bot.plugins import authorize, copy, delete, download, help, set_parent, utils
+from bot.plugins import authorize, copy, delete, download, help, set_parent, utils, speedtest
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -17,6 +17,8 @@ logging.getLogger("pyrogram").setLevel(logging.WARNING)
 if __name__ == "__main__":
     if not os.path.isdir(DOWNLOAD_DIRECTORY):
         os.makedirs(DOWNLOAD_DIRECTORY)
-    LOGGER.info('Starting Bot !')
-    bot.run()
-    LOGGER.info('Bot Stopped !')
+        LOGGER.info(f'Creating {DOWNLOAD_DIRECTORY}')
+
+LOGGER.info('Starting Bot !')
+bot.run()
+LOGGER.info('Bot Stopped !')

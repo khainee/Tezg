@@ -1,0 +1,13 @@
+FROM ubuntu:latest
+
+ARG DEBIAN_FRONTEND="noninteractive" PYTHONWARNINGS=ignore
+
+RUN apt-get -y update && apt-get -y upgrade && \
+    apt-get -y install python3-pip
+
+RUN apt-get -y install ffmpeg
+RUN pip3 install --upgrade pip
+
+
+
+CMD ["bash"]

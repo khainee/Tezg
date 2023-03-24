@@ -1,7 +1,7 @@
 import os
 import logging
 from pyrogram import Client
-from asyncio import get_event_loop
+from time import time
 
 logging.basicConfig(
     level=logging.INFO,
@@ -11,6 +11,7 @@ logging.basicConfig(
 LOGGER = logging.getLogger(__name__)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
+botStartTime = time()
 
 ENV = bool(os.environ.get('ENV', False))
 try:
@@ -40,7 +41,4 @@ except KeyError:
   LOGGER.error('One or more configuration values are missing exiting now.')
   exit(1)
 
-plugins = dict(root="bot/plugins")
-
-LOGGER.info("Initializing Pyrogram Client")
-bot = Client("G-DriveBot", bot_token=BOT_TOKEN, api_id=APP_ID, api_hash=API_HASH, plugins=plugins, workdir=DOWNLOAD_DIRECTORY)
+bot = Client("G-DriveBot", bot_token=BOT_TOKEN, api_id=APP_ID, api_hash=API_HASH, workdir=DOWNLOAD_DIRECTORY)

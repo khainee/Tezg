@@ -1,3 +1,5 @@
+speedtest-cli
+psutil
 wget
 asyncio
 pyrogram
