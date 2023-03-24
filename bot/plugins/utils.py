@@ -34,7 +34,7 @@ async def stats(client, message):
     await message.reply_text(stats, quote=True)
 
 
-@Client.on_message(filters.private & filters.incoming & filters.command(['log']) & filters.user(SUDO_USERS), group=2)
+@bot.on_message(filters.private & filters.incoming & filters.command(['log']) & filters.user(SUDO_USERS), group=2)
 async def _send_log(client, message):
   with open('log.txt', 'rb') as f:
     try:
@@ -45,7 +45,7 @@ async def _send_log(client, message):
     except RPCError as e:
       await message.reply_text(e, quote=True)
 
-@Client.on_message(filters.private & filters.incoming & filters.command(['restart']) & filters.user(SUDO_USERS), group=2)
+@bot.on_message(filters.private & filters.incoming & filters.command(['restart']) & filters.user(SUDO_USERS), group=2)
 async def _restart(client, message):
     shutil.rmtree(DOWNLOAD_DIRECTORY)
     LOGGER.info('Deleted DOWNLOAD_DIRECTORY successfully.')
