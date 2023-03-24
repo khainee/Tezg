@@ -9,7 +9,7 @@ from psutil import disk_usage, cpu_percent, swap_memory, cpu_count, virtual_memo
 from pyrogram import Client, filters
 from pyrogram.errors import FloodWait, RPCError
 from bot import SUDO_USERS, DOWNLOAD_DIRECTORY, LOGGER, bot, botStartTime
-from bot.helper.utils import get_readable_time, get_readable_file_size
+from bot.helpers.utils import get_readable_time, get_readable_file_size
 
 @bot.on_message(filters.private & filters.incoming & filters.command(['stats']))
 async def stats(client, message):
