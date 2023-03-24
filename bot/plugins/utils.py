@@ -8,7 +8,7 @@ from sys import executable
 from psutil import disk_usage, cpu_percent, swap_memory, cpu_count, virtual_memory, net_io_counters, boot_time
 from pyrogram import Client, filters
 from pyrogram.errors import FloodWait, RPCError
-from bot import SUDO_USERS, DOWNLOAD_DIRECTORY, LOGGER, bot
+from bot import SUDO_USERS, DOWNLOAD_DIRECTORY, LOGGER, bot, botStartTime
 from bot.helper.utils import get_readable_time, get_readable_file_size
 
 @bot.on_message(filters.private & filters.incoming & filters.command(['stats']))
