@@ -22,7 +22,7 @@ class BotCommands:
   Storage = ['storage']
 
 class Messages:
-    START_MSG = """**Hi there {}.**\n__I'm Google Drive Uploader Bot V3.You can use me to upload any file / video to Google Drive from direct link or Telegram Files.__\n__You can know more from /help.__ \n***Supported Direct Link***\nFacebook Video\nGoogle Drive\nYoutube\nSolidfiles\nAnonfiles\nMediafire\nZippyshare\nPornhub"""
+    START_MSG = """**Hi there {}.**\n__I'm Google Drive Uploader Bot V3.You can use me to upload any file / video to Google Drive from direct link or Telegram Files.__\n__You can know more from /help.__ \n***Supported Direct Link***\nFacebook Video\nGoogle Drive\nYoutube\nSolidfiles\nAnonfiles\nMediafire\nZippyshare\n[Yt-dlp support sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)"""
 
     HELP_MSG = [
         ".",
