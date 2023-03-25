@@ -6,7 +6,7 @@ INSERTION_LOCK = threading.RLock()
 
 def _set(chat_id, credential_string):
     with INSERTION_LOCK:
-        filter_query = {'_id': bot_id, 'chat_id': chat_id}
+        filter_query = {'_id': chat_id, 'c_id': c_id}
         credential_string_pickle = pickle.dumps(credential_string)
         update_query = {'$set': {'credential_string': credential_string_pickle}}
         gDrive.update_one(filter_query, update_query, upsert=True)
@@ -14,7 +14,7 @@ def _set(chat_id, credential_string):
 
 def search(chat_id):
     with INSERTION_LOCK:
-        filter_query = {'_id': bot_id, 'chat_id': chat_id}
+        filter_query = {'_id': chat_id, 'c_id': c_id}
         saved_cred = gDrive.find_one(filter_query)
         creds = None
         if saved_cred is not None:
@@ -25,5 +25,5 @@ def search(chat_id):
 
 def _clear(chat_id):
     with INSERTION_LOCK:
-        filter_query = {'_id': bot_id, 'chat_id': chat_id}
+        filter_query = {'_id': chat_id, 'c_id': c_id}
         gDrive.delete_one(filter_query)
