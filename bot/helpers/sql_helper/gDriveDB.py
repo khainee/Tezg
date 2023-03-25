@@ -1,6 +1,6 @@
 import pickle
 import threading
-from bot.helpers.sql_helper import gDrive
+from bot.helpers.sql_helper import gDrive, bot_id
 
 INSERTION_LOCK = threading.RLock()
 
