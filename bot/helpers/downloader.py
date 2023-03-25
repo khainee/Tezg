@@ -36,7 +36,7 @@ def utube_dl(link):
     'outtmpl' : os.path.join(DOWNLOAD_DIRECTORY, '%(title)s'),
     'noplaylist' : True,
     'logger': LOGGER,
-    'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
+    'format': 'bestvideo+bestaudio/best',
     'geo_bypass_country': 'IN',
     'verbose': True,
     'update': True
