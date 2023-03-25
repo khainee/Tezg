@@ -5,7 +5,7 @@ from bot.helpers.gdrive_utils import GoogleDrive
 from bot.helpers.sql_helper import idsDB
 from bot import LOGGER
 
-@Client.on_message(filters.private & filters.incoming & filters.command(BotCommands.SetFolder) & CustomFilters.auth_users)
+@bot.on_message(filters.private & filters.incoming & filters.command(BotCommands.SetFolder) & CustomFilters.auth_users)
 def _set_parent(client, message):
   user_id = message.from_user.id
   if len(message.command) > 1:
