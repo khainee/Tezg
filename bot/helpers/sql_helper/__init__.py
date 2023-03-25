@@ -9,5 +9,5 @@ client = MongoClient(DATABASE_URL)
 db = client["DRIVE_X"]
 parent_id = db["ParentID"]
 gDrive = db['gDriveCreds']
-c_id = BOT_TOKEN.split('-', 1)[0]
+c_id = G_DRIVE_CLIENT_ID.split('-', 1)[0]
 
