@@ -13,11 +13,11 @@ from bot.helpers.sql_helper import gDriveDB, idsDB
 from bot.helpers.utils import CustomFilters, humanbytes
 from bot.helpers.downloader import download_file, utube_dl, download_fb
 from bot.helpers.gdrive_utils import GoogleDrive 
-from bot import DOWNLOAD_DIRECTORY, LOGGER
+from bot import DOWNLOAD_DIRECTORY, LOGGER, bot
 from bot.config import Messages, BotCommands
 from pyrogram.errors import FloodWait, RPCError
 
-@Client.on_message(filters.private & filters.incoming & filters.text & (filters.command(BotCommands.Download) | filters.regex('^(ht|f)tp*')) & CustomFilters.auth_users)
+@bot.on_message(filters.private & filters.incoming & filters.text & (filters.command(BotCommands.Download) | filters.regex('^(ht|f)tp*')) & CustomFilters.auth_users)
 async def _download(client, message):
     user_id = message.from_user.id
     if not message.media:
@@ -43,7 +43,7 @@ async def _download(client, message):
         elif 'youtu' in link:
             return await _youtu(client, message, user_id, sent_message, link)
 
-@Client.on_message(filters.private & filters.incoming & (filters.document | filters.audio | filters.video | filters.photo) & CustomFilters.auth_users)
+@bot.on_message(filters.private & filters.incoming & (filters.document | filters.audio | filters.video | filters.photo) & CustomFilters.auth_users)
 async def _telegram_file(client, message):
   user_id = message.from_user.id
   sent_message = await message.reply_text('🕵️**Checking File...**', quote=True)
@@ -71,7 +71,7 @@ async def _telegram_file(client, message):
   LOGGER.info(f'Deleteing: {file_path}')
   os.remove(file_path)
 
-@Client.on_message(filters.incoming & filters.private & filters.command(BotCommands.YtDl) & CustomFilters.auth_users)
+@bot.on_message(filters.incoming & filters.private & filters.command(BotCommands.YtDl) & CustomFilters.auth_users)
 async def _ytdl(client, message):
   user_id = message.from_user.id
   if len(message.command) > 1:
@@ -263,7 +263,7 @@ async def _pornhub(client, message, user_id, sent_message, link):
         LOGGER.info(f'Deleteing: {file_path}')
         os.remove(file_path)
       else:
-        await sent_message.edit('🕵️**PORNHUB ERROR**', quote=True)
+        await sent_message.edit('🕵️**PORNHUB ERROR**')
 
 async def _youtu(client, message, user_id, sent_message, link):
       link = message.text
@@ -277,4 +277,4 @@ async def _youtu(client, message, user_id, sent_message, link):
         LOGGER.info(f'Deleteing: {file_path}')
         os.remove(file_path)
       else:
-        await sent_message.edit('🕵️**YOUTUBE ERROR**', quote=True)
+        await sent_message.edit('🕵️**YOUTUBE ERROR**')
