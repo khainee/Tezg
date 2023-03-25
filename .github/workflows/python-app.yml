@@ -21,7 +21,7 @@ jobs:
          all_but_latest: true
          access_token: ${{ github.token }}
     - name: Set up Python 3.10
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v4.5.0
       with:
         python-version: "3.10"
     - name: Install dependencies
