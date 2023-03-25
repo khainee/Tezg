@@ -3,7 +3,7 @@ from bot.config import BotCommands, Messages
 from bot.helpers.utils import CustomFilters
 from bot.helpers.gdrive_utils import GoogleDrive
 from bot.helpers.sql_helper import idsDB
-from bot import LOGGER
+from bot import LOGGER, bot
 
 @bot.on_message(filters.private & filters.incoming & filters.command(BotCommands.SetFolder) & CustomFilters.auth_users)
 def _set_parent(client, message):
