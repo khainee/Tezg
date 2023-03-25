@@ -38,4 +38,5 @@ jobs:
     - name: Test
       timeout-minutes: 15
       run: |
+        sudo apt-get install -y ffmpeg 
         python -m bot
