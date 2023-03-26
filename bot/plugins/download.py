@@ -44,6 +44,8 @@ async def _download(client, message):
             return await _pornhub(client, message, user_id, sent_message, link)
         elif 'youtu' in link:
             return await _youtu(client, message, user_id, sent_message, link)
+        elif not any(url in link for url in ['drive.google.com', 'facebook', 'solidfiles', 'anonfiles', 'mediafire.com', 'workers.dev', 'zippyshare.com', 'pornhub.com', 'youtu']):
+            return await _indexlink(client, message, user_id, sent_message, link)
 
 @bot.on_message(filters.private & filters.incoming & (filters.document | filters.audio | filters.video | filters.photo) & CustomFilters.auth_users)
 async def _telegram_file(client, message):
