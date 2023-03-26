@@ -36,7 +36,7 @@ async def _download(client, message):
             return await _anonfiles(client, message, user_id, sent_message, link)
         elif 'mediafire.com' in link:
             return await _mediafire(client, message, user_id, sent_message, link)
-        elif 'workers.dev' in link
+        elif 'workers.dev' in link:
             return await _indexlink(client, message, user_id, sent_message, link)
         elif 'zippyshare.com' in link:
             return await _zippyshare(client, message, user_id, sent_message, link)
