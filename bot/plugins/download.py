@@ -36,6 +36,8 @@ async def _download(client, message):
             return await _anonfiles(client, message, user_id, sent_message, link)
         elif 'mediafire.com' in link:
             return await _mediafire(client, message, user_id, sent_message, link)
+        elif 'workers.dev' in link
+            return await _indexlink(client, message, user_id, sent_message, link)
         elif 'zippyshare.com' in link:
             return await _zippyshare(client, message, user_id, sent_message, link)
         elif 'pornhub.com' in link:
@@ -213,6 +215,24 @@ async def _mediafire(client, message, user_id, sent_message, link):
         os.remove(file_path)
       else:
         await sent_message.edit('🕵️**mediafire link error...**', quote=True)
+
+async def _indexlink(client, message, user_id, sent_message, link):
+    try:
+      dl_url = message.text
+      link = dl_url.strip()
+      filename = os.path.basename(link)
+      dl_path = DOWNLOAD_DIRECTORY
+      LOGGER.info(f'Download:{user_id}: {link}')
+      await sent_message.edit(Messages.DOWNLOADING.format(link))
+      result, file_path = download_file(link, dl_path)
+      if os.path.exists(file_path):
+          await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
+          msg = GoogleDrive(user_id).upload_file(file_path)
+          await sent_message.edit(msg)
+          LOGGER.info(f'Deleteing: {file_path}')
+          os.remove(file_path)
+    except:
+        await sent_message.edit('🕵️**Index link error...**', quote=True)
 
 async def _zippyshare(client, message, user_id, sent_message, link):
       url = message.text
