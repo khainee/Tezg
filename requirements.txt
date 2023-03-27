@@ -13,9 +13,11 @@ google-api-python-client
 google-auth-httplib2
 google-auth-oauthlib
 yt-dlp
-ffmpeg
 tenacity
 html5lib
 lk21
 beautifulsoup4
 lxml
+Flask==2.2.2
+gunicorn==20.1.0
+aiohttp==3.8.4

@@ -16,12 +16,12 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Cancel Duplicate run
-      uses: styfle/cancel-workflow-action@0.9.0
+      uses: styfle/cancel-workflow-action@0.11.0
       with:
          all_but_latest: true
          access_token: ${{ github.token }}
     - name: Set up Python 3.10
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v4.5.0
       with:
         python-version: "3.10"
     - name: Install dependencies
@@ -38,4 +38,5 @@ jobs:
     - name: Test
       timeout-minutes: 15
       run: |
+        sudo apt-get install -y ffmpeg 
         python -m bot

@@ -2,9 +2,9 @@ from pyrogram import Client, filters
 from bot.config import BotCommands, Messages
 from bot.helpers.utils import CustomFilters
 from bot.helpers.gdrive_utils import GoogleDrive
-from bot import LOGGER
+from bot import LOGGER, bot 
 
-@Client.on_message(filters.private & filters.incoming & filters.command(BotCommands.Clone) & CustomFilters.auth_users)
+@bot.on_message(filters.private & filters.incoming & filters.command(BotCommands.Clone) & CustomFilters.auth_users)
 async def _clone(client, message):
   user_id = message.from_user.id
   if len(message.command) > 1:
