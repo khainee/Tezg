@@ -78,7 +78,7 @@ class GoogleDrive:
                  raise err
 
 
-  def cloneFolder(self, name, local_path, folder_id, parent_id):
+  def cloneFolder(self, name, local_path, folder_id, dest_id):
       files = self.getFilesByFolderId(folder_id)
       new_id = None
       if len(files) == 0:
@@ -87,7 +87,7 @@ class GoogleDrive:
         if file.get('mimeType') == self.__G_DRIVE_DIR_MIME_TYPE:
             self.__total_folders += 1
             file_path = os.path.join(local_path, file.get('name'))
-            current_dir_id = self.create_directory(file.get('name'), parent_id=parent_id)
+            current_dir_id = self.create_directory(file.get('name'), dest_id)
             self.cloneFolder(file.get('name'), file_path, file.get('id'), current_dir_id)
         else:
             try:
@@ -103,12 +103,12 @@ class GoogleDrive:
 
   @retry(wait=wait_exponential(multiplier=2, min=3, max=6), stop=stop_after_attempt(5),
     retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
-  def create_directory(self, directory_name, parent_id):
+  def create_directory(self, directory_name, dest_id):
           file_metadata = {
               "name": directory_name,
               "mimeType": self.__G_DRIVE_DIR_MIME_TYPE
           }
-          file_metadata["parents"] = [parent_id]
+          file_metadata["parents"] = [dest_id]
           file = self.__service.files().create(supportsTeamDrives=True, body=file_metadata).execute()
           file_id = file.get("id")
           return file_id
