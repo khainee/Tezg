@@ -108,7 +108,7 @@ class GoogleDrive:
               "name": directory_name,
               "mimeType": self.__G_DRIVE_DIR_MIME_TYPE
           }
-          file_metadata["parents"] = [self.__parent_id]
+          file_metadata["parents"] = [parent_id]
           file = self.__service.files().create(supportsTeamDrives=True, body=file_metadata).execute()
           file_id = file.get("id")
           return file_id
