@@ -28,6 +28,7 @@ class GoogleDrive:
     self.__G_DRIVE_DIR_BASE_DOWNLOAD_URL = "https://drive.google.com/drive/folders/{}"
     self.__service = self.authorize(gDriveDB.search(user_id))
     self.__parent_id = idsDB.search_parent(user_id)
+    self.__total_folders = 0
 
   def getIdFromUrl(self, link: str):
       if "folders" in link or "file" in link:
@@ -84,9 +85,10 @@ class GoogleDrive:
         return self.__parent_id
       for file in files:
         if file.get('mimeType') == self.__G_DRIVE_DIR_MIME_TYPE:
+            self.__total_folders += 1
             file_path = os.path.join(local_path, file.get('name'))
-            current_dir_id = self.create_directory(file.get('name'))
-            new_id = self.cloneFolder(file.get('name'), file_path, file.get('id'), current_dir_id)
+            current_dir_id = self.create_directory(file.get('name'), parent_id)
+            self.cloneFolder(file.get('name'), file_path, file.get('id'), current_dir_id)
         else:
             try:
                 self.transferred_size += int(file.get('size'))
