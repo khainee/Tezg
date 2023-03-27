@@ -87,7 +87,6 @@ class GoogleDrive:
             file_path = os.path.join(local_path, file.get('name'))
             current_dir_id = self.create_directory(file.get('name'))
             new_id = self.cloneFolder(file.get('name'), file_path, file.get('id'), current_dir_id)
-            self.copyFile(file.get('id'), current_dir_id)  # add this line to copy subfolder to current_dir_id#added line
         else:
             try:
                 self.transferred_size += int(file.get('size'))
