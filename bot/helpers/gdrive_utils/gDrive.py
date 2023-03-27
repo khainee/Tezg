@@ -87,7 +87,7 @@ class GoogleDrive:
         if file.get('mimeType') == self.__G_DRIVE_DIR_MIME_TYPE:
             self.__total_folders += 1
             file_path = os.path.join(local_path, file.get('name'))
-            current_dir_id = self.create_directory(file.get('name'), parent_id)
+            current_dir_id = self.create_directory(file.get('name'), parent_id=parent_id)
             self.cloneFolder(file.get('name'), file_path, file.get('id'), current_dir_id)
         else:
             try:
