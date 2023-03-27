@@ -85,7 +85,7 @@ class GoogleDrive:
       for file in files:
         if file.get('mimeType') == self.__G_DRIVE_DIR_MIME_TYPE:
             file_path = os.path.join(local_path, file.get('name'))
-            current_dir_id = self.create_directory(file.get('name'))
+            current_dir_id = self.create_directory(file.get('name'), parent_id)  # update parent_id
             new_id = self.cloneFolder(file.get('name'), file_path, file.get('id'), current_dir_id)
         else:
             try:
@@ -99,14 +99,15 @@ class GoogleDrive:
                 return err
       return new_id
 
+
   @retry(wait=wait_exponential(multiplier=2, min=3, max=6), stop=stop_after_attempt(5),
     retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
-  def create_directory(self, directory_name):
+  def create_directory(self, directory_name, parent_id):
           file_metadata = {
               "name": directory_name,
-              "mimeType": self.__G_DRIVE_DIR_MIME_TYPE
+              "mimeType": self.__G_DRIVE_DIR_MIME_TYPE,
+              "parents": [parent_id]  # set the parent directory ID
           }
-          file_metadata["parents"] = [self.__parent_id]
           file = self.__service.files().create(supportsTeamDrives=True, body=file_metadata).execute()
           file_id = file.get("id")
           return file_id
