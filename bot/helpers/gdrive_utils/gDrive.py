@@ -103,7 +103,7 @@ class GoogleDrive:
 
   @retry(wait=wait_exponential(multiplier=2, min=3, max=6), stop=stop_after_attempt(5),
     retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
-  def create_directory(self, directory_name, self.parent_id):
+  def create_directory(self, directory_name):
           file_metadata = {
               "name": directory_name,
               "mimeType": self.__G_DRIVE_DIR_MIME_TYPE
@@ -112,7 +112,6 @@ class GoogleDrive:
           file = self.__service.files().create(supportsTeamDrives=True, body=file_metadata).execute()
           file_id = file.get("id")
           return file_id
-
   def clone(self, link):
     self.transferred_size = 0
     try:
