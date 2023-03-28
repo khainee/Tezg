@@ -103,7 +103,7 @@ class GoogleDrive:
 
   @retry(wait=wait_exponential(multiplier=2, min=3, max=6), stop=stop_after_attempt(5),
     retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
-  def create_directory(self, directory_name, parent_id):
+  def create_directory(self, directory_name, self.parent_id):
           file_metadata = {
               "name": directory_name,
               "mimeType": self.__G_DRIVE_DIR_MIME_TYPE
