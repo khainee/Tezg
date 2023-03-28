@@ -80,6 +80,7 @@ revoke - Revoke GDrive Account
 del - Delete GDrive Files
 speedtest - Get server speedtest
 ping - Ping the Bot
+stats - Status of the Bot
 ```
 
 ## Copyright & License
