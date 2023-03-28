@@ -69,7 +69,7 @@ pip3 install -r requirements.txt
 python3 -m bot
 ```
 
-### COMMANDS FOR THE BOT TO BE USED-
+### COMMANDS FOR THE BOT TO BE USED-.
 ```
 start - useless command
 help - How to use me
