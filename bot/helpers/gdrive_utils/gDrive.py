@@ -60,7 +60,6 @@ class GoogleDrive:
               break
       return files
 
-
   @retry(wait=wait_exponential(multiplier=2, min=3, max=6), stop=stop_after_attempt(5),
     retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
   def copyFile(self, file_id, dest_id):
@@ -75,7 +74,6 @@ class GoogleDrive:
                  raise IndexError('LimitExceeded')
               else:
                  raise err
-
 
   def cloneFolder(self, name, local_path, folder_id, parent_id):
     files = self.getFilesByFolderId(folder_id)
@@ -136,7 +134,6 @@ class GoogleDrive:
       err = str(err).replace('>', '').replace('<', '')
       LOGGER.error(err)
       return f"**ERROR:** ```{err}```"
-
 
   @retry(wait=wait_exponential(multiplier=2, min=3, max=6), stop=stop_after_attempt(5),
     retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
