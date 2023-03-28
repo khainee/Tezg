@@ -104,6 +104,7 @@ class GoogleDrive:
         "name": directory_name,
         "mimeType": self.__G_DRIVE_DIR_MIME_TYPE
     }
+    print(parent_id)#
     if parent_id is not None:
         file_metadata["parents"] = [parent_id]
     else:
