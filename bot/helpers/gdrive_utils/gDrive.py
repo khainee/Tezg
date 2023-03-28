@@ -27,7 +27,7 @@ class GoogleDrive:
     self.__G_DRIVE_BASE_DOWNLOAD_URL = "https://drive.google.com/uc?id={}&export=download"
     self.__G_DRIVE_DIR_BASE_DOWNLOAD_URL = "https://drive.google.com/drive/folders/{}"
     self.__service = self.authorize(gDriveDB.search(user_id))
-    self.__parent_id = idsDB.search_parent(user_id)
+    self.parent_id = idsDB.search_parent(user_id)
     self.__total_folders = 0
 
   def getIdFromUrl(self, link: str):
@@ -82,12 +82,12 @@ class GoogleDrive:
       files = self.getFilesByFolderId(folder_id)
       new_id = None
       if len(files) == 0:
-        return self.__parent_id
+        return self.parent_id
       for file in files:
         if file.get('mimeType') == self.__G_DRIVE_DIR_MIME_TYPE:
             self.__total_folders += 1
             file_path = os.path.join(local_path, file.get('name'))
-            current_dir_id = self.create_directory(file.get('name'), dest_id)
+            current_dir_id = self.create_directory(file.get('name'), parent_id)
             self.cloneFolder(file.get('name'), file_path, file.get('id'), current_dir_id)
         else:
             try:
@@ -103,12 +103,12 @@ class GoogleDrive:
 
   @retry(wait=wait_exponential(multiplier=2, min=3, max=6), stop=stop_after_attempt(5),
     retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
-  def create_directory(self, directory_name, dest_id):
+  def create_directory(self, directory_name, parent_id):
           file_metadata = {
               "name": directory_name,
               "mimeType": self.__G_DRIVE_DIR_MIME_TYPE
           }
-          file_metadata["parents"] = [dest_id]
+          file_metadata["parents"] = [self.parent_id]
           file = self.__service.files().create(supportsTeamDrives=True, body=file_metadata).execute()
           file_id = file.get("id")
           return file_id
@@ -126,7 +126,7 @@ class GoogleDrive:
         result = self.cloneFolder(meta.get('name'), meta.get('name'), meta.get('id'), dir_id)
         return Messages.COPIED_SUCCESSFULLY.format(meta.get('name'), self.__G_DRIVE_DIR_BASE_DOWNLOAD_URL.format(dir_id), humanbytes(self.transferred_size))
       else:
-        file = self.copyFile(meta.get('id'), self.__parent_id)
+        file = self.copyFile(meta.get('id'), self.parent_id)
         return Messages.COPIED_SUCCESSFULLY.format(file.get('name'), self.__G_DRIVE_BASE_DOWNLOAD_URL.format(file.get('id')), humanbytes(int(meta.get('size'))))
     except Exception as err:
       if isinstance(err, RetryError):
@@ -155,7 +155,7 @@ class GoogleDrive:
           "description": "Uploaded using @UploadGdriveBot",
           "mimeType": mime_type,
       }
-      body["parents"] = [self.__parent_id]
+      body["parents"] = [self.parent_id]
       LOGGER.info(f'Upload: {file_path}')
       try:
         uploaded_file = self.__service.files().create(body=body, media_body=media_body, fields='id', supportsTeamDrives=True).execute()
