@@ -23,7 +23,7 @@ from http.cookiejar import MozillaCookieJar
 async def _download(client, message):
     user_id = message.from_user.id
     if not message.media:
-        sent_message = await message.reply_text('🕵️**Checking link...**', quote=True)
+        sent_message = await message.reply_text('🕵️**Checking link...**')
         if message.command:
             link = message.command[1]
         else:
@@ -48,13 +48,12 @@ async def _download(client, message):
             return await _youtu(client, message, user_id, sent_message, link)
         elif 'terabox' in link:
             return await tera_box(client, message, user_id, sent_message, link)
-        elif not any(url in link for url in ['drive.google.com', 'facebook', 'solidfiles', 'anonfiles', 'mediafire.com', 'workers.dev', 'zippyshare.com', 'pornhub.com', 'youtu']):
-            return await _indexlink(client, message, user_id, sent_message, link)
-
+        else:
+            await sent_message.edit('Link Not supported')
 @bot.on_message(filters.private & filters.incoming & (filters.document | filters.audio | filters.video | filters.photo) & CustomFilters.auth_users)
 async def _telegram_file(client, message):
   user_id = message.from_user.id
-  sent_message = await message.reply_text('🕵️**Checking File...**', quote=True)
+  sent_message = await message.reply_text('🕵️**Checking File...**')
   if message.document:
     file = message.document
   elif message.video:
@@ -83,7 +82,7 @@ async def _telegram_file(client, message):
 async def _ytdl(client, message):
   user_id = message.from_user.id
   if len(message.command) > 1:
-    sent_message = await message.reply_text('🕵️**Checking Link...**', quote=True)
+    sent_message = await message.reply_text('🕵️**Checking Link...**')
     link = message.command[1]
     LOGGER.info(f'YTDL:{user_id}: {link}')
     await sent_message.edit(Messages.DOWNLOADING.format(link))
@@ -97,7 +96,7 @@ async def _ytdl(client, message):
     else:
       await sent_message.edit(Messages.DOWNLOAD_ERROR.format(file_path, link))
   else:
-    await sent_message.edit(Messages.PROVIDE_YTDL_LINK, quote=True)
+    await sent_message.edit(Messages.PROVIDE_YTDL_LINK)
 
 #downloader
 
@@ -152,7 +151,7 @@ async def _fb(client, message, user_id, sent_message, link):
         
         
       except:
-        await sent_message.edit('🕵️**Your Facebook Link is Private & SO i cAnNot Download**', quote=True)
+        await sent_message.edit('🕵️**Your Facebook Link is Private & SO i cAnNot Download**')
 
 async def _solidfiles(client, message, user_id, sent_message, link):
       url = message.text
@@ -176,7 +175,7 @@ async def _solidfiles(client, message, user_id, sent_message, link):
           LOGGER.info(f'Deleteing: {file_path}')
           os.remove(file_path)
       except:
-        await sent_message.edit('🕵️**Solidfiles link error...**', quote=True)
+        await sent_message.edit('🕵️**Solidfiles link error...**')
 
 async def _anonfiles(client, message, user_id, sent_message, link):
       url = message.text
@@ -196,14 +195,14 @@ async def _anonfiles(client, message, user_id, sent_message, link):
           LOGGER.info(f'Deleteing: {file_path}')
           os.remove(file_path)
       except:
-        await sent_message.edit('🕵️**Anonfiles link error...**', quote=True)
+        await sent_message.edit('🕵️**Anonfiles link error...**')
 
 async def _mediafire(client, message, user_id, sent_message, link):
       url = message.text
       try:
         link = re.findall(r'\bhttps?://.*mediafire\.com\S+', url)[0]
       except IndexError:
-        sent_message = message.reply_text('🕵️**mediafire link error...**', quote=True)
+        sent_message = message.reply_text('🕵️**mediafire link error...**')
       page = BeautifulSoup(requests.get(link).content, 'lxml')
       info = page.find('a', {'aria-label': 'Download file'})
       dl_url = info.get('href')
@@ -220,7 +219,7 @@ async def _mediafire(client, message, user_id, sent_message, link):
         LOGGER.info(f'Deleteing: {file_path}')
         os.remove(file_path)
       else:
-        await sent_message.edit('🕵️**mediafire link error...**', quote=True)
+        await sent_message.edit('🕵️**mediafire link error...**')
 
 async def _indexlink(client, message, user_id, sent_message, link):
     try:
@@ -246,7 +245,7 @@ async def _zippyshare(client, message, user_id, sent_message, link):
       try:
         link = re.findall(r'\bhttps?://.*zippyshare\.com\S+', url)[0]
       except IndexError:
-        sent_message = message.reply_text('🕵️**zippy link error...**', quote=True)
+        sent_message = message.reply_text('🕵️**zippy link error...**')
       session = requests.Session()
       base_url = re.search('http.+.com', link).group()
       response = session.get(link)
@@ -275,7 +274,7 @@ async def _zippyshare(client, message, user_id, sent_message, link):
         LOGGER.info(f'Deleteing: {file_path}')
         os.remove(file_path)
       else:
-        await sent_message.edit('🕵️** zippy link error...**', quote=True)
+        await sent_message.edit('🕵️** zippy link error...**')
 
 async def _pornhub(client, message, user_id, sent_message, link):
       link = message.text
@@ -331,6 +330,10 @@ async def tera_box(client, message, user_id, sent_message, link):
                   await sent_message.edit(msg)
                   LOGGER.info(f'Deleteing: {file_path}')
                   os.remove(file_path)
+          else:
+              await sent_message.edit('Can't download folder')
+      else:
+          await sent_message.edit('Can't download mutiple files')
     except:
         await sent_message.edit('🕵️**Terabox link error...**')
 
