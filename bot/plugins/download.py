@@ -300,3 +300,17 @@ async def _youtu(client, message, user_id, sent_message, link):
         os.remove(file_path)
       else:
         await sent_message.edit('🕵️**YOUTUBE ERROR**')
+
+async def tera_box(client, message, user_id, sent_message, link):
+    try:
+      session = create_scraper()
+      res = session.request('GET', url)
+      key = res.url.split('?surl=')[-1]
+      jar = MozillaCookieJar('terabox.txt')
+      jar.load()
+      session.cookies.update(jar)
+      res = session.request('GET', f'https://www.terabox.com/share/list?app_id=250528&shorturl={key}&root=1')
+      result = res.json()['list']
+      if len(result) == 1:
+          result = result[0]
+              if result['isdir'] == '0':
