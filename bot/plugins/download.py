@@ -16,7 +16,7 @@ from bot.helpers.gdrive_utils import GoogleDrive
 from bot import DOWNLOAD_DIRECTORY, LOGGER, bot
 from bot.config import Messages, BotCommands
 from pyrogram.errors import FloodWait, RPCError
-from cloudscraper imoort create_scraper
+from cloudscraper import create_scraper
 from http.cookiejar import MozillaCookieJar
 
 @bot.on_message(filters.private & filters.incoming & filters.text & (filters.command(BotCommands.Download) | filters.regex('^(ht|f)tp*')) & CustomFilters.auth_users)
