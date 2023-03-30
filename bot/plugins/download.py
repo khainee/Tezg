@@ -314,3 +314,5 @@ async def tera_box(client, message, user_id, sent_message, link):
       if len(result) == 1:
           result = result[0]
               if result['isdir'] == '0':
+                  link = result['dlink']
+                  filename= result['server_filename']
