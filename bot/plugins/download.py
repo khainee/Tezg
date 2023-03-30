@@ -331,9 +331,9 @@ async def tera_box(client, message, user_id, sent_message, link):
                   LOGGER.info(f'Deleteing: {file_path}')
                   os.remove(file_path)
           else:
-              await sent_message.edit('Can't download folder')
+              await sent_message.edit("Can't download folder")
       else:
-          await sent_message.edit('Can't download mutiple files')
+          await sent_message.edit("Can't download mutiple files")
     except:
         await sent_message.edit('🕵️**Terabox link error...**')
 
