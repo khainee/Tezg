@@ -304,6 +304,7 @@ async def _youtu(client, message, user_id, sent_message, link):
         await sent_message.edit('🕵️**YOUTUBE ERROR**')
 
 async def tera_box(client, message, user_id, sent_message, link):
+    url = message.text
     try:
       session = create_scraper()
       res = session.request('GET', url)
