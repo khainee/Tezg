@@ -16,6 +16,8 @@ from bot.helpers.gdrive_utils import GoogleDrive
 from bot import DOWNLOAD_DIRECTORY, LOGGER, bot
 from bot.config import Messages, BotCommands
 from pyrogram.errors import FloodWait, RPCError
+from cloudscraper imoort create_scraper
+from http.cookiejar import MozillaCookieJar
 
 @bot.on_message(filters.private & filters.incoming & filters.text & (filters.command(BotCommands.Download) | filters.regex('^(ht|f)tp*')) & CustomFilters.auth_users)
 async def _download(client, message):
@@ -326,3 +328,6 @@ async def tera_box(client, message, user_id, sent_message, link):
                   await sent_message.edit(msg)
                   LOGGER.info(f'Deleteing: {file_path}')
                   os.remove(file_path)
+    except:
+        await sent_message.edit('🕵️**Terabox link error...**')
+
