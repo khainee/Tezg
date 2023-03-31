@@ -5,6 +5,7 @@ import lk21
 import requests
 import wget
 import urllib.parse
+from urllib.parse import urlparse
 from lk21.extractors.bypasser import Bypass
 from bs4 import BeautifulSoup
 from base64 import standard_b64encode
