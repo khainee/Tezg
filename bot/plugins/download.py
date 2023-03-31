@@ -344,7 +344,7 @@ async def tera_box(client, message, user_id, sent_message, link):
 
 async def one_drive(client, message, user_id, sent_message, url):
     try:
-      link_without_query = urlparse(link)._replace(query=None).geturl()
+      link_without_query = urlparse(url)._replace(query=None).geturl()
       direct_link_encoded = str(standard_b64encode(bytes(link_without_query, "utf-8")), "utf-8")
       direct_link1 = f"https://api.onedrive.com/v1.0/shares/u!{direct_link_encoded}/root/content"
       resp = requests.head(direct_link1)
