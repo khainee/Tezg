@@ -7,6 +7,7 @@ import wget
 import urllib.parse
 from lk21.extractors.bypasser import Bypass
 from bs4 import BeautifulSoup
+from base64 import standard_b64encode
 from time import sleep
 from pyrogram import Client, filters
 from bot.helpers.sql_helper import gDriveDB, idsDB
@@ -25,31 +26,34 @@ async def _download(client, message):
     if not message.media:
         sent_message = await message.reply_text('🕵️**Checking link...**')
         if message.command:
-            link = message.command[1]
+            url = message.command[1]
         else:
-            link = message.text
-        if 'drive.google.com' in link:
-            return await _gd(client, message, user_id, sent_message, link)
-        elif 'facebook' in link:
-            return await _fb(client, message, user_id, sent_message, link)
-        elif 'solidfiles' in link:
-            return await _solidfiles(client, message, user_id, sent_message, link)
-        elif 'anonfiles' in link:
-            return await _anonfiles(client, message, user_id, sent_message, link)
-        elif 'mediafire.com' in link:
-            return await _mediafire(client, message, user_id, sent_message, link)
-        elif 'workers.dev' in link:
-            return await _indexlink(client, message, user_id, sent_message, link)
-        elif 'zippyshare.com' in link:
-            return await _zippyshare(client, message, user_id, sent_message, link)
-        elif 'pornhub.com' in link:
-            return await _pornhub(client, message, user_id, sent_message, link)
-        elif 'youtu' in link:
-            return await _youtu(client, message, user_id, sent_message, link)
-        elif 'terabox' in link:
-            return await tera_box(client, message, user_id, sent_message, link)
+            url = message.text
+        if 'drive.google.com' in url:
+            return await _gd(client, message, user_id, sent_message, url)
+        elif 'facebook' in url:
+            return await _fb(client, message, user_id, sent_message, url)
+        elif 'solidfiles' in url:
+            return await _solidfiles(client, message, user_id, sent_message, url)
+        elif 'anonfiles' in url:
+            return await _anonfiles(client, message, user_id, sent_message, url)
+        elif 'mediafire.com' in url:
+            return await _mediafire(client, message, user_id, sent_message, url)
+        elif 'workers.dev' in url:
+            return await _indexlink(client, message, user_id, sent_message, url)
+        elif 'zippyshare.com' in url:
+            return await _zippyshare(client, message, user_id, sent_message, url)
+        elif 'pornhub.com' in url:
+            return await _pornhub(client, message, user_id, sent_message, url)
+        elif 'youtu' in url:
+            return await _youtu(client, message, user_id, sent_message, url)
+        elif any(x in url for x in ['terabox', 'nephobox', '4funbox', 'mirrobox', 'momerybox', 'teraboxapp']):
+            return await tera_box(client, message, user_id, sent_message, url)
+        elif '1drv.ms' in url:
+            return await one_drive(client, message, user_id, sent_message, url)
         else:
             await sent_message.edit('Link Not supported')
+
 @bot.on_message(filters.private & filters.incoming & (filters.document | filters.audio | filters.video | filters.photo) & CustomFilters.auth_users)
 async def _telegram_file(client, message):
   user_id = message.from_user.id
@@ -337,8 +341,7 @@ async def tera_box(client, message, user_id, sent_message, link):
     except:
         await sent_message.edit('🕵️**Terabox link error...**')
 
-async def one_drive(client, message, user_id, sent_message, link):
-    url = message.text
+async def one_drive(client, message, user_id, sent_message, url):
     try:
       link_without_query = urlparse(link)._replace(query=None).geturl()
       direct_link_encoded = str(standard_b64encode(bytes(link_without_query, "utf-8")), "utf-8")
@@ -356,4 +359,7 @@ async def one_drive(client, message, user_id, sent_message, link):
               await sent_message.edit(msg)
               LOGGER.info(f'Deleteing: {file_path}')
               os.remove(file_path)
-          
+      else:
+          await sent_message.edit('🕵️**Your Onedrive Link is Private & SO i cAnNot Download**')
+    except:
+        await sent_message.edit('🕵️**Onedrive link error...**')
