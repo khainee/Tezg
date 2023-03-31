@@ -105,14 +105,13 @@ async def _ytdl(client, message):
 
 #downloader
 
-async def _gd(client, message, user_id, sent_message, link):
-      await sent_message.edit(Messages.CLONING.format(link))
-      LOGGER.info(f'Copy:{user_id}: {link}')
-      msg = GoogleDrive(user_id).clone(link)
+async def _gd(client, message, user_id, sent_message, url):
+      await sent_message.edit(Messages.CLONING.format(url))
+      LOGGER.info(f'Copy:{user_id}: {url}')
+      msg = GoogleDrive(user_id).clone(url)
       await sent_message.edit(msg)
 
-async def _fb(client, message, user_id, sent_message, link):
-      url = message.text
+async def _fb(client, message, user_id, sent_message, url):
       try:
         r  = requests.post("https://yt1s.io/api/ajaxSearch/facebook", data={"q": url, "vt": "facebook"}).text
         bs = BeautifulSoup(r, "html5lib")
@@ -158,8 +157,7 @@ async def _fb(client, message, user_id, sent_message, link):
       except:
         await sent_message.edit('🕵️**Your Facebook Link is Private & SO i cAnNot Download**')
 
-async def _solidfiles(client, message, user_id, sent_message, link):
-      url = message.text
+async def _solidfiles(client, message, user_id, sent_message, url):
       headers = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36'
         }
@@ -182,8 +180,7 @@ async def _solidfiles(client, message, user_id, sent_message, link):
       except:
         await sent_message.edit('🕵️**Solidfiles link error...**')
 
-async def _anonfiles(client, message, user_id, sent_message, link):
-      url = message.text
+async def _anonfiles(client, message, user_id, sent_message, url):
       try:
         bypasser = lk21.Bypass()
         dl_url=bypasser.bypass_anonfiles(url)
@@ -202,8 +199,7 @@ async def _anonfiles(client, message, user_id, sent_message, link):
       except:
         await sent_message.edit('🕵️**Anonfiles link error...**')
 
-async def _mediafire(client, message, user_id, sent_message, link):
-      url = message.text
+async def _mediafire(client, message, user_id, sent_message, url):
       try:
         link = re.findall(r'\bhttps?://.*mediafire\.com\S+', url)[0]
       except IndexError:
@@ -226,9 +222,9 @@ async def _mediafire(client, message, user_id, sent_message, link):
       else:
         await sent_message.edit('🕵️**mediafire link error...**')
 
-async def _indexlink(client, message, user_id, sent_message, link):
+async def _indexlink(client, message, user_id, sent_message, url):
     try:
-      dl_url = message.text
+      dl_url = url
       link = dl_url.strip()
       filename = os.path.basename(link)
       dl_path = DOWNLOAD_DIRECTORY
@@ -244,8 +240,7 @@ async def _indexlink(client, message, user_id, sent_message, link):
     except:
         await sent_message.edit('🕵️**Index link error...**')
 
-async def _zippyshare(client, message, user_id, sent_message, link):
-      url = message.text
+async def _zippyshare(client, message, user_id, sent_message, url):
       dl_url = ''
       try:
         link = re.findall(r'\bhttps?://.*zippyshare\.com\S+', url)[0]
@@ -281,11 +276,10 @@ async def _zippyshare(client, message, user_id, sent_message, link):
       else:
         await sent_message.edit('🕵️** zippy link error...**')
 
-async def _pornhub(client, message, user_id, sent_message, link):
-      link = message.text
-      LOGGER.info(f'YTDL:{user_id}: {link}')
-      await sent_message.edit(Messages.DOWNLOADING.format(link))
-      result, file_path = utube_dl(link)
+async def _pornhub(client, message, user_id, sent_message, url):
+      LOGGER.info(f'YTDL:{user_id}: {url}')
+      await sent_message.edit(Messages.DOWNLOADING.format(url))
+      result, file_path = utube_dl(url)
       if result:
         await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
         msg = GoogleDrive(user_id).upload_file(file_path)
@@ -295,8 +289,8 @@ async def _pornhub(client, message, user_id, sent_message, link):
       else:
         await sent_message.edit('🕵️**PORNHUB ERROR**')
 
-async def _youtu(client, message, user_id, sent_message, link):
-      link = message.text
+async def _youtu(client, message, user_id, sent_message, url):
+      link = url
       LOGGER.info(f'YTDL:{user_id}: {link}')
       await sent_message.edit(Messages.DOWNLOADING.format(link))
       result, file_path = utube_dl(link)
