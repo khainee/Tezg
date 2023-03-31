@@ -337,3 +337,23 @@ async def tera_box(client, message, user_id, sent_message, link):
     except:
         await sent_message.edit('🕵️**Terabox link error...**')
 
+async def one_drive(client, message, user_id, sent_message, link):
+    url = message.text
+    try:
+      link_without_query = urlparse(link)._replace(query=None).geturl()
+      direct_link_encoded = str(standard_b64encode(bytes(link_without_query, "utf-8")), "utf-8")
+      direct_link1 = f"https://api.onedrive.com/v1.0/shares/u!{direct_link_encoded}/root/content"
+      resp = requests.head(direct_link1)
+      if resp.status_code == 302:
+          link = resp.next.url
+          dl_path = DOWNLOAD_DIRECTORY
+          LOGGER.info(f'Download:{user_id}: {link}')
+          await sent_message.edit(Messages.DOWNLOADING.format(link))
+          result, file_path = download_file(link, dl_path)
+          if os.path.exists(file_path):
+              await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
+              msg = GoogleDrive(user_id).upload_file(file_path)
+              await sent_message.edit(msg)
+              LOGGER.info(f'Deleteing: {file_path}')
+              os.remove(file_path)
+          
