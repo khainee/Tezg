@@ -22,11 +22,10 @@ def download_file(url, dl_path):
         download = aria2.add_uris([url], options={"dir": dl_path})
         while True:
             status = download.status
-            print(status)
+            LOGGER.info("{}".format(status))
             if status == "active":
                 # code to run when download is active
                 LOGGER.info("Download is active...")
-                LOGGER.info(f'status')
                 download.update()
                 time.sleep(1) # wait for 1 second and check status again
             elif status == "complete":
