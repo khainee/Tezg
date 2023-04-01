@@ -21,6 +21,7 @@ def download_file(url, dl_path):
     try:
         download = aria2.add_uris([url], options={"dir": dl_path})
         while True:
+            download.update()
             status = download.status
 
             if status == "complete":
