@@ -32,6 +32,7 @@ def download_file(url, dl_path):
                 # code to run when download is complete
                 LOGGER.info("Download completed.")
                 files = download._files[0].path
+                print(files)
                 return True, files
             elif status == "error":
                 # code to run when download encounters an error
