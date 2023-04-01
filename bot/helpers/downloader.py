@@ -6,6 +6,7 @@ from urllib.error import HTTPError
 from yt_dlp import DownloadError
 from bot import DOWNLOAD_DIRECTORY, LOGGER
 import aria2p
+import time
 
 # initialization, these are the default values
 aria2 = aria2p.API(
@@ -19,11 +20,20 @@ aria2 = aria2p.API(
 def download_file(url, dl_path):
     try:
         download = aria2.add_uris([url], options={"dir": dl_path})
-        result = download.wait_for_download_result()
-        if result.status == 'complete':
-            return True, download.files()[0].path
-        elif result.status == 'error':
-            return False, result.error_message
+        while True:
+            status = download.status
+
+            if status == "complete":
+                print("Download completed")
+                return True, download.files()[0].path
+
+            if status == "error":
+                print("Download failed: {}".format(download.error_message))
+                return False, download.error_message
+
+            print("Download status: {}, progress: {}".format(status, download.progress))
+
+            time.sleep(1)
     except aria2p.client.ClientException as error:
         return False, error
 
