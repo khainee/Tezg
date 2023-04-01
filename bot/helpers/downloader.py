@@ -16,15 +16,22 @@ aria2 = aria2p.API(
     )
 )
 
+import aria2p
+
+# initialization, these are the default values
+aria2 = aria2p.API(
+    aria2p.Client(
+        host="http://localhost",
+        port=6800,
+        secret=""
+    )
+)
+
 def download_file(url, dl_path):
     try:
         download = aria2.add_uris([url], options={"dir": dl_path})
-        while True:
-            status = download.tell_status()
-            if status['status'] == 'complete':
-                return True, download.files()[0].path
-            elif status['status'] == 'error':
-                return False, status['errorMessage']
+        download.wait_for_download()
+        return True, download.files()[0].path
     except aria2p.client.ClientException as error:
         return False, error
 
