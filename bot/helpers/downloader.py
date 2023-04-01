@@ -2,26 +2,33 @@ import os
 import wget
 import glob
 import yt_dlp
-from pySmartDL import SmartDL
 from urllib.error import HTTPError
 from yt_dlp import DownloadError
 from bot import DOWNLOAD_DIRECTORY, LOGGER
+import aria2p
 
+# initialization, these are the default values
+aria2 = aria2p.API(
+    aria2p.Client(
+        host="http://localhost",
+        port=6800,
+        secret=""
+    )
+)
 
 def download_file(url, dl_path):
   try:
-    dl = SmartDL(url, dl_path, progress_bar=False)
-    LOGGER.info(f'Downloading: {url} in {dl_path}')
-    dl.start()
-    return True, dl.get_dest()
-  except HTTPError as error:
+    # Add the download to the queue
+    download = aria2.add_url(url, options={"dir": dl_path})
+    
+    # Wait for the download to finish
+    download.wait()
+    
+    # Return the path of the downloaded file
+    return True, download.followed_by_ids[0].path
+    
+  except aria2p.Aria2Error as error:
     return False, error
-  except Exception as error:
-    try:
-      filename = wget.download(url, dl_path)
-      return True, os.path.join(f"{DOWNLOAD_DIRECTORY}/{filename}")
-    except HTTPError:
-      return False, error
 
 def download_fb(url, dl_path):
   try:
