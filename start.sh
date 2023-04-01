@@ -7,4 +7,4 @@ aria2c --allow-overwrite=true --auto-file-renaming=true --bt-enable-lpd=true --b
        --min-split-size=10M --optimize-concurrent-downloads=true --peer-id-prefix=-qB4390- --reuse-uri=true \
        --peer-agent=qBittorrent/4.3.9 --quiet=true --rpc-max-request-size=1024M --seed-ratio=0 --split=10 \
        --summary-interval=0 --user-agent=Wget/1.12
-python -m bot
+python3 -m bot
