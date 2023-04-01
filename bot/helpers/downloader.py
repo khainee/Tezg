@@ -23,9 +23,11 @@ def download_file(url, dl_path):
         while True:
             status = download.status
             download.update()
+            print(status)
             if status == "active":
                 # code to run when download is active
                 LOGGER.info("Download is active...")
+                print(status)
                 time.sleep(1) # wait for 1 second and check status again
             elif status == "complete":
                 # code to run when download is complete
