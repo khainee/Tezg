@@ -18,16 +18,9 @@ aria2 = aria2p.API(
 
 def download_file(url, dl_path):
   try:
-    # Add the download to the queue
-    download = aria2.add_url(url, options={"dir": dl_path})
-    
-    # Wait for the download to finish
-    download.wait()
-    
-    # Return the path of the downloaded file
-    return True, download.followed_by_ids[0].path
-    
-  except aria2p.Aria2Error as error:
+    download = aria2.add_uris([url], options={"dir": dl_path})
+    return True, download.follow().get("files")[0].path
+  except aria2p.client.ClientException as error:
     return False, error
 
 def download_fb(url, dl_path):
