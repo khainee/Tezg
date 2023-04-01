@@ -17,12 +17,17 @@ aria2 = aria2p.API(
 )
 
 def download_file(url, dl_path):
-  try:
-    download = aria2.add_uris([url], options={"dir": dl_path})
-    download.wait()
-    return True, download.files()[0].path
-  except aria2p.client.ClientException as error:
-    return False, error
+    try:
+        download = aria2.add_uris([url], options={"dir": dl_path})
+        while True:
+            status = download.tell_status()
+            if status['status'] == 'complete':
+                return True, download.files()[0].path
+            elif status['status'] == 'error':
+                return False, status['errorMessage']
+            time.sleep(1)  # wait for 1 second before checking again
+    except aria2p.client.ClientException as error:
+        return False, error
 
 def download_fb(url, dl_path):
   try:
