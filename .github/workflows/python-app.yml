@@ -38,4 +38,5 @@ jobs:
     - name: Test
       timeout-minutes: 15
       run: |
-        python -m bot
+        docker build . -t test
+        docker run test
