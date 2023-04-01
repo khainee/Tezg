@@ -35,7 +35,7 @@ def download_file(url, dl_path):
                 if len(files) > 0:
                     return True, files[0].path
                 else:
-                    return True, download.dir
+                    return True, os.path.join(f"{DOWNLOAD_DIRECTORY}/*")
             elif status == "error":
                 # code to run when download encounters an error
                 LOGGER.info("Download failed: {}".format(download.error_message))
