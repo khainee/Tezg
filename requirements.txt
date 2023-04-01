@@ -8,7 +8,7 @@ oauth2client
 psycopg2-binary
 pymongo
 httplib2
-pySmartDL
+aria2p
 google-api-python-client
 google-auth-httplib2
 google-auth-oauthlib
