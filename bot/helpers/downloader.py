@@ -25,7 +25,6 @@ def download_file(url, dl_path):
                 return True, download.files()[0].path
             elif status['status'] == 'error':
                 return False, status['errorMessage']
-            time.sleep(1)  # wait for 1 second before checking again
     except aria2p.client.ClientException as error:
         return False, error
 
