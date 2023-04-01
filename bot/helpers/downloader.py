@@ -19,7 +19,8 @@ aria2 = aria2p.API(
 def download_file(url, dl_path):
   try:
     download = aria2.add_uris([url], options={"dir": dl_path})
-    return True, download.follow().get("files")[0].path
+    download.wait()
+    return True, download.files()[0].path
   except aria2p.client.ClientException as error:
     return False, error
 
