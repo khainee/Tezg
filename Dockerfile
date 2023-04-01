@@ -2,7 +2,7 @@ FROM khainezayye/ubuntu-python:ffmpeg
 
 WORKDIR /root/bot
 
-RUN apt-get install -y aria2
+RUN apt-get install -y aria2 curl
 
 COPY requirements.txt .
 
