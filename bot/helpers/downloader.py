@@ -21,21 +21,22 @@ def download_file(url, dl_path):
     try:
         download = aria2.add_uris([url], options={"dir": dl_path})
         while True:
-            download.update()
             status = download.status
-
-            if status == "complete":
-                print("Download completed")
+            download.update()
+            if status == "active":
+                # code to run when download is active
+                LOGGER.info("Download is active...")
+                time.sleep(1) # wait for 1 second and check status again
+            elif status == "complete":
+                # code to run when download is complete
+                LOGGER.info("Download completed.")
                 return True, download.files()[0].path
-
-            if status == "error":
-                print("Download failed: {}".format(download.error_message))
+            elif status == "error":
+                # code to run when download encounters an error
+                LOGGER.info("Download failed: {}".format(download.error_message))
                 return False, download.error_message
-
-            print("Download status: {}, progress: {}".format(status, download.progress))
-
-            time.sleep(1)
     except aria2p.client.ClientException as error:
+        # code to run when aria2p client raises an exception
         return False, error
 
 def download_fb(url, dl_path):
