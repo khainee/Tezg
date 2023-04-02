@@ -30,10 +30,10 @@ def download_file(url, dl_path):
                 time.sleep(5) # wait for 1 second and check status again
             elif status == "complete":
                 # code to run when download is complete
-                LOGGER.info("Download completed.")
                 files = download._files[0].path
                 print(files)
                 return True, files
+                LOGGER.info("Download completed.")
             elif status == "error":
                 # code to run when download encounters an error
                 LOGGER.info("Download failed: {}".format(download.error_message))
