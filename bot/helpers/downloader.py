@@ -22,18 +22,14 @@ def download_file(url, dl_path):
         download = aria2.add_uris([url], options={"dir": dl_path})
         while True:
             status = download.status
-            LOGGER.info("{}".format(status))
+            print(download._files[0].path)
             if status == "active":
                 # code to run when download is active
                 LOGGER.info("Download is active...")
                 download.update()
                 time.sleep(5) # wait for 1 second and check status again
             elif status == "complete":
-                # code to run when download is complete
-                files = download._files[0].path
-                print(files)
-                return True, files
-                LOGGER.info("Download completed.")
+                return True, download._files[0].path
             elif status == "error":
                 # code to run when download encounters an error
                 LOGGER.info("Download failed: {}".format(download.error_message))
