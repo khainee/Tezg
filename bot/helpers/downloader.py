@@ -23,6 +23,7 @@ def download_file(url, dl_path):
         while True:
             status = download.status
             if status == "complete":
+                LOGGER.info("Download complete")
                 path = download.files[0].path
                 return True, path
             elif status == "active":
