@@ -22,8 +22,8 @@ def download_file(url, dl_path):
         download = aria2.add_uris([url], options={"dir": dl_path})
         while True:
             status = download.status
-            print(download._files[0].path)
             if status == "complete":
+                print(download._files[0].path)
                 return True, download._files[0].path
             elif status == "active":
                 LOGGER.info("Download is active...")
