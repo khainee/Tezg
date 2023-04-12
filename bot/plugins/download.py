@@ -232,14 +232,14 @@ async def _indexlink(client, message, user_id, sent_message, url):
       await sent_message.edit(Messages.DOWNLOADING.format(link))
       result, file_path = download_file(link, dl_path)
       print(result,file_path)
-      if os.path.exists(file_path):
+      if result == True and os.path.exists(file_path):
           await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
           msg = GoogleDrive(user_id).upload_file(file_path)
           await sent_message.edit(msg)
           LOGGER.info(f'Deleteing: {file_path}')
           os.remove(file_path)
-    except:
-        await sent_message.edit('🕵️**Index link error...**')
+    except Expection as e:
+        await sent_message.edit(f'🕵️**Index link error... {e} **')
 
 async def _zippyshare(client, message, user_id, sent_message, url):
       dl_url = ''
