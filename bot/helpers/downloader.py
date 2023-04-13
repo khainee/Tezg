@@ -17,27 +17,22 @@ aria2 = aria2p.API(
     )
 )
 
-def download_file(url, dl_path):
+async def download_file(url, dl_path):
     try:
         aria2.add_uris([url], {'dir': dl_path})
         while True:
             downloads = aria2.get_downloads()
-            if downloads:
-                download = downloads[0]
+            for download in downloads:
                 status = download.status
                 for file in download.files:
                     path = file.path
                 if status == "complete":
                     LOGGER.info("Download complete")
                     return True, path
-                elif status == "active":
-                    LOGGER.info("Download is active...")
-                    time.sleep(5)
                 elif status == "error":
                     LOGGER.info("Download failed: {}".format(download.error_message))
                     return False, download.error_message
-            else:
-                time.sleep(5)
+            await asyncio.sleep(1) # wait for 1 second and check status again
     except aria2p.client.ClientException as error:
         return False, error
 
