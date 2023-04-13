@@ -230,7 +230,7 @@ async def _indexlink(client, message, user_id, sent_message, url):
       dl_path = DOWNLOAD_DIRECTORY
       LOGGER.info(f'Download:{user_id}: {link}')
       await sent_message.edit(Messages.DOWNLOADING.format(link))
-      result, file_path = download_file(link, dl_path)
+      result, file_path = await download_file(link, dl_path)
       print(file_path)
       if result == True and os.path.exists(file_path):
           LOGGER.info(f'Downloaded successfully on {file_path}')
