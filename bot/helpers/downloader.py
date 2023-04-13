@@ -19,7 +19,7 @@ aria2 = aria2p.API(
 
 def download_file(url, dl_path):
     try:
-        download = aria2.add_uris([url], options={"dir": dl_path})
+        download = aria2.add_uris([url], {'dir': dl_path})
         while True:
             status = download.status
             download.update()
