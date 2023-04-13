@@ -19,20 +19,18 @@ aria2 = aria2p.API(
 
 def download_file(url, dl_path):
     try:
-        download = aria2.add_uris([url], {'dir': dl_path})
-        while True:
-            status = download.status
-            download.update()
+        aria2.add_uris([url], {'dir': dl_path})
+        downloads = aria2.get_downloads()
+        for download in downloads:
+            status= download.status
+            for file in download.files:
+                path = file.path
             if status == "complete":
-                download.update()
                 LOGGER.info("Download complete")
-                file = download.files[0].path
-                path = f"./{str(file)}"
                 return True, path
             elif status == "active":
                 LOGGER.info("Download is active...")
-                download.update()
-                time.sleep(5) # wait for 1 second and check status again
+                downloads = aria2.get_downloads()
             elif status == "error":
                 # code to run when download encounters an error
                 LOGGER.info("Download failed: {}".format(download.error_message))
