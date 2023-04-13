@@ -24,7 +24,9 @@ def download_file(url, dl_path):
             status = download.status
             if status == "complete":
                 LOGGER.info("Download complete")
-                path = download.files[0].path
+                file = download.files[0].path
+                cwd = os.getcwd()  # Get current working directory
+                path = os.path.join(cwd, file)  # Concatenate cwd and filename
                 return True, path
             elif status == "active":
                 LOGGER.info("Download is active...")
