@@ -25,7 +25,7 @@ def download_file(url, dl_path):
             if status == "complete":
                 LOGGER.info("Download complete")
                 file = download.files[0].path
-                path = "./" + file
+                path = f"./{str(file)}"
                 return True, path
             elif status == "active":
                 LOGGER.info("Download is active...")
