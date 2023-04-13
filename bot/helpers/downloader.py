@@ -21,6 +21,8 @@ def download_file(url, dl_path):
     try:
         aria2.add_uris([url], {'dir': dl_path})
         downloads = aria2.get_downloads()
+        if downloads is None:
+            return False, "No downloads found"
         for download in downloads:
             status= download.status
             for file in download.files:
