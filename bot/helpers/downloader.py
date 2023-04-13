@@ -28,7 +28,10 @@ async def download_file(url, dl_path):
                     path = file.path
                 if status == "complete":
                     LOGGER.info("Download complete")
-                    return True, path
+                    if os.path.exists(path)
+                        return True, path
+                    else:
+                        LOGGER.error(f"{path} not found}")
                 elif status == "error":
                     LOGGER.info("Download failed: {}".format(download.error_message))
                     return False, download.error_message
