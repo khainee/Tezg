@@ -238,6 +238,10 @@ async def _indexlink(client, message, user_id, sent_message, url):
           await sent_message.edit(msg)
           LOGGER.info(f'Deleteing: {file_path}')
           os.remove(file_path)
+      else:
+          error_message = f'Error: {filename} could not be downloaded.'
+          await sent_message.edit(error_message)
+          LOGGER.error(error_message)
     except Exception as e:
         await sent_message.edit(f'🕵️**Index link error...\n{e}**')
         LOGGER.error(f'Error {e}')
@@ -255,7 +259,10 @@ async def _zippyshare(client, message, user_id, sent_message, url):
       scripts = page_soup.find_all("script", {"type": "text/javascript"})
       for script in scripts:
         if "getElementById('dlbutton')" in script.text:
-          url_raw = re.search(r'= (?P<url>\".+\" \+ (?P<math>\(.+\)) .+);',
+          url_raw = re.seelse:
+    error_message = f'Error: {filename} could not be downloaded.'
+    await sent_message.edit(error_message)
+    LOGGER.error(error_message)arch(r'= (?P<url>\".+\" \+ (?P<math>\(.+\)) .+);',
                               script.text).group('url')
           math = re.search(r'= (?P<url>\".+\" \+ (?P<math>\(.+\)) .+);',
                            script.text).group('math')
