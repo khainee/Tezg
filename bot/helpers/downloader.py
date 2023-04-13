@@ -20,9 +20,10 @@ aria2 = aria2p.API(
 def download_file(url, dl_path):
     try:
         aria2.add_uris([url], {'dir': dl_path})
-        downloads = aria2.get_downloads()
-        if downloads is not None:
-            for download in downloads:
+        while True:
+            downloads = aria2.get_downloads()
+            if downloads:
+                download = downloads[0]
                 status = download.status
                 for file in download.files:
                     path = file.path
@@ -31,13 +32,12 @@ def download_file(url, dl_path):
                     return True, path
                 elif status == "active":
                     LOGGER.info("Download is active...")
-                    downloads = aria2.get_downloads()
+                    time.sleep(5)
                 elif status == "error":
                     LOGGER.info("Download failed: {}".format(download.error_message))
                     return False, download.error_message
-        else:
-            LOGGER.info("No downloads found")
-            return False, "No downloads found"
+            else:
+                time.sleep(5)
     except aria2p.client.ClientException as error:
         return False, error
 
