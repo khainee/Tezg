@@ -21,24 +21,24 @@ def download_file(url, dl_path):
     try:
         aria2.add_uris([url], {'dir': dl_path})
         downloads = aria2.get_downloads()
-        if downloads is None:
+        if downloads is not None:
+            for download in downloads:
+                status = download.status
+                for file in download.files:
+                    path = file.path
+                if status == "complete":
+                    LOGGER.info("Download complete")
+                    return True, path
+                elif status == "active":
+                    LOGGER.info("Download is active...")
+                    downloads = aria2.get_downloads()
+                elif status == "error":
+                    LOGGER.info("Download failed: {}".format(download.error_message))
+                    return False, download.error_message
+        else:
+            LOGGER.info("No downloads found")
             return False, "No downloads found"
-        for download in downloads:
-            status= download.status
-            for file in download.files:
-                path = file.path
-            if status == "complete":
-                LOGGER.info("Download complete")
-                return True, path
-            elif status == "active":
-                LOGGER.info("Download is active...")
-                downloads = aria2.get_downloads()
-            elif status == "error":
-                # code to run when download encounters an error
-                LOGGER.info("Download failed: {}".format(download.error_message))
-                return False, download.error_message
     except aria2p.client.ClientException as error:
-        # code to run when aria2p client raises an exception
         return False, error
 
 def download_fb(url, dl_path):
