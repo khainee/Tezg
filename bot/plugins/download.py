@@ -259,10 +259,7 @@ async def _zippyshare(client, message, user_id, sent_message, url):
       scripts = page_soup.find_all("script", {"type": "text/javascript"})
       for script in scripts:
         if "getElementById('dlbutton')" in script.text:
-          url_raw = re.seelse:
-    error_message = f'Error: {filename} could not be downloaded.'
-    await sent_message.edit(error_message)
-    LOGGER.error(error_message)arch(r'= (?P<url>\".+\" \+ (?P<math>\(.+\)) .+);',
+          url_raw = re.search(r'= (?P<url>\".+\" \+ (?P<math>\(.+\)) .+);',
                               script.text).group('url')
           math = re.search(r'= (?P<url>\".+\" \+ (?P<math>\(.+\)) .+);',
                            script.text).group('math')
