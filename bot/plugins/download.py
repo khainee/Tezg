@@ -238,7 +238,7 @@ async def _indexlink(client, message, user_id, sent_message, url):
           LOGGER.info(f'Deleteing: {file_path}')
           os.remove(file_path)
     except Exception as e:
-        await sent_message.edit('🕵️**Index link error...**')
+        await sent_message.edit(f'🕵️**Index link error...\n{e}**')
         LOGGER.error(f'Error {e}')
 
 async def _zippyshare(client, message, user_id, sent_message, url):
