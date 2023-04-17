@@ -1,9 +1,6 @@
-FROM khainezayye/ubuntu-python:ffmpeg
+FROM khainezayye/python:alpine
 
 WORKDIR /root/bot
-
-RUN apt-get install -y aria2 curl
-
 COPY requirements.txt .
 
 RUN pip install -U -r requirements.txt
