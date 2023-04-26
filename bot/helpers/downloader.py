@@ -22,7 +22,7 @@ async def download_file(url, dl_path):
         gid = str(uuid.uuid4())
         aria2.add_uris([url], {'dir': dl_path, 'gid': gid})
         while True:
-            downloads = aria2.get_downloads()
+            downloads = aria2.get_downloads(gid=gid)
             for download in downloads:
                 status = download.status
                 for file in download.files:
