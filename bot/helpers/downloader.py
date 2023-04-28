@@ -7,7 +7,6 @@ from yt_dlp import DownloadError
 from bot import DOWNLOAD_DIRECTORY, LOGGER
 import aria2p
 import asyncio
-import uuid
 
 # initialization, these are the default values
 aria2 = aria2p.API(
@@ -20,10 +19,9 @@ aria2 = aria2p.API(
 
 async def download_file(url, dl_path):
     try:
-        gid = str(uuid.uuid4())
-        aria2.add_uris([url], {'dir': dl_path, 'gid': gid})
+        aria2.add_uris([url], {'dir': dl_path})
         while True:
-            downloads = aria2.get_downloads(gid=gid)
+            downloads = aria2.get_downloads()
             for download in downloads:
                 status = download.status
                 for file in download.files:
