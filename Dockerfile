@@ -1,4 +1,4 @@
-FROM khainezayye/python:alpine
+FROM khainezayye/python:ubuntu
 
 WORKDIR /root/bot
 COPY requirements.txt .
