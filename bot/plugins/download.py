@@ -3,7 +3,6 @@ import re
 import json
 import lk21
 import requests
-import wget
 import urllib.parse
 from urllib.parse import urlparse
 from lk21.extractors.bypasser import Bypass
@@ -128,9 +127,10 @@ async def _fb(client, message, user_id, sent_message, url):
               link = durl.strip()
               filename = os.path.basename(link)
               dl_path = DOWNLOAD_DIRECTORY
+              gid = uuid.uuid4().hex[:16]
               LOGGER.info(f'Download:{user_id}: {link}')
               await sent_message.edit(Messages.DOWNLOADING.format(link))
-              result, file_path = download_file(link, dl_path)
+              result, file_path = await download_file(link, dl_path, gid)
 
               if os.path.exists(file_path):
                 await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
@@ -143,10 +143,10 @@ async def _fb(client, message, user_id, sent_message, url):
               link = durl.strip()
               filename = os.path.basename(link)
               dl_path = DOWNLOAD_DIRECTORY
+              gid = uuid.uuid4().hex[:16]
               LOGGER.info(f'Download:{user_id}: {link}')
               await sent_message.edit(Messages.DOWNLOADING.format(link))
-              result, file_path = download_file(link, dl_path)
-
+              result, file_path = await download_file(link, dl_path, gid)
               if os.path.exists(file_path):
                 await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
                 msg = GoogleDrive(user_id).upload_file(file_path)
@@ -169,9 +169,10 @@ async def _solidfiles(client, message, user_id, sent_message, url):
         link = dl_url.strip()
         filename = os.path.basename(link)
         dl_path = DOWNLOAD_DIRECTORY
+        gid = uuid.uuid4().hex[:16]
         LOGGER.info(f'Download:{user_id}: {link}')
         await sent_message.edit(Messages.DOWNLOADING.format(link))
-        result, file_path = download_file(link, dl_path)
+        result, file_path = await download_file(link, dl_path, gid)
         if os.path.exists(file_path):
           await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
           msg = GoogleDrive(user_id).upload_file(file_path)
@@ -188,9 +189,10 @@ async def _anonfiles(client, message, user_id, sent_message, url):
         link = dl_url.strip()
         filename = os.path.basename(link)
         dl_path = DOWNLOAD_DIRECTORY
+        gid = uuid.uuid4().hex[:16]
         LOGGER.info(f'Download:{user_id}: {link}')
         await sent_message.edit(Messages.DOWNLOADING.format(link))
-        result, file_path = download_file(link, dl_path)
+        result, file_path = await download_file(link, dl_path, gid)
         if os.path.exists(file_path):
           await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
           msg = GoogleDrive(user_id).upload_file(file_path)
@@ -211,9 +213,10 @@ async def _mediafire(client, message, user_id, sent_message, url):
       link = dl_url.strip()
       filename = os.path.basename(link)
       dl_path = DOWNLOAD_DIRECTORY
+      gid = uuid.uuid4().hex[:16]
       LOGGER.info(f'Download:{user_id}: {link}')
       await sent_message.edit(Messages.DOWNLOADING.format(link))
-      result, file_path = download_file(link, dl_path)
+      result, file_path = await download_file(link, dl_path, gid)
       if os.path.exists(file_path):
         await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
         msg = GoogleDrive(user_id).upload_file(file_path)
@@ -248,42 +251,6 @@ async def _indexlink(client, message, user_id, sent_message, url):
     except Exception as e:
         await sent_message.edit(f'🕵️**Index link error...\n{e}**')
         LOGGER.error(f'Error {e}')
-
-async def _zippyshare(client, message, user_id, sent_message, url):
-      dl_url = ''
-      try:
-        link = re.findall(r'\bhttps?://.*zippyshare\.com\S+', url)[0]
-      except IndexError:
-        sent_message = message.reply_text('🕵️**zippy link error...**')
-      session = requests.Session()
-      base_url = re.search('http.+.com', link).group()
-      response = session.get(link)
-      page_soup = BeautifulSoup(response.content, "lxml")
-      scripts = page_soup.find_all("script", {"type": "text/javascript"})
-      for script in scripts:
-        if "getElementById('dlbutton')" in script.text:
-          url_raw = re.search(r'= (?P<url>\".+\" \+ (?P<math>\(.+\)) .+);',
-                              script.text).group('url')
-          math = re.search(r'= (?P<url>\".+\" \+ (?P<math>\(.+\)) .+);',
-                           script.text).group('math')
-          dl_url = url_raw.replace(math, '"' + str(eval(math)) + '"')
-          break
-      dl_url = base_url + eval(dl_url)
-      link = dl_url.strip()
-      filename = urllib.parse.unquote(dl_url.split('/')[-1])
-      dl_path = DOWNLOAD_DIRECTORY
-      LOGGER.info(f'Download:{user_id}: {link}')
-      await sent_message.edit(Messages.DOWNLOADING.format(link))
-      result, file_path = download_file(link, dl_path)
-      if os.path.exists(file_path):
-        await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path),
-                                                                  humanbytes(os.path.getsize(file_path))))
-        msg = GoogleDrive(user_id).upload_file(file_path)
-        await sent_message.edit(msg)
-        LOGGER.info(f'Deleteing: {file_path}')
-        os.remove(file_path)
-      else:
-        await sent_message.edit('🕵️** zippy link error...**')
 
 async def _pornhub(client, message, user_id, sent_message, url):
       LOGGER.info(f'YTDL:{user_id}: {url}')
@@ -328,9 +295,10 @@ async def tera_box(client, message, user_id, sent_message, url):
               link = result['dlink']
               filename= result['server_filename']
               dl_path = os.path.join(f'{DOWNLOAD_DIRECTORY}/{filename}')
+              gid = uuid.uuid4().hex[:16]
               LOGGER.info(f'Download:{user_id}: {link}')
               await sent_message.edit(Messages.DOWNLOADING.format(link))
-              result, file_path = download_file(link, dl_path)
+              result, file_path = await download_file(link, dl_path, gid)
               if os.path.exists(file_path):
                   await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
                   msg = GoogleDrive(user_id).upload_file(file_path)
@@ -353,9 +321,10 @@ async def one_drive(client, message, user_id, sent_message, url):
       if resp.status_code == 302:
           link = resp.next.url
           dl_path = DOWNLOAD_DIRECTORY
+          gid = uuid.uuid4().hex[:16]
           LOGGER.info(f'Download:{user_id}: {link}')
           await sent_message.edit(Messages.DOWNLOADING.format(link))
-          result, file_path = download_file(link, dl_path)
+          result, file_path = await download_file(link, dl_path, gid)
           if os.path.exists(file_path):
               await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
               msg = GoogleDrive(user_id).upload_file(file_path)
