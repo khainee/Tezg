@@ -42,8 +42,6 @@ async def _download(client, message):
             return await _mediafire(client, message, user_id, sent_message, url)
         elif 'workers.dev' in url:
             return await _indexlink(client, message, user_id, sent_message, url)
-        elif 'zippyshare.com' in url:
-            return await _zippyshare(client, message, user_id, sent_message, url)
         elif 'pornhub.com' in url:
             return await _pornhub(client, message, user_id, sent_message, url)
         elif 'youtu' in url:
