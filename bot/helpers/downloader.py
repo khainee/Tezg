@@ -17,9 +17,9 @@ aria2 = aria2p.API(
     )
 )
 
-async def download_file(url, dl_path):
+async def download_file(url, dl_path, gid):
     try:
-        aria2.add_uris([url], {'dir': dl_path})
+        aria2.add_uris([url], {'dir': dl_path,  'gid': gid})
         while True:
             downloads = aria2.get_downloads()
             for download in downloads:
