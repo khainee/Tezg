@@ -1,6 +1,8 @@
 FROM khainezayye/python:ubuntu
 
-WORKDIR /root/bot
+WORKDIR /usr/src/app
+RUN chmod 777 /usr/src/app
+
 COPY requirements.txt .
 
 RUN pip install -U -r requirements.txt
