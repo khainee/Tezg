@@ -229,7 +229,7 @@ async def _indexlink(client, message, user_id, sent_message, url):
       link = dl_url.strip()
       filename = os.path.basename(link)
       dl_path = DOWNLOAD_DIRECTORY
-      gid = str(uuid.uuid4())
+      gid = uuid.uuid4().hex[:16]
       LOGGER.info(f'Download:{user_id}: {link},{gid}')
       await sent_message.edit(Messages.DOWNLOADING.format(link))
       result, file_path = await download_file(link, dl_path, gid)
