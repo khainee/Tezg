@@ -7,6 +7,10 @@ from yt_dlp import DownloadError
 from bot import DOWNLOAD_DIRECTORY, LOGGER
 import aria2p
 import asyncio
+import logging
+
+logging.getLogger('aria2p').setLevel(logging.DEBUG)
+
 
 # initialization, these are the default values
 aria2 = aria2p.API(
