@@ -292,7 +292,7 @@ async def tera_box(client, message, user_id, sent_message, url):
           if result['isdir'] == '0':
               link = result['dlink']
               filename= result['server_filename']
-              dl_path = os.path.join(f'{DOWNLOAD_DIRECTORY}/{filename}')
+              dl_path = DOWNLOAD_DIRECTORY
               gid = uuid.uuid4().hex[:16]
               LOGGER.info(f'Download:{user_id}: {link}')
               await sent_message.edit(Messages.DOWNLOADING.format(link))
