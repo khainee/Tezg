@@ -19,6 +19,7 @@ from bot import DOWNLOAD_DIRECTORY, LOGGER, bot
 from bot.config import Messages, BotCommands
 from pyrogram.errors import FloodWait, RPCError
 from cloudscraper import create_scraper
+import uuid
 from http.cookiejar import MozillaCookieJar
 
 @bot.on_message(filters.private & filters.incoming & filters.text & (filters.command(BotCommands.Download) | filters.regex('^(ht|f)tp*')) & CustomFilters.auth_users)
@@ -228,9 +229,10 @@ async def _indexlink(client, message, user_id, sent_message, url):
       link = dl_url.strip()
       filename = os.path.basename(link)
       dl_path = DOWNLOAD_DIRECTORY
-      LOGGER.info(f'Download:{user_id}: {link}')
+      gid = str(uuid.uuid4())
+      LOGGER.info(f'Download:{user_id}: {link},{gid}')
       await sent_message.edit(Messages.DOWNLOADING.format(link))
-      result, file_path = await download_file(link, dl_path)
+      result, file_path = await download_file(link, dl_path, gid)
       print(file_path)
       if result == True and os.path.exists(file_path):
           LOGGER.info(f'Downloaded successfully on {file_path}')
