@@ -36,7 +36,7 @@ async def download_file(url, dl_path):
                 elif status == "error":
                     LOGGER.info("Download failed: {}".format(download.error_message))
                     return False, download.error_message
-            await asyncio.sleep(1) # wait for 1 second and check status again
+            await asyncio.sleep(5) # wait for 1 second and check status again
     except aria2p.client.ClientException as error:
         return False, error
 
