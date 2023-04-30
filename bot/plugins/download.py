@@ -84,16 +84,17 @@ async def _dl(client, message, user_id, sent_message, url):
     try:
       r, dl_url = await direct_link(url)
       if r:
-          dl_path = DOWNLOAD_DIRECTORY
-          gid = uuid.uuid4().hex[:16]
-          LOGGER.info(f'Download:{user_id}: {link}')
-          await sent_message.edit(Messages.DOWNLOADING.format(link))
-          result, file_path = await download_file(link, dl_path, gid)
-          if os.path.exists(file_path):
-            await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
-            msg = GoogleDrive(user_id).upload_file(file_path)
-            await sent_message.edit(msg)
-            LOGGER.info(f'Deleteing: {file_path}')
-            os.remove(file_path)
+        link = dl_url.strip()
+        dl_path = DOWNLOAD_DIRECTORY
+        gid = uuid.uuid4().hex[:16]
+        LOGGER.info(f'Download:{user_id}: {link}')
+        await sent_message.edit(Messages.DOWNLOADING.format(link))
+        result, file_path = await download_file(link, dl_path, gid)
+        if os.path.exists(file_path):
+          await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
+          msg = GoogleDrive(user_id).upload_file(file_path)
+          await sent_message.edit(msg)
+          LOGGER.info(f'Deleteing: {file_path}')
+          os.remove(file_path)
     except Exception as e:
         await sent_message.edit('🕵️**Link error...\n{e}**')
