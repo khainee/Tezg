@@ -97,4 +97,4 @@ async def _dl(client, message, user_id, sent_message, url):
           LOGGER.info(f'Deleteing: {file_path}')
           os.remove(file_path)
     except Exception as e:
-        await sent_message.edit('🕵️**Link error...\n{e}**')
+        await sent_message.edit(f'🕵️**Link error...\n{e}**')
