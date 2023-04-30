@@ -1,6 +1,6 @@
 from cloudscraper import create_scraper
 from re import search, findall
-from json import loads, load
+from json import loads
 import os
 import uuid
 from requests import post
@@ -27,7 +27,7 @@ async def _fb(url):
         r = post("https://yt1s.io/api/ajaxSearch/facebook", data={"q": url, "vt": "facebook"}).text
         bs = BeautifulSoup(r, "html5lib")
         js = str(bs).replace('<html><head></head><body>{"status":"ok","p":"facebook","links":', '').replace('</body></html>', '').replace('},', ',')
-        contents = json.loads(js)
+        contents = loads(js)
         if 'hd' in contents:
             durl = str(contents['hd']).replace('&amp;', '&')
         else:
