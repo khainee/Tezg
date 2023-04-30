@@ -9,10 +9,6 @@ import aria2p
 import asyncio
 import logging
 
-logging.getLogger('aria2p').setLevel(logging.DEBUG)
-
-
-# initialization, these are the default values
 aria2 = aria2p.API(
     aria2p.Client(
         host="http://localhost",
@@ -20,6 +16,8 @@ aria2 = aria2p.API(
         secret=""
     )
 )
+
+logging.getLogger('aria2').setLevel(logging.INFO)
 
 async def download_file(url, dl_path, gid):
     try:
@@ -41,7 +39,7 @@ async def download_file(url, dl_path, gid):
                 elif status == "error":
                     LOGGER.info("Download failed: {}".format(download.error_message))
                     return False, download.error_message
-            await asyncio.sleep(5) # wait for 1 second and check status again
+            await asyncio.sleep(1)
     except aria2p.client.ClientException as error:
         return False, error
     except Exception as error:
