@@ -5,17 +5,17 @@ from json import loads
 
 async def direct_link(url):
     if 'facebook' in url:
-        await _fb(url)
+        return await _fb(url)
     elif 'solidfiles' in url:
-        await _solidfiles(url)
+        return await _solidfiles(url)
     elif 'mediafire.com' in url:
-        await _mediafire(url)
+        return await _mediafire(url)
     elif 'workers.dev' in url:
-        await _indexlink(url)
+        return await _indexlink(url)
     elif any(x in url for x in ['terabox', 'nephobox', '4funbox', 'mirrobox', 'momerybox', 'teraboxapp']):
-        await tera_box(url)
+        return await tera_box(url)
     elif '1drv.ms' in url:
-        await one_drive(url)
+        return await one_drive(url)
 
 async def _fb(url):
     print(url)
