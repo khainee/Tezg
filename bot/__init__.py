@@ -3,7 +3,6 @@ from logging import getLogger, FileHandler, StreamHandler, INFO, basicConfig
 from pyrogram import Client
 from time import time
 import logging
-logging.basicConfig(level=logging.INFO)
 
 basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
             handlers=[FileHandler('log.txt'), StreamHandler()],
@@ -41,4 +40,4 @@ except KeyError:
   exit(1)
 
 LOGGER.info("Initializing Pyrogram Client")
-bot = Client("G-DriveBot", bot_token=BOT_TOKEN, api_id=APP_ID, api_hash=API_HASH, workdir=DOWNLOAD_DIRECTORY)
+bot = Client("G-DriveBot", bot_token=BOT_TOKEN, api_id=APP_ID, api_hash=API_HASH, workdir=DOWNLOAD_DIRECTORY).start()
