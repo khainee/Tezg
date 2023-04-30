@@ -19,27 +19,23 @@ async def direct_link(url):
         return await tera_box(url)
     elif '1drv.ms' in url:
         return await one_drive(url)
+    else:
+        return False, 'No Downloader for the link'
 
 async def _fb(url):
     try:
         r = post("https://yt1s.io/api/ajaxSearch/facebook", data={"q": url, "vt": "facebook"}).text
         bs = BeautifulSoup(r, "html5lib")
         js = str(bs).replace('<html><head></head><body>{"status":"ok","p":"facebook","links":', '').replace('</body></html>', '').replace('},', ',')
-        file_name = str(uuid.uuid4()) + "_fb.txt"
-        with open(file_name, "w") as text_file:
-            n = text_file.write(js)
-        with open(file_name) as f:
-            contents = load(f)
-            if 'hd' in contents:
-                durl = str(contents['hd']).replace('&amp;', '&')
-            else:
-                durl = str(contents['sd']).replace('&amp;', '&')
+        contents = json.loads(js)
+        if 'hd' in contents:
+            durl = str(contents['hd']).replace('&amp;', '&')
+        else:
+            durl = str(contents['sd']).replace('&amp;', '&')
         return True, durl
     except Exception as e:
         print(f"Error: {e}")
         return False, e
-    finally:
-        os.remove(file_name)
 
 async def _solidfiles(url):
     cget = create_scraper().request
