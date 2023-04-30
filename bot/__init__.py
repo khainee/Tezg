@@ -2,6 +2,8 @@ import os
 from logging import getLogger, FileHandler, StreamHandler, INFO, basicConfig
 from pyrogram import Client
 from time import time
+import logging
+logging.basicConfig(level=logging.INFO)
 
 basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
             handlers=[FileHandler('log.txt'), StreamHandler()],
