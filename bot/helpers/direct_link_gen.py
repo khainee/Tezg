@@ -29,7 +29,7 @@ async def _fb(url):
         with open(file_name, "w") as text_file:
             n = text_file.write(js)
         with open(file_name) as f:
-            contents = json.load(f)
+            contents = load(f)
             if 'hd' in contents:
                 durl = str(contents['hd']).replace('&amp;', '&')
             else:
