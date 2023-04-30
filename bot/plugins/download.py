@@ -18,7 +18,6 @@ async def _download(client, message):
             url = message.command[1]
         else:
             url = message.text
-            domain = urlparse(url).hostname
         if 'drive.google.com' in url:
             await _gd(client, message, user_id, sent_message, url)
         else:
