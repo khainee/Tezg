@@ -40,4 +40,4 @@ except KeyError:
   exit(1)
 
 LOGGER.info("Initializing Pyrogram Client")
-bot = Client('bot', APP_ID, API_HASH, BOT_TOKEN).start()
+bot = Client('bot', APP_ID, API_HASH, bot_token=BOT_TOKEN).start()
