@@ -1,5 +1,5 @@
 from cloudscraper import create_scraper
-from re import search
+from re import search, findall
 from json import loads
 
 
@@ -34,7 +34,15 @@ async def _solidfiles(url):
         return False, e
 
 async def _mediafire(url):
-    print(url)
+    cget = create_scraper().request
+    try:
+        url = cget('get', url).url
+        page = cget('get', url).text
+    except Exception as e:
+        return False, e
+    if not (final_link := findall(r"\'(https?:\/\/download\d+\.mediafire\.com\/\S+\/\S+\/\S+)\'", page)):
+        return False, "ERROR: No links found in this page"
+    return final_link[0]
 
 async def _indexlink(url):
     print(url)
