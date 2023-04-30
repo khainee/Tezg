@@ -1,6 +1,7 @@
 import os
 from logging import getLogger, FileHandler, StreamHandler, INFO, basicConfig
 from pyrogram import Client
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from time import time
 import logging
 
@@ -41,3 +42,7 @@ except KeyError:
 
 LOGGER.info("Initializing Pyrogram Client")
 bot = Client('bot', APP_ID, API_HASH, bot_token=BOT_TOKEN).start()
+bot_loop = bot.loop
+bot_name = bot.me.username
+scheduler = AsyncIOScheduler(timezone=str(
+    get_localzone()), event_loop=bot_loop)
