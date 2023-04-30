@@ -1,5 +1,5 @@
 import os
-from logging import getLogger, FileHandler, StreamHandler, INFO, basicConfig, error as log_error, info as log_info, warning as log_warning
+from logging import getLogger, FileHandler, StreamHandler, INFO, basicConfig
 from pyrogram import Client
 from time import time
 
@@ -8,8 +8,6 @@ basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
             level=INFO)
 
 LOGGER = getLogger(__name__)
-
-logging.getLogger("pyrogram").setLevel(logging.INFO)
 
 botStartTime = time()
 
