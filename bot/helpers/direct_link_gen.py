@@ -45,7 +45,7 @@ async def _mediafire(url):
     return True, final_link[0]
 
 async def _indexlink(url):
-    print(url)
+    return True, url
 
 async def tera_box(url):
     print(url)
