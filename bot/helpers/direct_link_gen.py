@@ -1,7 +1,10 @@
 from cloudscraper import create_scraper
 from re import search, findall
 from json import loads
-
+import os
+import uuid
+from requests import post
+from bs4 import BeautifulSoup
 
 async def direct_link(url):
     if 'facebook' in url:
@@ -18,7 +21,25 @@ async def direct_link(url):
         return await one_drive(url)
 
 async def _fb(url):
-    print(url)
+    try:
+        r = post("https://yt1s.io/api/ajaxSearch/facebook", data={"q": url, "vt": "facebook"}).text
+        bs = BeautifulSoup(r, "html5lib")
+        js = str(bs).replace('<html><head></head><body>{"status":"ok","p":"facebook","links":', '').replace('</body></html>', '').replace('},', ',')
+        file_name = str(uuid.uuid4()) + "_fb.txt"
+        with open(file_name, "w") as text_file:
+            n = text_file.write(js)
+        with open(file_name) as f:
+            contents = json.load(f)
+            if 'hd' in contents:
+                durl = str(contents['hd']).replace('&amp;', '&')
+            else:
+                durl = str(contents['sd']).replace('&amp;', '&')
+        return True, durl
+    except Exception as e:
+        print(f"Error: {e}")
+        return False, e
+    finally:
+        os.remove(file_name)
 
 async def _solidfiles(url):
     cget = create_scraper().request
