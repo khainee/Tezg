@@ -9,16 +9,13 @@ async def direct_link(url):
         await _mediafire(url)
     elif 'workers.dev' in url:
         await _indexlink(url)
-    elif 'pornhub.com' in url:
-        await _pornhub(url)
-    elif 'youtu' in url:
-        await _youtu(url)
     elif any(x in url for x in ['terabox', 'nephobox', '4funbox', 'mirrobox', 'momerybox', 'teraboxapp']):
         await tera_box(url)
     elif '1drv.ms' in url:
         await one_drive(url)
 
-#async def _fb(url):
+async def _fb(url):
+    print(url)
 
 async def _solidfiles(url):
     cget = create_scraper().request
@@ -33,12 +30,14 @@ async def _solidfiles(url):
     except Exception as e:
         return False, e
 
-#async def _mediafire(url):
+async def _mediafire(url):
+    print(url)
 
-#async def _indexlink(url):
+async def _indexlink(url):
+    print(url)
 
-#async def _youtu(url):
+async def tera_box(url):
+    print(url)
 
-#async def tera_box(url):
-
-#async def one_drive(url):
+async def one_drive(url):
+    print(url)
