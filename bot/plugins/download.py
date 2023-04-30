@@ -202,7 +202,7 @@ async def _anonfiles(client, message, user_id, sent_message, url):
         await sent_message.edit('🕵️**Anonfiles link error...**')
 
 async def _mediafire(client, message, user_id, sent_message, url):
-#    try:
+    try:
       cget = create_scraper().request
       url = cget('get', url).url
       page = cget('get', url).text
@@ -222,9 +222,11 @@ async def _mediafire(client, message, user_id, sent_message, url):
               os.remove(file_path)
           else:
               await sent_message.edit(Messages.DOWNLOAD_ERROR.format(file_path, link))
-#    except Exception as e:
-#        await sent_message.edit(f'🕵️**Mediafire link error...\n{e}**')
-#        LOGGER.error(f'Error {e}')
+      else:
+          await sent_message.edit('Error')
+    except Exception as e:
+        await sent_message.edit(f'🕵️**Mediafire link error...\n{e}**')
+        LOGGER.error(f'Error {e}')
 
 
 async def _indexlink(client, message, user_id, sent_message, url):
