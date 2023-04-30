@@ -1,4 +1,5 @@
 from cloudscraper import create_scraper
+from re import search
 
 async def direct_link(url):
     if 'facebook' in url:
