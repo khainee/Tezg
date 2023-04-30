@@ -1,14 +1,14 @@
 import os
-import logging
+from logging import getLogger, FileHandler, StreamHandler, INFO, basicConfig, error as log_error, info as log_info, warning as log_warning
 from pyrogram import Client
 from time import time
 
-logging.basicConfig(
-    level=logging.INFO,
-    handlers=[logging.FileHandler('log.txt'), logging.StreamHandler()],
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
-LOGGER = logging.getLogger(__name__)
+basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+            handlers=[FileHandler('log.txt'), StreamHandler()],
+            level=INFO)
+
+LOGGER = getLogger(__name__)
+
 logging.getLogger("pyrogram").setLevel(logging.INFO)
 
 botStartTime = time()
