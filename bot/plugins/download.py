@@ -83,7 +83,7 @@ async def _gd(client, message, user_id, sent_message, url):
 async def _dl(client, message, user_id, sent_message, url):
     try:
       r, dl_url = await direct_link(url)
-      if r:
+      if r == True:
         link = dl_url.strip()
         dl_path = DOWNLOAD_DIRECTORY
         gid = uuid.uuid4().hex[:16]
