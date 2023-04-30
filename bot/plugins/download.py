@@ -80,4 +80,4 @@ async def _gd(client, message, user_id, sent_message, url):
     await sent_message.edit(msg)
 
 async def _dl(client, message, user_id, sent_message, url):
-    print ('a')
+    print('a')
