@@ -1,5 +1,5 @@
 import os
-from tzlocal import get_localzone
+from pytz import timezone
 from logging import getLogger, FileHandler, StreamHandler, INFO, basicConfig
 from pyrogram import Client
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
@@ -45,5 +45,4 @@ LOGGER.info("Initializing Pyrogram Client")
 bot = Client('bot', APP_ID, API_HASH, bot_token=BOT_TOKEN).start()
 bot_loop = bot.loop
 bot_name = bot.me.username
-scheduler = AsyncIOScheduler(timezone=str(
-    get_localzone()), event_loop=bot_loop)
+scheduler = AsyncIOScheduler(timezone=timezone('Asia/Rangoon'), event_loop=bot_loop)
