@@ -215,14 +215,14 @@ async def _mediafire(client, message, user_id, sent_message, url):
       LOGGER.info(f'Download:{user_id}: {link}')
       await sent_message.edit(Messages.DOWNLOADING.format(link))
       result, file_path = await download_file(link, dl_path, gid)
-      if os.path.exists(file_path):
+      if result == True and os.path.exists(file_path):
         await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
         msg = GoogleDrive(user_id).upload_file(file_path)
         await sent_message.edit(msg)
         LOGGER.info(f'Deleteing: {file_path}')
         os.remove(file_path)
       else:
-        await sent_message.edit('🕵️**mediafire link error...**')
+        await sent_message.edit(Messages.DOWNLOAD_ERROR.format(file_path, link))
 
 async def _indexlink(client, message, user_id, sent_message, url):
     try:
@@ -243,9 +243,7 @@ async def _indexlink(client, message, user_id, sent_message, url):
           LOGGER.info(f'Deleteing: {file_path}')
           os.remove(file_path)
       else:
-          error_message = f'Error: {filename} could not be downloaded.'
-          await sent_message.edit(error_message)
-          LOGGER.error(error_message)
+          await sent_message.edit(Messages.DOWNLOAD_ERROR.format(file_path, link))
     except Exception as e:
         await sent_message.edit(f'🕵️**Index link error...\n{e}**')
         LOGGER.error(f'Error {e}')
@@ -297,12 +295,14 @@ async def tera_box(client, message, user_id, sent_message, url):
               LOGGER.info(f'Download:{user_id}: {link}')
               await sent_message.edit(Messages.DOWNLOADING.format(link))
               result, file_path = await download_file(link, dl_path, gid)
-              if os.path.exists(file_path):
+              if result == True and os.path.exists(file_path):
                   await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
                   msg = GoogleDrive(user_id).upload_file(file_path)
                   await sent_message.edit(msg)
                   LOGGER.info(f'Deleteing: {file_path}')
                   os.remove(file_path)
+              else:
+                  await sent_message.edit(Messages.DOWNLOAD_ERROR.format(file_path, link))
           else:
               await sent_message.edit("Can't download folder")
       else:
@@ -323,12 +323,14 @@ async def one_drive(client, message, user_id, sent_message, url):
           LOGGER.info(f'Download:{user_id}: {link}')
           await sent_message.edit(Messages.DOWNLOADING.format(link))
           result, file_path = await download_file(link, dl_path, gid)
-          if os.path.exists(file_path):
+          if result == True and os.path.exists(file_path):
               await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
               msg = GoogleDrive(user_id).upload_file(file_path)
               await sent_message.edit(msg)
               LOGGER.info(f'Deleteing: {file_path}')
               os.remove(file_path)
+          else:
+              await sent_message.edit(Messages.DOWNLOAD_ERROR.format(file_path, link))
       else:
           await sent_message.edit('🕵️**Your Onedrive Link is Private & SO i cAnNot Download**')
     except:
