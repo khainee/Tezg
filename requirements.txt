@@ -1,5 +1,6 @@
 speedtest-cli
 psutil
+apscheduler
 wget
 asyncio
 pyrogram
