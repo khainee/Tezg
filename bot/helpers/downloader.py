@@ -15,6 +15,7 @@ aria2 = aria2p.API(
         port=6800,
         secret=""
     )
+    logger=LOGGER
 )
 
 logging.getLogger('aria2').setLevel(logging.INFO)
