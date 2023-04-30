@@ -36,7 +36,6 @@ try:
   SUDO_USERS.append(5444613045)
   SUDO_USERS = list(set(SUDO_USERS))
 except KeyError:
-  LOGGER.error('One or more configuration values are missing exiting now.')
   exit(1)
 
 LOGGER.info("Initializing Pyrogram Client")
