@@ -81,7 +81,7 @@ async def _gd(client, message, user_id, sent_message, url):
     await sent_message.edit(msg)
 
 async def _dl(client, message, user_id, sent_message, url):
-    try:
+#    try:
       r, dl_url = await direct_link(url)
       if r:
         link = dl_url.strip()
@@ -96,5 +96,5 @@ async def _dl(client, message, user_id, sent_message, url):
           await sent_message.edit(msg)
           LOGGER.info(f'Deleteing: {file_path}')
           os.remove(file_path)
-    except Exception as e:
-        await sent_message.edit(f'🕵️**Link error...\n{e}**')
+#    except Exception as e:
+#        await sent_message.edit(f'🕵️**Link error...\n{e}**')
