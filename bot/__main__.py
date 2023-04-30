@@ -16,5 +16,5 @@ if __name__ == "__main__":
         LOGGER.info(f'Creating {DOWNLOAD_DIRECTORY}')
 
 LOGGER.info('Starting Bot !')
-bot.run()
+bot.loop.run_forever()
 LOGGER.info('Bot Stopped !')
