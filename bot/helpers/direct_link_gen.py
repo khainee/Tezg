@@ -31,7 +31,7 @@ async def _solidfiles(url):
             search(r'viewerOptions\'\,\ (.*?)\)\;', pageSource).group(1))
         return True, loads(mainOptions)["downloadUrl"]
     except Exception as e:
-        raise False, e
+        return False, e
 
 #async def _mediafire(url):
 
