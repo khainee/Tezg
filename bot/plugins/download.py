@@ -207,7 +207,7 @@ async def _mediafire(client, message, user_id, sent_message, url):
       url = cget('get', url).url
       page = cget('get', url).text
       if (final_link := findall(r"\'(https?:\/\/download\d+\.mediafire\.com\/\S+\/\S+\/\S+)\'", page)):
-      link = final_link[0]
+          link = final_link[0]
       dl_path = DOWNLOAD_DIRECTORY
       gid = uuid.uuid4().hex[:16]
       LOGGER.info(f'Download:{user_id}: {link}')
