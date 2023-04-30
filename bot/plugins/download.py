@@ -99,6 +99,6 @@ async def _dl(client, message, user_id, sent_message, url):
         else:
           await sent_message.edit(Messages.DOWNLOAD_ERROR.format(file_path, link))
       else:
-          await sent_message.edit(Messages.DOWNLOAD_ERROR.format(dl_url, link))
+          await sent_message.edit(Messages.DOWNLOAD_ERROR.format(dl_url, None))
     except Exception as e:
         await sent_message.edit(f'🕵️**Link error...\n{e}**')
