@@ -32,25 +32,25 @@ async def _download(client, message):
         else:
             url = message.text
         if 'drive.google.com' in url:
-            return await _gd(client, message, user_id, sent_message, url)
+            await _gd(client, message, user_id, sent_message, url)
         elif 'facebook' in url:
-            return await _fb(client, message, user_id, sent_message, url)
+            await _fb(client, message, user_id, sent_message, url)
         elif 'solidfiles' in url:
-            return await _solidfiles(client, message, user_id, sent_message, url)
+            await _solidfiles(client, message, user_id, sent_message, url)
         elif 'anonfiles' in url:
-            return await _anonfiles(client, message, user_id, sent_message, url)
+            await _anonfiles(client, message, user_id, sent_message, url)
         elif 'mediafire.com' in url:
-            return await _mediafire(client, message, user_id, sent_message, url)
+            await _mediafire(client, message, user_id, sent_message, url)
         elif 'workers.dev' in url:
-            return await _indexlink(client, message, user_id, sent_message, url)
+            await _indexlink(client, message, user_id, sent_message, url)
         elif 'pornhub.com' in url:
-            return await _pornhub(client, message, user_id, sent_message, url)
+            await _pornhub(client, message, user_id, sent_message, url)
         elif 'youtu' in url:
-            return await _youtu(client, message, user_id, sent_message, url)
+            await _youtu(client, message, user_id, sent_message, url)
         elif any(x in url for x in ['terabox', 'nephobox', '4funbox', 'mirrobox', 'momerybox', 'teraboxapp']):
-            return await tera_box(client, message, user_id, sent_message, url)
+            await tera_box(client, message, user_id, sent_message, url)
         elif '1drv.ms' in url:
-            return await one_drive(client, message, user_id, sent_message, url)
+            await one_drive(client, message, user_id, sent_message, url)
         else:
             await sent_message.edit('Link Not supported')
 
