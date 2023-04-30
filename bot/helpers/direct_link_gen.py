@@ -1,6 +1,6 @@
 from cloudscraper import create_scraper
 from re import search, findall
-from json import loads
+from json import loads, load
 import os
 import uuid
 from requests import post
