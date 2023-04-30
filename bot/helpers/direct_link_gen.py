@@ -42,7 +42,7 @@ async def _mediafire(url):
         return False, e
     if not (final_link := findall(r"\'(https?:\/\/download\d+\.mediafire\.com\/\S+\/\S+\/\S+)\'", page)):
         return False, "ERROR: No links found in this page"
-    return final_link[0]
+    return True, final_link[0]
 
 async def _indexlink(url):
     print(url)
