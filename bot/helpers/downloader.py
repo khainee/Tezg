@@ -44,7 +44,7 @@ async def download_file(url, dl_path, gid):
             await asyncio.sleep(5) # wait for 1 second and check status again
     except aria2p.client.ClientException as error:
         return False, error
-    except Exception as e:
+    except Exception as error:
         return False, error
 
 def download_fb(url, dl_path):
