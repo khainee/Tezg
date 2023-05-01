@@ -5,6 +5,8 @@ import os
 import uuid
 from requests import post
 from bs4 import BeautifulSoup
+from uuid import uuid4
+from urllib.parse import parse_qs, urlparse
 
 async def direct_link(url):
     if 'facebook' in url:
@@ -68,4 +70,30 @@ async def tera_box(url):
     print(url)
 
 async def one_drive(url):
-    print(url)
+    try:
+        link = cget('get', link).url
+        parsed_link = urlparse(link)
+        link_data = parse_qs(parsed_link.query)
+    except Exception as e:
+        return False, e
+    if not link_data:
+        return False, "ERROR: Unable to find link_data"
+    folder_id = link_data.get('resid')
+    if not folder_id:
+        return False, 'ERROR: folder id not found'
+    folder_id = folder_id[0]
+    authkey = link_data.get('authkey')
+    if not authkey:
+        return False, 'ERROR: authkey not found'
+    authkey = authkey[0]
+    boundary = uuid4()
+    headers = {'content-type': f'multipart/form-data;boundary={boundary}'}
+    data = f'--{boundary}\r\nContent-Disposition: form-data;name=data\r\nPrefer: Migration=EnableRedirect;FailOnMigratedFiles\r\nX-HTTP-Method-Override: GET\r\nContent-Type: application/json\r\n\r\n--{boundary}--'
+    try:
+        resp = cget(
+            'get', f'https://api.onedrive.com/v1.0/drives/{folder_id.split("!", 1)[0]}/items/{folder_id}?$select=id,@content.downloadUrl&ump=1&authKey={authkey}', headers=headers, data=data).json()
+    except Exception as e:
+        return False, e
+    if "@content.downloadUrl" not in resp:
+        return False, 'ERROR: Direct link not found'
+    return True, resp['@content.downloadUrl']
