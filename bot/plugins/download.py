@@ -21,7 +21,7 @@ async def _download(client, message):
             url = message.text
         if 'drive.google.com' in url:
             await _gd(client, message, user_id, sent_message, url)
-        if is_share_link(url)
+        if is_share_link(url):
             await _share_link()
         else:
             await _dl(client, message, user_id, sent_message, url)
