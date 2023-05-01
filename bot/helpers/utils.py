@@ -58,4 +58,4 @@ def get_readable_time(seconds):
     return result
 
 def is_share_link(url):
-    return bool(re.re_match(r'https?:\/\/.+\.gdtot\.\S+|https?:\/\/(filepress|filebee|appdrive|gdflix)\.\S+', url))
+    return bool(re.match(r'https?:\/\/.+\.gdtot\.\S+|https?:\/\/(filepress|filebee|appdrive|gdflix)\.\S+', url))
