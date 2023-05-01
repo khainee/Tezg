@@ -24,11 +24,11 @@ async def direct_link(url):
         return await one_drive(url)
     elif is_share_link(url):
         if 'gdtot' in url:
-            await return gdtot(url)
+            return await gdtot(url)
         elif 'filepress' in url:
-            await return filepress(url)
+            return await filepress(url)
         else:
-            await return sharer_scraper(url)
+            return await sharer_scraper(url)
     else:
         return False, 'No Downloader for the link'
 
