@@ -70,6 +70,7 @@ async def tera_box(url):
     print(url)
 
 async def one_drive(url):
+    cget = create_scraper().request
     try:
         link = cget('get', link).url
         parsed_link = urlparse(link)
