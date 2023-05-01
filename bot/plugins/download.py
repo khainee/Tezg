@@ -109,7 +109,7 @@ async def _share_link(client, message, user_id, sent_message, url):
 #    try:
       LOGGER.info(f'Share link Copy:{user_id}: {url}')
       result, dl_url = await direct_link(url)
-      if result == True:
-        return await _gd(client, message, user_id, sent_message, url)
+      if result == True and 'drive.google.com' in dl_url:
+        return await _gd(client, message, user_id, sent_message, dl_url)
 #    except Exception as e:
 #        await sent_message.edit(f'🕵️**Link error...\n{e}**')
