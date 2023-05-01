@@ -112,4 +112,4 @@ async def _share_link(client, message, user_id, sent_message, url):
       if r == True and 'drive.google.com' in dl_url:
         return await _gd(client, message, user_id, sent_message, url)
 #    except Exception as e:
-        await sent_message.edit(f'🕵️**Link error...\n{e}**')
+#        await sent_message.edit(f'🕵️**Link error...\n{e}**')
