@@ -20,11 +20,11 @@ async def _download(client, message):
         else:
             url = message.text
         if 'drive.google.com' in url:
-            await _gd(client, message, user_id, sent_message, url)
+            return await _gd(client, message, user_id, sent_message, url)
         if is_share_link(url):
-            await _share_link(client, message, user_id, sent_message, url)
+            return await _share_link(client, message, user_id, sent_message, url)
         else:
-            await _dl(client, message, user_id, sent_message, url)
+            return await _dl(client, message, user_id, sent_message, url)
 
 @bot.on_message(filters.private & filters.incoming & (filters.document | filters.audio | filters.video | filters.photo) & CustomFilters.auth_users)
 async def _telegram_file(client, message):
