@@ -6,7 +6,7 @@ name: Python application
 on:
   workflow_dispatch:
   push:
-    branches: [ "test-a" ]
+    branches: [ "b" ]
 
 jobs:
   build:
