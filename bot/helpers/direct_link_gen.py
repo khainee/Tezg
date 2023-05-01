@@ -21,6 +21,13 @@ async def direct_link(url):
         return await tera_box(url)
     elif '1drv.ms' in url:
         return await one_drive(url)
+    elif is_share_link(link):
+        if 'gdtot' in domain:
+            return gdtot(link)
+        elif 'filepress' in domain:
+            return filepress(link)
+        else:
+            return sharer_scraper(link)
     else:
         return False, 'No Downloader for the link'
 
@@ -98,3 +105,37 @@ async def one_drive(link):
     if "@content.downloadUrl" not in resp:
         return False, 'ERROR: Direct link not found'
     return True, resp['@content.downloadUrl']
+
+
+def gdtot(url):
+    cget = create_scraper().request
+    try:
+        res = cget('GET', f'https://gdbot.xyz/file/{url.split("/")[-1]}')
+    except Exception as e:
+        return False, e
+    token_url = etree.HTML(res.content).xpath(
+        "//a[contains(@class,'inline-flex items-center justify-center')]/@href")
+    if not token_url:
+        try:
+            url = cget('GET', url).url
+            p_url = urlparse(url)
+            res = cget(
+                "GET", f"{p_url.scheme}://{p_url.hostname}/ddl/{url.split('/')[-1]}")
+        except Exception as e:
+            return False, e
+        if (drive_link := findall(r"myDl\('(.*?)'\)", res.text)) and "drive.google.com" in drive_link[0]:
+            return drive_link[0]
+        else:
+            return False, 'ERROR: Drive Link not found, Try in your broswer'
+    token_url = token_url[0]
+    try:
+        token_page = cget('GET', token_url)
+    except Exception as e:
+        return False, e
+    path = findall('\("(.*?)"\)', token_page.text)
+    if not path:
+        return False, 'ERROR: Cannot bypass this'
+    path = path[0]
+    raw = urlparse(token_url)
+    final_url = f'{raw.scheme}://{raw.hostname}{path}'
+    return sharer_scraper(final_url)
