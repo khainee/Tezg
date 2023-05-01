@@ -21,11 +21,11 @@ async def direct_link(url):
         return await tera_box(url)
     elif '1drv.ms' in url:
         return await one_drive(url)
-    elif is_share_link(link):
-        if 'gdtot' in domain:
-            return gdtot(link)
-        elif 'filepress' in domain:
-            return filepress(link)
+    elif is_share_link(url):
+        if 'gdtot' in url:
+            return gdtot(url)
+        elif 'filepress' in url:
+            return filepress(url)
         else:
             return sharer_scraper(link)
     else:
