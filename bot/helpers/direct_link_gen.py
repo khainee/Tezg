@@ -7,6 +7,8 @@ from requests import post
 from bs4 import BeautifulSoup
 from uuid import uuid4
 from urllib.parse import parse_qs, urlparse
+from lxml import etree
+from bot.helpers.utils import is_share_link
 
 async def direct_link(url):
     if 'facebook' in url:
@@ -27,7 +29,7 @@ async def direct_link(url):
         elif 'filepress' in url:
             return filepress(url)
         else:
-            return sharer_scraper(link)
+            return sharer_scraper(url)
     else:
         return False, 'No Downloader for the link'
 
