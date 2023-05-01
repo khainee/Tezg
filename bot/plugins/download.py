@@ -8,7 +8,7 @@ from bot.helpers.gdrive_utils import GoogleDrive
 from bot import DOWNLOAD_DIRECTORY, LOGGER, bot
 from bot.config import Messages, BotCommands
 from pyrogram.errors import FloodWait, RPCError
-import uuid
+from uuid import uuid4
 
 @bot.on_message(filters.private & filters.incoming & filters.text & (filters.command(BotCommands.Download) | filters.regex('^(ht|f)tp*')) & CustomFilters.auth_users)
 async def _download(client, message):
@@ -86,7 +86,7 @@ async def _dl(client, message, user_id, sent_message, url):
       if r == True:
         link = dl_url.strip()
         dl_path = DOWNLOAD_DIRECTORY
-        gid = uuid.uuid4().hex[:16]
+        gid = uuid4().hex[:16]
         LOGGER.info(f'Download:{user_id}: {link}')
         await sent_message.edit(Messages.DOWNLOADING.format(link))
         result, file_path = await download_file(link, dl_path, gid)
