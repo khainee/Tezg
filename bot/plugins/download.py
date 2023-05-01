@@ -41,7 +41,7 @@ async def _telegram_file(client, message):
     file = message.photo
     file.mime_type = "images/png"
     file.file_name = f"IMG-{user_id}-{message.id}.png"
-  await sent_message.edit(f"{Messages.DOWNLOAD_TG_FILE.format(file.file_name, humanbytes(file.file_size), file.mime_type)}\n\nMessage ID: {message.message_id}")
+  await sent_message.edit(f"{Messages.DOWNLOAD_TG_FILE.format(file.file_name, humanbytes(file.file_size), file.mime_type)}\n\nMessage ID: {message.id}")
   LOGGER.info(f'Download:{user_id}: {file.file_id}')
   try:
     file_path = await message.download(file_name=DOWNLOAD_DIRECTORY, progress=progress_callback(sent_message))
