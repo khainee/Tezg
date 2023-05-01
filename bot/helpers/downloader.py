@@ -1,4 +1,5 @@
 import os
+import aria2p
 import asyncio
 import glob
 import yt_dlp
