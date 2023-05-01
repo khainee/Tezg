@@ -104,3 +104,6 @@ async def _dl(client, message, user_id, sent_message, url):
           await sent_message.edit(Messages.DOWNLOAD_ERROR.format(dl_url, None))
     except Exception as e:
         await sent_message.edit(f'🕵️**Link error...\n{e}**')
+
+async def _share_link():
+    print(url)
