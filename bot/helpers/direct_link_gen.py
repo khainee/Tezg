@@ -139,7 +139,7 @@ async def gdtot(url):
     path = path[0]
     raw = urlparse(token_url)
     final_url = f'{raw.scheme}://{raw.hostname}{path}'
-    return True, sharer_scraper(final_url)
+    return await sharer_scraper(final_url)
 
 async def sharer_scraper(url):
     cget = create_scraper().request
