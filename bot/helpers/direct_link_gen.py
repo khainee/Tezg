@@ -1,8 +1,6 @@
 from cloudscraper import create_scraper
 from re import search, findall
 from json import loads
-import os
-import uuid
 from requests import post
 from bs4 import BeautifulSoup
 from uuid import uuid4
@@ -186,3 +184,21 @@ def sharer_scraper(url):
         return True, drive_link[0]
     else:
         return False, 'ERROR: Drive Link not found, Try in your broswer'
+
+def filepress(url):
+    cget = create_scraper().request
+    try:
+        url = cget('GET', url).url
+        raw = urlparse(url)
+        json_data = {
+            'id': raw.path.split('/')[-1],
+            'method': 'publicDownlaod',
+        }
+        api = f'{raw.scheme}://{raw.hostname}/api/file/downlaod/'
+        res = cget('POST', api, headers={
+                   'Referer': f'{raw.scheme}://{raw.hostname}'}, json=json_data).json()
+    except Exception as e:
+        return False, e 
+    if 'data' not in res:
+        return False, f'ERROR: {res["statusText"]}'
+    return True, f'https://drive.google.com/uc?id={res["data"]}&export=download'
