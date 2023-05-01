@@ -24,11 +24,11 @@ async def direct_link(url):
         return await one_drive(url)
     elif is_share_link(url):
         if 'gdtot' in url:
-            return gdtot(url)
+            await return gdtot(url)
         elif 'filepress' in url:
-            return filepress(url)
+            await return filepress(url)
         else:
-            return sharer_scraper(url)
+            await return sharer_scraper(url)
     else:
         return False, 'No Downloader for the link'
 
@@ -108,7 +108,7 @@ async def one_drive(link):
     return True, resp['@content.downloadUrl']
 
 
-def gdtot(url):
+async def gdtot(url):
     cget = create_scraper().request
     try:
         res = cget('GET', f'https://gdbot.xyz/file/{url.split("/")[-1]}')
@@ -141,7 +141,7 @@ def gdtot(url):
     final_url = f'{raw.scheme}://{raw.hostname}{path}'
     return True, sharer_scraper(final_url)
 
-def sharer_scraper(url):
+async def sharer_scraper(url):
     cget = create_scraper().request
     try:
         url = cget('GET', url).url
@@ -186,7 +186,7 @@ def sharer_scraper(url):
     else:
         return False, 'ERROR: Drive Link not found, Try in your broswer'
 
-def filepress(url):
+async def filepress(url):
     cget = create_scraper().request
     try:
         url = cget('GET', url).url
