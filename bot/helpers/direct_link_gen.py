@@ -138,4 +138,49 @@ def gdtot(url):
     path = path[0]
     raw = urlparse(token_url)
     final_url = f'{raw.scheme}://{raw.hostname}{path}'
-    return sharer_scraper(final_url)
+    return True, sharer_scraper(final_url)
+
+def sharer_scraper(url):
+    cget = create_scraper().request
+    try:
+        url = cget('GET', url).url
+        raw = urlparse(url)
+        header = {
+            "useragent": "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/534.10 (KHTML, like Gecko) Chrome/7.0.548.0 Safari/534.10"}
+        res = cget('GET', url, headers=header)
+    except Exception as e:
+        return False, e 
+    key = findall('"key",\s+"(.*?)"', res.text)
+    if not key:
+        return False, "ERROR: Key not found!"
+    key = key[0]
+    if not etree.HTML(res.content).xpath("//button[@id='drc']"):
+        return False, "ERROR: This link don't have direct download button"
+    boundary = uuid4()
+    headers = {
+        'Content-Type': f'multipart/form-data; boundary=----WebKitFormBoundary{boundary}',
+        'x-token': raw.hostname,
+        'useragent': 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/534.10 (KHTML, like Gecko) Chrome/7.0.548.0 Safari/534.10'
+    }
+
+    data = f'------WebKitFormBoundary{boundary}\r\nContent-Disposition: form-data; name="action"\r\n\r\ndirect\r\n' \
+        f'------WebKitFormBoundary{boundary}\r\nContent-Disposition: form-data; name="key"\r\n\r\n{key}\r\n' \
+        f'------WebKitFormBoundary{boundary}\r\nContent-Disposition: form-data; name="action_token"\r\n\r\n\r\n' \
+        f'------WebKitFormBoundary{boundary}--\r\n'
+    try:
+        res = cget("POST", url, cookies=res.cookies,
+                   headers=headers, data=data).json()
+    except Exception as e:
+        return False, e
+    if "url" not in res:
+        return False, 'ERROR: Drive Link not found, Try in your broswer')
+    if "drive.google.com" in res["url"]:
+        return True, res["url"]
+    try:
+        res = cget('GET', res["url"])
+    except Exception as e:
+        return False, e
+    if (drive_link := etree.HTML(res.content).xpath("//a[contains(@class,'btn')]/@href")) and "drive.google.com" in drive_link[0]:
+        return True, drive_link[0]
+    else:
+        return False, 'ERROR: Drive Link not found, Try in your broswer')
