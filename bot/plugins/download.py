@@ -2,7 +2,7 @@ import os
 from pyrogram import Client, filters
 from bot.helpers.sql_helper import gDriveDB, idsDB
 from bot.helpers.utils import CustomFilters, humanbytes, is_share_link
-from bot.helpers.downloader import download_file, utube_dl, download_fb
+from bot.helpers.downloader import download_file, utube_dl
 from bot.helpers.direct_link_gen import direct_link
 from bot.helpers.gdrive_utils import GoogleDrive
 from bot import DOWNLOAD_DIRECTORY, LOGGER, bot
