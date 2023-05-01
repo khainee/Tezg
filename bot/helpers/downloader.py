@@ -1,5 +1,4 @@
 import os
-import wget
 import glob
 import yt_dlp
 from urllib.error import HTTPError
@@ -44,14 +43,6 @@ async def download_file(url, dl_path, gid):
         return False, error
     except Exception as error:
         return False, error
-
-def download_fb(url, dl_path):
-  try:
-    filename = wget.download(url, dl_path)
-    return True, os.path.join(f"{DOWNLOAD_DIRECTORY}/{filename}")
-  except HTTPError as error:
-    return False, error
-
 
 def utube_dl(link):
   ytdl_opts = {
