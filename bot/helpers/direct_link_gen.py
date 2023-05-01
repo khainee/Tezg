@@ -173,7 +173,7 @@ def sharer_scraper(url):
     except Exception as e:
         return False, e
     if "url" not in res:
-        return False, 'ERROR: Drive Link not found, Try in your broswer')
+        return False, 'ERROR: Drive Link not found, Try in your broswer'
     if "drive.google.com" in res["url"]:
         return True, res["url"]
     try:
@@ -183,4 +183,4 @@ def sharer_scraper(url):
     if (drive_link := etree.HTML(res.content).xpath("//a[contains(@class,'btn')]/@href")) and "drive.google.com" in drive_link[0]:
         return True, drive_link[0]
     else:
-        return False, 'ERROR: Drive Link not found, Try in your broswer')
+        return False, 'ERROR: Drive Link not found, Try in your broswer'
