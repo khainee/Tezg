@@ -55,7 +55,7 @@ async def _telegram_file(client, message):
   LOGGER.info(f'Deleteing: {file_path}')
   os.remove(file_path)
   
-async def progress_callback(current, total):
+async def progress_callback(current, total, sent_message):
   percent = math.floor(current * 100 / total)
   await sent_message.edit(f"Uploading... {percent}%")
 
