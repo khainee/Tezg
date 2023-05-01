@@ -1,7 +1,7 @@
 import os
 from pyrogram import Client, filters
 from bot.helpers.sql_helper import gDriveDB, idsDB
-from bot.helpers.utils import CustomFilters, humanbytes
+from bot.helpers.utils import CustomFilters, humanbytes, is_share_link
 from bot.helpers.downloader import download_file, utube_dl, download_fb
 from bot.helpers.direct_link_gen import direct_link
 from bot.helpers.gdrive_utils import GoogleDrive
@@ -21,6 +21,8 @@ async def _download(client, message):
             url = message.text
         if 'drive.google.com' in url:
             await _gd(client, message, user_id, sent_message, url)
+        if is_share_link(url)
+            await _share_link()
         else:
             await _dl(client, message, user_id, sent_message, url)
 
