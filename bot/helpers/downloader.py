@@ -1,22 +1,10 @@
 import os
+import asyncio
 import glob
 import yt_dlp
-from urllib.error import HTTPError
 from yt_dlp import DownloadError
 from bot import DOWNLOAD_DIRECTORY, LOGGER
-import aria2p
-import asyncio
-import logging
-
-aria2 = aria2p.API(
-    aria2p.Client(
-        host="http://localhost",
-        port=6800,
-        secret=""
-    )
-)
-
-logging.getLogger('aria2').setLevel(logging.INFO)
+from bot.helpers.utils import aria2
 
 async def download_file(url, dl_path, gid):
     try:
