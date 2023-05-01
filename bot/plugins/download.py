@@ -1,4 +1,5 @@
 import os
+import math
 from pyrogram import Client, filters
 from bot.helpers.sql_helper import gDriveDB, idsDB
 from bot.helpers.utils import CustomFilters, humanbytes, is_share_link
@@ -37,22 +38,26 @@ async def _telegram_file(client, message):
   elif message.audio:
     file = message.audio
   elif message.photo:
-  	file = message.photo
-  	file.mime_type = "images/png"
-  	file.file_name = f"IMG-{user_id}-{message.id}.png"
+    file = message.photo
+    file.mime_type = "images/png"
+    file.file_name = f"IMG-{user_id}-{message.id}.png"
   await sent_message.edit(Messages.DOWNLOAD_TG_FILE.format(file.file_name, humanbytes(file.file_size), file.mime_type))
   LOGGER.info(f'Download:{user_id}: {file.file_id}')
   try:
-    file_path = await message.download(file_name=DOWNLOAD_DIRECTORY)
+    file_path = await message.download(file_name=DOWNLOAD_DIRECTORY, progress=progress_callback)
     file_name = os.path.basename(file_path)
     file_size = humanbytes(os.path.getsize(file_path))
     await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(file_name, file_size))
-    msg = GoogleDrive(user_id).upload_file(file_path, file.mime_type)
+    msg = GoogleDrive(user_id).upload_file(file_path, file.mime_type, progress_callback=progress_callback)
     await sent_message.edit(msg)
   except RPCError:
     await sent_message.edit(Messages.WENT_WRONG)
   LOGGER.info(f'Deleteing: {file_path}')
   os.remove(file_path)
+  
+async def progress_callback(current, total):
+  percent = math.floor(current * 100 / total)
+  await sent_message.edit(f"Uploading... {percent}%")
 
 @bot.on_message(filters.incoming & filters.private & filters.command(BotCommands.YtDl) & CustomFilters.auth_users)
 async def _ytdl(client, message):
