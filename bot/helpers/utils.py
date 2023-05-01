@@ -1,6 +1,7 @@
 import re
 from pyrogram import filters
 from bot.helpers.sql_helper import gDriveDB
+import aria2p
 
 SIZE_UNITS = ['B', 'KB', 'MB', 'GB', 'TB', 'PB']
 
@@ -59,3 +60,5 @@ def get_readable_time(seconds):
 
 def is_share_link(url):
     return bool(re.match(r'https?:\/\/.+\.gdtot\.\S+|https?:\/\/(filepress|filebee|appdrive|gdflix)\.\S+', url))
+
+aria2 = aria2p.API(aria2p.Client(host="http://localhost", port=6800, secret=""))
