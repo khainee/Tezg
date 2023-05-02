@@ -58,7 +58,7 @@ async def progress(current, total, sent_message, file):
     progress_bar = f"File name: {file.file_name}\n"
     progress_bar+= f"File Type: {file.mime_type}\n"
     progress_bar+= f"File size: {humanbytes(file.file_size)}\n"
-    progress_bar+= f"{current * 100 / total:.1f}%\n"
+    progress_bar+= f"Progress: {current * 100 / total:.1f}%\n"
     await sent_message.edit(progress_bar)
 
 @bot.on_message(filters.incoming & filters.private & filters.command(BotCommands.YtDl) & CustomFilters.auth_users)
