@@ -1,4 +1,5 @@
 from cloudscraper import create_scraper
+from http.cookiejar import MozillaCookieJar
 from os import path
 from re import search, findall
 from json import loads
