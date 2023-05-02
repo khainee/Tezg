@@ -138,7 +138,7 @@ class GoogleDrive:
 
   @retry(wait=wait_exponential(multiplier=2, min=3, max=6), stop=stop_after_attempt(5),
     retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
-  def upload_file(self, file_path, sent_message, mimeType=None):
+  async def upload_file(self, file_path, sent_message, mimeType=None):
       mime_type = mimeType if mimeType else guess_type(file_path)[0]
       mime_type = mime_type if mime_type else "text/plain"
       media_body = MediaFileUpload(
@@ -167,7 +167,7 @@ class GoogleDrive:
               progress_bar += f"File name: {filename}\n"
               progress_bar += f"File size: {filesize}\n"
               progress_bar += f"Progress: {progress}%\n"
-              sent_message.edit(progress_bar)
+              await sent_message.edit(progress_bar)
       file_id = uploaded_file.get('id')
       return Messages.UPLOADED_SUCCESSFULLY.format(filename, self.__G_DRIVE_BASE_DOWNLOAD_URL.format(file_id), filesize)
       #except HttpError as err:
