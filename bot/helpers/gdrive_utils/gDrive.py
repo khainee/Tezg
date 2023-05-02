@@ -157,7 +157,19 @@ class GoogleDrive:
       body["parents"] = [self.__parent_id]
       LOGGER.info(f'Upload: {file_path}')
       try:
-        uploaded_file = self.__service.files().create(body=body, media_body=media_body, fields='id', supportsTeamDrives=True).execute()
+        uploaded_file = self.__service.files().create(body=body, media_body=media_body, fields='id', supportsTeamDrives=True)
+        response = None
+        while response is None:
+            status, response = request.next_chunk()
+            if status:
+                progress = int(status.progress() * 100)
+                progress_bar = f"📤 Uploading File...\n"
+                progress_bar += f"File name: {filename}\n"
+                progress_bar += f"File size: {filesize}\n"
+                progress_bar += f"Progress: {progress}%\n"
+                progress_bar += f"Uploading speed: {humanbytes(status.upload_speed)} /s\n"
+                progress_bar += f"ETA: {status.estimated_completion_time.strftime('%H:%M:%S')}"
+                await sent_message.edit(progress_bar)
         file_id = uploaded_file.get('id')
         return Messages.UPLOADED_SUCCESSFULLY.format(filename, self.__G_DRIVE_BASE_DOWNLOAD_URL.format(file_id), filesize)
       except HttpError as err:
