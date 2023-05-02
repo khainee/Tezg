@@ -169,7 +169,7 @@ class GoogleDrive:
                 progress_bar += f"Progress: {progress}%\n"
                 progress_bar += f"Uploading speed: {humanbytes(status.upload_speed)} /s\n"
                 progress_bar += f"ETA: {status.estimated_completion_time.strftime('%H:%M:%S')}"
-                await sent_message.edit(progress_bar)
+                sent_message.edit(progress_bar)
         file_id = uploaded_file.get('id')
         return Messages.UPLOADED_SUCCESSFULLY.format(filename, self.__G_DRIVE_BASE_DOWNLOAD_URL.format(file_id), filesize)
       except HttpError as err:
