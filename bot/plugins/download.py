@@ -56,6 +56,7 @@ async def _telegram_file(client, message):
 
 async def progress(current, total, sent_message):
     progress_bar = f"{current * 100 / total:.1f}%"
+    progress_bar+= uuid4()
     await sent_message.edit(progress_bar)
 
 @bot.on_message(filters.incoming & filters.private & filters.command(BotCommands.YtDl) & CustomFilters.auth_users)
