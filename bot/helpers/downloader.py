@@ -13,20 +13,23 @@ async def download_file(url, dl_path, gid, sent_message):
         while True:
             downloads = aria2.get_downloads(gids=[gid])
             for download in downloads:
-                status = download.status
                 progress = download.progress
-                progress_bar = f'Speed:{humanbytes(download.download_speed)}\ncomplete download:{humanbytes(download.completed_length)}\nName:{download.name}\nTotal:{humanbytes(download.total_length)}'
+                progress_bar = "📥 Downloading File...\n"
+                progress_bar+= f"File name: {download.name}\n"
+                progress_bar+= f"File size: {humanbytes(download.total_length)}\n"
+                progress_bar+= f"Speed: {humanbytes(download.download_speed)}/s|ETA: {download.eta}"
+                #progress_bar = f'Speed:{humanbytes(download.download_speed)}\ncomplete download:{humanbytes(download.completed_length)}\nName:{download.name}\nTotal:{humanbytes(download.total_length)}'
                 LOGGER.info(f'{progress_bar}')
                 await sent_message.edit(progress_bar)
                 for file in download.files:
                     path = file.path
-                if status == "complete":
+                if download.is_complete:
                     LOGGER.info("Download complete")
                     if os.path.exists(path):
                         return True, path
                     else:
                         return False, path
-                elif status == "error":
+                elif download.has_failed:
                     return False, download.error_message
             await asyncio.sleep(2)
     except aria2p.client.ClientException as error:
