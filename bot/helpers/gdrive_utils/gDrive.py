@@ -176,7 +176,7 @@ class GoogleDrive:
         #if err.resp.get('content-type', '').startswith('application/json'):
           #reason = json.loads(err.content).get('error').get('errors')[0].get('reason')
           #if reason == 'userRateLimitExceeded' or reason == 'dailyLimitExceeded':
-            return Messages.RATE_LIMIT_EXCEEDED_MESSAGE
+            #return Messages.RATE_LIMIT_EXCEEDED_MESSAGE
           #else:
             #return f"**ERROR:** {reason}"
       #except Exception as e:
