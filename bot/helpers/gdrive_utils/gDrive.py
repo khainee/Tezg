@@ -160,7 +160,7 @@ class GoogleDrive:
       uploaded_file = self.__service.files().create(body=body, media_body=media_body, fields='id', supportsTeamDrives=True)
       response = None
       while response is None:
-          status, response = request.next_chunk()
+          status, response = uploaded_file.next_chunk()
           if status:
               progress = int(status.progress() * 100)
               progress_bar = f"📤 Uploading File...\n"
