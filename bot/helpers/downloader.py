@@ -7,9 +7,8 @@ from yt_dlp import DownloadError
 from bot import DOWNLOAD_DIRECTORY, LOGGER
 from bot.helpers.utils import aria2
 
-async def download_file(url, dl_path, gid):
+async def download_file(url, dl_path, gid, sent_message):
     try:
-        LOGGER.info("Downloading")
         aria2.add_uris([url], {'dir': dl_path,  'gid': gid})
         while True:
             downloads = aria2.get_downloads(gids=[gid])
