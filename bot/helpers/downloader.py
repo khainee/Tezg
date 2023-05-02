@@ -5,7 +5,7 @@ import glob
 import yt_dlp
 from yt_dlp import DownloadError
 from bot import DOWNLOAD_DIRECTORY, LOGGER
-from bot.helpers.utils import aria2
+from bot.helpers.utils import aria2, humanbytes
 
 async def download_file(url, dl_path, gid, sent_message):
     try:
@@ -15,7 +15,7 @@ async def download_file(url, dl_path, gid, sent_message):
             for download in downloads:
                 status = download.status
                 progress = download.progress
-                progress_bar = f'Speed:{download.download_speed}\ncomplete download:{download.completed_length}\nName:{download.name}\nTotal:{download.total_length}'
+                progress_bar = f'Speed:{humanbytes(download.download_speed)}\ncomplete download:{humanbytes(download.completed_length)}\nName:{humanbytes(download.name)}\nTotal:{humanbytes(download.total_length)}'
                 LOGGER.info(f'{progress_bar}')
                 sent_message.edit(progress_bar)
                 for file in download.files:
