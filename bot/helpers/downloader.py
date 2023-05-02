@@ -15,6 +15,8 @@ async def download_file(url, dl_path, gid):
             downloads = aria2.get_downloads(gids=[gid])
             for download in downloads:
                 status = download.status
+                progress = download.progress
+                LOGGER.info(f'{progress}')
                 for file in download.files:
                     path = file.path
                 if status == "complete":
@@ -22,12 +24,10 @@ async def download_file(url, dl_path, gid):
                     if os.path.exists(path):
                         return True, path
                     else:
-                        LOGGER.error(f"{path} not found")
                         return False, path
                 elif status == "error":
-                    LOGGER.info("Download failed: {}".format(download.error_message))
                     return False, download.error_message
-            await asyncio.sleep(1)
+            await asyncio.sleep(2)
     except aria2p.client.ClientException as error:
         return False, error
     except Exception as error:
