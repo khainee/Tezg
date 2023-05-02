@@ -43,7 +43,7 @@ async def _telegram_file(client, message):
   await sent_message.edit(Messages.DOWNLOAD_TG_FILE.format(file.file_name, humanbytes(file.file_size), file.mime_type))
   LOGGER.info(f'Download:{user_id}: {file.file_id}')
   try:
-    file_path = await message.download(file_name=DOWNLOAD_DIRECTORY)
+    file_path = await message.download(file_name=DOWNLOAD_DIRECTORY, progress=progress, progress_args=('sent_message'))
     file_name = os.path.basename(file_path)
     file_size = humanbytes(os.path.getsize(file_path))
     await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(file_name, file_size))
@@ -53,6 +53,9 @@ async def _telegram_file(client, message):
     await sent_message.edit(Messages.WENT_WRONG)
   LOGGER.info(f'Deleteing: {file_path}')
   os.remove(file_path)
+
+async def progress(current, total):
+    progress_bar = f"{current * 100 / total:.1f}%"
 
 @bot.on_message(filters.incoming & filters.private & filters.command(BotCommands.YtDl) & CustomFilters.auth_users)
 async def _ytdl(client, message):
