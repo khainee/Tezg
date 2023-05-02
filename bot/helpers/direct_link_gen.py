@@ -1,4 +1,5 @@
 from cloudscraper import create_scraper
+from os import path
 from re import search, findall
 from json import loads
 from requests import post
@@ -75,7 +76,26 @@ async def _indexlink(url):
     return True, url
 
 async def tera_box(url):
-    print(url)
+    if not path.isfile('terabox.txt'):
+        return False, "ERROR: terabox.txt not found"
+    session = create_scraper()
+    try:
+        res = session.request('GET', url)
+        key = res.url.split('?surl=')[-1]
+        jar = MozillaCookieJar('terabox.txt')
+        jar.load()
+        session.cookies.update(jar)
+        res = session.request(
+            'GET', f'https://www.terabox.com/share/list?app_id=250528&shorturl={key}&root=1')
+        result = res.json()['list']
+    except Exception as e:
+        return False, e
+    if len(result) > 1:
+        return False, "ERROR: Can't download mutiple files"
+    result = result[0]
+    if result['isdir'] != '0':
+        return False, "ERROR: Can't download folder"
+    return True, result['dlink']
 
 async def one_drive(link):
     cget = create_scraper().request
@@ -106,7 +126,6 @@ async def one_drive(link):
     if "@content.downloadUrl" not in resp:
         return False, 'ERROR: Direct link not found'
     return True, resp['@content.downloadUrl']
-
 
 async def gdtot(url):
     cget = create_scraper().request
