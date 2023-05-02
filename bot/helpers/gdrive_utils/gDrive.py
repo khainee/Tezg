@@ -156,7 +156,7 @@ class GoogleDrive:
       }
       body["parents"] = [self.__parent_id]
       LOGGER.info(f'Upload: {file_path}')
-      try:
+      #try:
         uploaded_file = self.__service.files().create(body=body, media_body=media_body, fields='id', supportsTeamDrives=True)
         response = None
         while response is None:
@@ -172,15 +172,15 @@ class GoogleDrive:
                 sent_message.edit(progress_bar)
         file_id = uploaded_file.get('id')
         return Messages.UPLOADED_SUCCESSFULLY.format(filename, self.__G_DRIVE_BASE_DOWNLOAD_URL.format(file_id), filesize)
-      except HttpError as err:
-        if err.resp.get('content-type', '').startswith('application/json'):
-          reason = json.loads(err.content).get('error').get('errors')[0].get('reason')
-          if reason == 'userRateLimitExceeded' or reason == 'dailyLimitExceeded':
+      #except HttpError as err:
+        #if err.resp.get('content-type', '').startswith('application/json'):
+          #reason = json.loads(err.content).get('error').get('errors')[0].get('reason')
+          #if reason == 'userRateLimitExceeded' or reason == 'dailyLimitExceeded':
             return Messages.RATE_LIMIT_EXCEEDED_MESSAGE
-          else:
-            return f"**ERROR:** {reason}"
-      except Exception as e:
-        return f"**ERROR:** ```{e}```"
+          #else:
+            #return f"**ERROR:** {reason}"
+      #except Exception as e:
+        #return f"**ERROR:** ```{e}```"
 
   @retry(wait=wait_exponential(multiplier=2, min=3, max=6), stop=stop_after_attempt(5),
     retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
