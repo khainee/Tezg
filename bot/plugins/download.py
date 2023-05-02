@@ -98,7 +98,7 @@ async def _dl(client, message, user_id, sent_message, url):
         gid = uuid4().hex[:16]
         LOGGER.info(f'Download:{user_id}: {link}')
         await sent_message.edit(Messages.DOWNLOADING.format(link))
-        result, file_path = await download_file(link, dl_path, gid)
+        result, file_path = await download_file(link, dl_path, gid, sent_message)
         if result == True and os.path.exists(file_path):
           await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
           msg = GoogleDrive(user_id).upload_file(file_path)
