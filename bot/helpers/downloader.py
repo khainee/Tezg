@@ -15,9 +15,9 @@ async def download_file(url, dl_path, gid, sent_message):
             for download in downloads:
                 status = download.status
                 progress = download.progress
-                progress_bar = f'Speed:{humanbytes(download.download_speed)}\ncomplete download:{humanbytes(download.completed_length)}\nName:{humanbytes(download.name)}\nTotal:{humanbytes(download.total_length)}'
+                progress_bar = f'Speed:{humanbytes(download.download_speed)}\ncomplete download:{humanbytes(download.completed_length)}\nName:{download.name}\nTotal:{humanbytes(download.total_length)}'
                 LOGGER.info(f'{progress_bar}')
-                sent_message.edit(progress_bar)
+                await sent_message.edit(progress_bar)
                 for file in download.files:
                     path = file.path
                 if status == "complete":
