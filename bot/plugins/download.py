@@ -54,7 +54,7 @@ async def _telegram_file(client, message):
   LOGGER.info(f'Deleteing: {file_path}')
   os.remove(file_path)
 
-async def progress(current, total):
+async def progress(current, total, sent_message):
     progress_bar = f"{current * 100 / total:.1f}%"
     await sent_message.edit(progress_bar)
 
