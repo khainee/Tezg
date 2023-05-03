@@ -1,1 +1,1 @@
-from .gdrive import *
+from .gDrive import GoogleDrive
