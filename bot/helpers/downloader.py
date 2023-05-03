@@ -34,7 +34,7 @@ async def download_file(url, dl_path, gid, sent_message):
                         return False, path
                 elif download.has_failed:
                     return False, download.error_message
-            await asyncio.sleep(2)
+            await asyncio.sleep(0.5)
     except aria2p.client.ClientException as error:
         return False, error
     except Exception as error:
