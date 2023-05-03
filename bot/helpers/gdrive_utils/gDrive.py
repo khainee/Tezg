@@ -167,7 +167,7 @@ class GoogleDrive:
               progress_bar += f"File name: {filename}\n"
               progress_bar += f"File size: {filesize}\n"
               progress_bar += f"Progress: {progress}%\n"
-              progress_bar += f"{status.progress}"
+              progress_bar += f"{status.progress()}"
               await sent_message.edit(progress_bar)
       file_id = response.get('id')
       return Messages.UPLOADED_SUCCESSFULLY.format(filename, self.__G_DRIVE_BASE_DOWNLOAD_URL.format(file_id), filesize)
