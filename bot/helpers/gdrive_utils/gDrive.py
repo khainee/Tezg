@@ -15,12 +15,6 @@ from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaFileUpload
 from bot.helpers.sql_helper import gDriveDB, idsDB
 
-
-logging.getLogger('googleapiclient.discovery').setLevel(logging.ERROR)
-logging.getLogger('oauth2client.transport').setLevel(logging.ERROR)
-logging.getLogger('oauth2client.client').setLevel(logging.ERROR)
-
-
 class GoogleDrive:
   def __init__(self, user_id):
     self.__G_DRIVE_DIR_MIME_TYPE = "application/vnd.google-apps.folder"
@@ -104,7 +98,6 @@ class GoogleDrive:
         "name": directory_name,
         "mimeType": self.__G_DRIVE_DIR_MIME_TYPE
     }
-    print(parent_id)#
     if parent_id is not None:
         file_metadata["parents"] = [parent_id]
     else:
@@ -156,31 +149,30 @@ class GoogleDrive:
       }
       body["parents"] = [self.__parent_id]
       LOGGER.info(f'Upload: {file_path}')
-      #try:
-      uploaded_file = self.__service.files().create(body=body, media_body=media_body, fields='id', supportsTeamDrives=True)
-      response = None
-      while response is None:
-          status, response = uploaded_file.next_chunk()
-          if status:
-              LOGGER.debug(status.progress())
-              progress = int(status.progress() * 100)
-              progress_bar = f"📤 Uploading File...\n"
-              progress_bar += f"File name: {filename}\n"
-              progress_bar += f"File size: {filesize}\n"
-              progress_bar += f"Progress: {progress}%\n"
-              progress_bar += f"{status.progress()}"
-              await sent_message.edit(progress_bar)
-      file_id = response.get('id')
-      return Messages.UPLOADED_SUCCESSFULLY.format(filename, self.__G_DRIVE_BASE_DOWNLOAD_URL.format(file_id), filesize)
-      #except HttpError as err:
-        #if err.resp.get('content-type', '').startswith('application/json'):
-          #reason = json.loads(err.content).get('error').get('errors')[0].get('reason')
-          #if reason == 'userRateLimitExceeded' or reason == 'dailyLimitExceeded':
-            #return Messages.RATE_LIMIT_EXCEEDED_MESSAGE
-          #else:
-            #return f"**ERROR:** {reason}"
-      #except Exception as e:
-        #return f"**ERROR:** ```{e}```"
+      try:
+        uploaded_file = self.__service.files().create(body=body, media_body=media_body, fields='id', supportsTeamDrives=True)
+        response = None
+        while response is None:
+            status, response = uploaded_file.next_chunk()
+            if status:
+                LOGGER.debug(status.progress())
+                progress = int(status.progress() * 100)
+                progress_bar = f"📤 Uploading File...\n"
+                progress_bar += f"File name: {filename}\n"
+                progress_bar += f"File size: {filesize}\n"
+                progress_bar += f"Progress: {progress}%\n"
+                await sent_message.edit(progress_bar)
+        file_id = response.get('id')
+        return Messages.UPLOADED_SUCCESSFULLY.format(filename, self.__G_DRIVE_BASE_DOWNLOAD_URL.format(file_id), filesize)
+      except HttpError as err:
+        if err.resp.get('content-type', '').startswith('application/json'):
+          reason = json.loads(err.content).get('error').get('errors')[0].get('reason')
+          if reason == 'userRateLimitExceeded' or reason == 'dailyLimitExceeded':
+            return Messages.RATE_LIMIT_EXCEEDED_MESSAGE
+          else:
+            return f"**ERROR:** {reason}"
+      except Exception as e:
+        return f"**ERROR:** ```{e}```"
 
   @retry(wait=wait_exponential(multiplier=2, min=3, max=6), stop=stop_after_attempt(5),
     retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
@@ -229,7 +221,6 @@ class GoogleDrive:
       return Messages.EMPTY_TRASH
     except HttpError as err:
       return f"**ERROR:** ```{str(err).replace('>', '').replace('<', '')}```"
-
 
   def authorize(self, creds):
     return build('drive', 'v3', credentials=creds, cache_discovery=False)
