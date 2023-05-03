@@ -15,6 +15,7 @@ async def download_file(url, dl_path, gid, sent_message):
             for download in downloads:
                 download.update()
                 if download.completed_length is not None:
+                  LOGGER.error(f"a: {download.completed_length}")
                   progress = "{:.2f}".format(download.progress)
                   progress_bar = "📥 Downloading File...\n"
                   progress_bar+= f"File name: {download.name}\n"
