@@ -162,6 +162,7 @@ class GoogleDrive:
       while response is None:
           status, response = uploaded_file.next_chunk()
           if status:
+              LOGGER.debug(status.progress())
               progress = int(status.progress() * 100)
               progress_bar = f"📤 Uploading File...\n"
               progress_bar += f"File name: {filename}\n"
