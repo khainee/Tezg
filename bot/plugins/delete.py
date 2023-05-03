@@ -2,7 +2,7 @@ from pyrogram import Client, filters
 from bot.config import BotCommands, Messages
 from bot.helpers.gdrive_utils import GoogleDrive
 from bot.helpers.utils import CustomFilters
-from bot import LOGGER, bot 
+from bot import LOGGER, bot
 
 @bot.on_message(filters.private & filters.incoming & filters.command(BotCommands.Delete) & CustomFilters.auth_users)
 def _delete(client, message):
@@ -21,7 +21,6 @@ def _delete(client, message):
     sent_message.edit(result)
   else:
     message.reply_text(Messages.PROVIDE_GDRIVE_URL.format(BotCommands.Delete[0]), quote=True)
-
 
 @bot.on_message(filters.private & filters.incoming & filters.command(BotCommands.EmptyTrash) & CustomFilters.auth_users)
 def _emptyTrash(client, message):
