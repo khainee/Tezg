@@ -23,7 +23,7 @@ async def download_file(url, dl_path, gid, sent_message):
                   progress_bar+= f"Speed: {humanbytes(download.download_speed)}/s|ETA: {download.eta}\n"
                   progress_bar+= f"Processed size: {humanbytes(download.completed_length)}\n"
                   progress_bar+= f"Progress: {progress}%"
-                await sent_message.edit(progress_bar)
+                  await sent_message.edit(progress_bar)
                 for file in download.files:
                     path = file.path
                 if download.is_complete:
