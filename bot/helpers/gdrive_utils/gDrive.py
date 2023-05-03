@@ -137,7 +137,7 @@ class GoogleDrive:
       media_body = MediaFileUpload(
           file_path,
           mimetype=mime_type,
-          chunksize=150*1024*1024,
+          chunksize=10*1024*1024,
           resumable=True
       )
       filename = os.path.basename(file_path)
