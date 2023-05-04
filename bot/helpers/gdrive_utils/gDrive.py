@@ -33,6 +33,17 @@ class GoogleDrive:
       parsed = urlparse.urlparse(link)
       return parse_qs(parsed.query)['id'][0]
 
+  @retry(wait=wait_exponential(multiplier=2, min=3, max=6), stop=stop_after_attempt(3),
+         retry=retry_if_exception_type(Exception))
+  def __set_permission(self, file_id):
+      permissions = {
+          'role': 'reader',
+          'type': 'anyone',
+          'value': None,
+          'withLink': True
+      }
+      return self.__service.permissions().create(fileId=file_id, body=permissions, supportsAllDrives=True).execute()
+
   @retry(wait=wait_exponential(multiplier=2, min=3, max=6), stop=stop_after_attempt(5),
     retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
   def getFilesByFolderId(self, folder_id):
@@ -163,6 +174,8 @@ class GoogleDrive:
                 progress_bar += f"Progress: {progress}%\n"
                 await sent_message.edit(progress_bar)
         file_id = response.get('id')
+        try:
+          self.__set_permission(file_id)
         return Messages.UPLOADED_SUCCESSFULLY.format(filename, self.__G_DRIVE_BASE_DOWNLOAD_URL.format(file_id), filesize)
       except HttpError as err:
         if err.resp.get('content-type', '').startswith('application/json'):
