@@ -14,6 +14,8 @@ from bot import LOGGER
 async def direct_link(url):
     if 'facebook' in url:
         return await _fb(url)
+    elif 'drive.google.com' in url:
+        return True, url
     elif 'solidfiles' in url:
         return await _solidfiles(url)
     elif 'mediafire.com' in url:
