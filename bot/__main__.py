@@ -10,7 +10,7 @@ logging.basicConfig(
 LOGGER = logging.getLogger(__name__)
 
 async def main():
-    os.path.isfile(".restartmsg"):
+    if os.path.isfile(".restartmsg"):
         with open(".restartmsg") as f:
             chat_id, msg_id = map(int, f)
     try:
