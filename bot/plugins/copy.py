@@ -10,8 +10,12 @@ async def _clone(client, message):
   if len(message.command) > 1:
     link = message.command[1]
     LOGGER.info(f'Copy:{user_id}: {link}')
-    sent_message = await message.reply_text(Messages.CLONING.format(link), quote=True)
-    msg = GoogleDrive(user_id).clone(link)
-    await sent_message.edit(msg)
+    result, dl_url = await direct_link(link)
+    if result == True:
+      sent_message = await message.reply_text(Messages.CLONING.format(link), quote=True)
+      msg = GoogleDrive(user_id).clone(dl_url)
+      await sent_message.edit(msg)
+    else:
+      await sent_message.edit(Messages.CLONE_ERROR.format(dl_url, link))
   else:
     await sent_message.edit(Messages.PROVIDE_GDRIVE_URL.format(BotCommands.Clone[0]))
