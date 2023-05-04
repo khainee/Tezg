@@ -58,6 +58,8 @@ class Messages:
     UPLOADED_SUCCESSFULLY = """✅ **Uploaded Successfully.**\n[{}]({}) __({})__"""
     
     DOWNLOAD_ERROR = """❗**Downloader Failed**\n{}\n__Link - {}__"""
+
+    CLONE_ERROR = """❗**Clone Failed**\n{}\n__Link - {}__"""
     
     DOWNLOADING = """📥 **Downloading File...\nLink:** {}"""
     
