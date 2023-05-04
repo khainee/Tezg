@@ -3,6 +3,7 @@ import asyncio
 import shutil
 import sys
 from os import execl
+from aiofiles import open as aiopen
 from time import sleep, time
 from sys import executable
 from psutil import disk_usage, cpu_percent, swap_memory, cpu_count, virtual_memory, net_io_counters, boot_time
@@ -50,5 +51,7 @@ async def _restart(client, message):
     shutil.rmtree(DOWNLOAD_DIRECTORY)
     LOGGER.info('Deleted DOWNLOAD_DIRECTORY successfully.')
     restart_message = await message.reply_text('**♻️ Restarted Successfully!**', quote=True)
+    async with aiopen(".restartmsg", "w") as f:
+        await f.write(f"{restart_message.chat.id}\n{restart_message.id}\n")
     LOGGER.info(f'{message.from_user.id}: Restarting...')
     execl(executable, executable, "-m", "bot")
