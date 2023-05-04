@@ -115,6 +115,8 @@ class GoogleDrive:
         file_metadata["parents"] = [self.__parent_id]
     file = self.__service.files().create(supportsTeamDrives=True, body=file_metadata).execute()
     file_id = file.get("id")
+    try:
+      self.__set_permission(file_id)
     return file_id
 
   def clone(self, link):
