@@ -117,6 +117,8 @@ class GoogleDrive:
     file_id = file.get("id")
     try:
       self.__set_permission(file_id)
+    except:
+      pass
     return file_id
 
   def clone(self, link):
@@ -178,6 +180,8 @@ class GoogleDrive:
         file_id = response.get('id')
         try:
           self.__set_permission(file_id)
+        except:
+          pass
         return Messages.UPLOADED_SUCCESSFULLY.format(filename, self.__G_DRIVE_BASE_DOWNLOAD_URL.format(file_id), filesize)
       except HttpError as err:
         if err.resp.get('content-type', '').startswith('application/json'):
