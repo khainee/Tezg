@@ -36,7 +36,7 @@ class Messages:
 
         f"**Authenticating Google Drive**\n__Send the /{BotCommands.Authorize} commmand and you will receive a URL, visit URL and follow the steps and send the received code here. Use /{BotCommands.Revoke} to revoke your currently logged Google Drive Account.__\n\n**Note: I will not listen to any command or message (except /{BotCommands.Authorize} command) until you authorize me.\nSo, Authorization is mandatory !**",
 
-        f"**Telegram Files**\n__To Upload telegram files in your Google drive Account just send me the file and i will download and upload it to your Google Drive Account.\n\n**YouTube-DL Support**\n__Download files via yt-dlp.\nUse /{BotCommands.YtDl} (YouTube Link/ytdlp Supported site link)__",
+        f"**Telegram Files**\n__To Upload telegram files in your Google drive Account just send me the file and i will download and upload it to your Google Drive Account.__\n\n**YouTube-DL Support**\n__Download files via yt-dlp.\nUse /{BotCommands.YtDl} (YouTube Link/ytdlp Supported site link)__",
 
         f"**Custom Folder for Upload**\n__Want to upload in custom folder or in__ **TeamDrive** __ ?\nUse /{BotCommands.SetFolder} (Folder URL) to set custom upload folder.\nAll the files are uploaded in the custom folder you provide.__",
 
