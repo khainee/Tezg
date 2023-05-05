@@ -1,13 +1,7 @@
 import os
 import logging
-from bot import bot, DOWNLOAD_DIRECTORY
+from bot import bot, DOWNLOAD_DIRECTORY, LOGGER
 from bot.plugins import authorize, copy, delete, download, help, set_parent, utils, speedtest
-
-logging.basicConfig(
-    level=logging.DEBUG,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
-LOGGER = logging.getLogger(__name__)
 
 async def main():
     if os.path.isfile(".restartmsg"):
