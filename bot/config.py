@@ -10,23 +10,20 @@ class config:
     G_DRIVE_CLIENT_SECRET = "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"
  
 
-class _BotCommands:
-    def __init__(self):
-        self.Start = 'start'
-        self.Download = 'download'
-        self.Authorize = 'auth'
-        self.SetFolder = 'setfolder'
-        self.Revoke = 'revoke'
-        self.Clone = 'clone'
-        self.Delete = 'delete'
-        self.EmptyTrash = 'emptyTrash'
-        self.YtDl = 'ytdl'
-        self.Storage = 'storage'
-        self.Speed = 'speedtest'
-        self.Ping = 'ping'
-        self.Stats = 'stats'
-
-BotCommands = _BotCommands()
+class BotCommands:
+    Start = 'start'
+    Download = 'download'
+    Authorize = 'auth'
+    SetFolder = 'setfolder'
+    Revoke = 'revoke'
+    Clone = 'clone'
+    Delete = 'delete'
+    EmptyTrash = 'emptyTrash'
+    YtDl = 'ytdl'
+    Storage = 'storage'
+    Speed = 'speedtest'
+    Ping = 'ping'
+    Stats = 'stats'
 
 class Messages:
     START_MSG = """**Hi there {}.**\n__I'm Google Drive Uploader Bot V3.You can use me to upload any file / video to Google Drive from direct link or Telegram Files.__\n__You can know more from /help.__ \n***Supported Direct Link***\nFacebook Video\nGoogle Drive\nYoutube\nSolidfiles\nAnonfiles\nMediafire\nZippyshare\n[Yt-dlp support sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)\nOne Drive\nTera Box\nGdtot"""
