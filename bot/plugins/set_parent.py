@@ -18,7 +18,7 @@ def _set_parent(client, message):
         if result:
           idsDB._set(user_id, file_id)
           LOGGER.info(f'SetParent:{user_id}: {file_id}')
-          sent_message.edit(Messages.PARENT_SET_SUCCESS.format(file_id, BotCommands.SetFolder[0]))
+          sent_message.edit(Messages.PARENT_SET_SUCCESS.format(file_id, BotCommands.SetFolder))
         else:
           sent_message.edit(file_id)
       except IndexError:
@@ -27,4 +27,4 @@ def _set_parent(client, message):
       idsDB._clear(user_id)
       message.reply_text(Messages.PARENT_CLEAR_SUCCESS, quote=True)
   else:
-    message.reply_text(Messages.CURRENT_PARENT.format(idsDB.search_parent(user_id), BotCommands.SetFolder[0]), quote=True)
+    message.reply_text(Messages.CURRENT_PARENT.format(idsDB.search_parent(user_id), BotCommands.SetFolder), quote=True)
