@@ -14,13 +14,13 @@ def _delete(client, message):
         elif message.reply_to_message.entities[1].url:
             link = message.reply_to_message.entities[1].url
         else:
-            message.reply_text(Messages.PROVIDE_GDRIVE_URL.format(BotCommands.Delete[0]), quote=True)
+            message.reply_text(Messages.PROVIDE_GDRIVE_URL.format(BotCommands.Delete), quote=True)
             return
         LOGGER.info(f'Delete:{user_id}: {link}')
         result = GoogleDrive(user_id).delete_file(link)
         sent_message.edit(result)
     else:
-      message.reply_text(Messages.PROVIDE_GDRIVE_URL.format(BotCommands.Delete[0]), quote=True)
+      message.reply_text(Messages.PROVIDE_GDRIVE_URL.format(BotCommands.Delete), quote=True)
 
 @bot.on_message(filters.private & filters.incoming & filters.command(BotCommands.EmptyTrash) & CustomFilters.auth_users)
 def _emptyTrash(client, message):
