@@ -17,8 +17,8 @@ async def main():
         await bot.set_bot_commands([
             BotCommand(f'{BotCommands.Start}', 'Start Command'),
             BotCommand(f'{BotCommands.Download}', 'Download support link'),
-#            BotCommand(f'{BotCommands.Authorize}', 'Authorizing GDrive Account'),
-#            BotCommand(f'{BotCommands.SetFolder}', 'Set Custom Upload Folder'),
+            BotCommand(f'{BotCommands.Authorize}', 'Authorizing GDrive Account'),
+            BotCommand(f'{BotCommands.SetFolder}', 'Set Custom Upload Folder'),
 #            BotCommand(f'{BotCommands.Revoke}', 'Revoke GDrive Account'),
 #            BotCommand(f'{BotCommands.Clone}', 'Clone GDrive Files'),
 #            BotCommand(f'{BotCommands.Delete}', 'Delete GDrive Files'),
