@@ -15,7 +15,7 @@ class _BotCommands:
         self.Download = 'download'
         self.Authorize = 'auth'
         self.SetFolder = 'setfolder'
-        self Revoke = 'revoke'
+        self.Revoke = 'revoke'
         self.Clone = 'clone'
         self.Delete = 'delete'
         self.EmptyTrash = 'emptyTrash'
