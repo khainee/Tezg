@@ -19,4 +19,4 @@ async def _clone(client, message):
     else:
       await sent_message.edit(Messages.CLONE_ERROR.format(dl_url, link))
   else:
-    await sent_message.edit(Messages.PROVIDE_GDRIVE_URL.format(BotCommands.Clone[0]))
+    await sent_message.edit(Messages.PROVIDE_GDRIVE_URL.format(BotCommands.Clone))
