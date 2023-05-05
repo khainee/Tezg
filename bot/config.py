@@ -10,16 +10,22 @@ class config:
     G_DRIVE_CLIENT_SECRET = "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"
  
 
-class BotCommands:
-  Download = ['download', 'dl']
-  Authorize = ['auth', 'authorize']
-  SetFolder = ['setfolder', 'setfl']
-  Revoke = ['revoke']
-  Clone = ['copy', 'clone']
-  Delete = ['delete', 'del']
-  EmptyTrash = ['emptyTrash']
-  YtDl = ['ytdl']
-  Storage = ['storage']
+class _BotCommands:
+    def __init__(self):
+        self.Download = 'download'
+        self.Authorize = 'auth'
+        self.SetFolder = 'setfolder'
+        self Revoke = 'revoke'
+        self.Clone = 'clone'
+        self.Delete = 'delete'
+        self.EmptyTrash = 'emptyTrash'
+        self.YtDl = 'ytdl'
+        self.Storage = 'storage'
+        self.Speed = 'speedtest'
+        self.Ping = 'ping'
+        self.Stats = 'stats'
+
+BotCommands = _BotCommands()
 
 class Messages:
     START_MSG = """**Hi there {}.**\n__I'm Google Drive Uploader Bot V3.You can use me to upload any file / video to Google Drive from direct link or Telegram Files.__\n__You can know more from /help.__ \n***Supported Direct Link***\nFacebook Video\nGoogle Drive\nYoutube\nSolidfiles\nAnonfiles\nMediafire\nZippyshare\n[Yt-dlp support sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)\nOne Drive\nTera Box\nGdtot"""
@@ -27,19 +33,15 @@ class Messages:
     HELP_MSG = [
         ".",
         """**Google Drive Uploader**\n__I can upload files from link or Telegram Files to your Google Drive. All i need is to authenticate me to your Google Drive Account and send a link or Telegram File.__\n\nI have more features... ! Wanna know about it ? Just walkthrough this tutorial and read the messages carefully.""",
-        
+
         f"**Authenticating Google Drive**\n__Send the /{BotCommands.Authorize[0]} commmand and you will receive a URL, visit URL and follow the steps and send the received code here. Use /{BotCommands.Revoke[0]} to revoke your currently logged Google Drive Account.__\n\n**Note: I will not listen to any command or message (except /{BotCommands.Authorize[0]} command) until you authorize me.\nSo, Authorization is mandatory !**",
-        
+
         f"**Telegram Files**\n__To Upload telegram files in your Google drive Account just send me the file and i will download and upload it to your Google Drive Account.\n\n**YouTube-DL Support**\n__Download files via yt-dlp.\nUse /{BotCommands.YtDl[0]} (YouTube Link/ytdlp Supported site link)__",
-        
+
         f"**Custom Folder for Upload**\n__Want to upload in custom folder or in__ **TeamDrive** __ ?\nUse /{BotCommands.SetFolder[0]} (Folder URL) to set custom upload folder.\nAll the files are uploaded in the custom folder you provide.__",
-        
+
         f"**Delete Google Drive Files**\n__Delete google drive files. Use /{BotCommands.Delete[0]} (File/Folder URL) to delete file or reply /{BotCommands.Delete[0]} to bot message.\nYou can also empty trash files use /{BotCommands.EmptyTrash[0]}\nNote: Files are deleted permanently. This process cannot be undone.\n\n**Copy Google Drive Files**\n__Yes, Clone or Copy Google Drive Files.\n__Use /{BotCommands.Clone[0]} (File id / Folder id or URL) to copy Google Drive Files in your Google Drive Account.__",
-        
-        "**Rules & Precautions**\n__1. Don't copy BIG Google Drive Files/Folders. It may hang the bot and your files maybe damaged.\n2. Send One request at a time unless bot will stop all processes.\n3. Don't send slow links @transload it first.\n4. Don't misuse, overload or abuse this free service.__",
-        
-        # Dont remove this ↓ if you respect developer.
-         
+
         "**Join Channel @drivetalkchannel**"
         ]
      
