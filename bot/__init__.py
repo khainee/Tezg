@@ -6,6 +6,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from time import time
 import logging
 
+logging.Formatter.converter = lambda *args: timezone('Asia/Rangoon').localize(datetime(*args)).astimezone(pytz.utc).timetuple()
 basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
             handlers=[FileHandler('log.txt'), StreamHandler()],
             level=INFO)
