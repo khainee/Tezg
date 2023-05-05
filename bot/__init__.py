@@ -7,7 +7,7 @@ from time import time
 from datetime import datetime
 import logging
 
-basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s - %(lineno)d',
+basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s - %(lineno)d - %(funcName)s',
             handlers=[FileHandler('log.txt'), StreamHandler()],
             level=INFO)
 
