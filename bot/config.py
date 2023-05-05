@@ -18,7 +18,7 @@ class BotCommands:
     Revoke = 'revoke'
     Clone = 'clone'
     Delete = 'delete'
-    EmptyTrash = 'emptyTrash'
+    EmptyTrash = 'emptytrash'
     YtDl = 'ytdl'
     Storage = 'storage'
     Speed = 'speedtest'
