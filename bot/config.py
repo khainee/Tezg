@@ -34,13 +34,13 @@ class Messages:
         ".",
         """**Google Drive Uploader**\n__I can upload files from link or Telegram Files to your Google Drive. All i need is to authenticate me to your Google Drive Account and send a link or Telegram File.__\n\nI have more features... ! Wanna know about it ? Just walkthrough this tutorial and read the messages carefully.""",
 
-        f"**Authenticating Google Drive**\n__Send the /{BotCommands.Authorize[0]} commmand and you will receive a URL, visit URL and follow the steps and send the received code here. Use /{BotCommands.Revoke[0]} to revoke your currently logged Google Drive Account.__\n\n**Note: I will not listen to any command or message (except /{BotCommands.Authorize[0]} command) until you authorize me.\nSo, Authorization is mandatory !**",
+        f"**Authenticating Google Drive**\n__Send the /{BotCommands.Authorize} commmand and you will receive a URL, visit URL and follow the steps and send the received code here. Use /{BotCommands.Revoke} to revoke your currently logged Google Drive Account.__\n\n**Note: I will not listen to any command or message (except /{BotCommands.Authorize} command) until you authorize me.\nSo, Authorization is mandatory !**",
 
-        f"**Telegram Files**\n__To Upload telegram files in your Google drive Account just send me the file and i will download and upload it to your Google Drive Account.\n\n**YouTube-DL Support**\n__Download files via yt-dlp.\nUse /{BotCommands.YtDl[0]} (YouTube Link/ytdlp Supported site link)__",
+        f"**Telegram Files**\n__To Upload telegram files in your Google drive Account just send me the file and i will download and upload it to your Google Drive Account.\n\n**YouTube-DL Support**\n__Download files via yt-dlp.\nUse /{BotCommands.YtDl} (YouTube Link/ytdlp Supported site link)__",
 
-        f"**Custom Folder for Upload**\n__Want to upload in custom folder or in__ **TeamDrive** __ ?\nUse /{BotCommands.SetFolder[0]} (Folder URL) to set custom upload folder.\nAll the files are uploaded in the custom folder you provide.__",
+        f"**Custom Folder for Upload**\n__Want to upload in custom folder or in__ **TeamDrive** __ ?\nUse /{BotCommands.SetFolder} (Folder URL) to set custom upload folder.\nAll the files are uploaded in the custom folder you provide.__",
 
-        f"**Delete Google Drive Files**\n__Delete google drive files. Use /{BotCommands.Delete[0]} (File/Folder URL) to delete file or reply /{BotCommands.Delete[0]} to bot message.\nYou can also empty trash files use /{BotCommands.EmptyTrash[0]}\nNote: Files are deleted permanently. This process cannot be undone.\n\n**Copy Google Drive Files**\n__Yes, Clone or Copy Google Drive Files.\n__Use /{BotCommands.Clone[0]} (File id / Folder id or URL) to copy Google Drive Files in your Google Drive Account.__",
+        f"**Delete Google Drive Files**\n__Delete google drive files. Use /{BotCommands.Delete} (File/Folder URL) to delete file or reply /{BotCommands.Delete} to bot message.\nYou can also empty trash files use /{BotCommands.EmptyTrash\nNote: Files are deleted permanently. This process cannot be undone.\n\n**Copy Google Drive Files**\n__Yes, Clone or Copy Google Drive Files.\n__Use /{BotCommands.Clone} (File id / Folder id or URL) to copy Google Drive Files in your Google Drive Account.__",
 
         "**Join Channel @drivetalkchannel**"
         ]
@@ -53,7 +53,7 @@ class Messages:
     
     COPIED_SUCCESSFULLY = """✅ **Copied successfully.**\n[{}]({}) __({})__"""
     
-    NOT_AUTH = f"""🔑 **You have not authenticated me to upload to any account.**\n__Send /{BotCommands.Authorize[0]} to authenticate.__"""
+    NOT_AUTH = f"""🔑 **You have not authenticated me to upload to any account.**\n__Send /{BotCommands.Authorize} to authenticate.__"""
     
     DOWNLOADED_SUCCESSFULLY = '📤 **Uploading File...**\n**Filename:** {}\n**Size:** {}'
     
@@ -67,7 +67,7 @@ class Messages:
     
     ALREADY_AUTH = """🔒 **Already authorized your Google Drive Account.**\n__Use /revoke to revoke the current account.__\n__Send me a direct link or File to Upload on Google Drive__"""
     
-    FLOW_IS_NONE = f"""❗ **Invalid Code**\n__Run {BotCommands.Authorize[0]} first.__"""
+    FLOW_IS_NONE = f"""❗ **Invalid Code**\n__Run {BotCommands.Authorize} first.__"""
     
     AUTH_SUCCESSFULLY = """🔐 **Authorized Google Drive account Successfully.**"""
     
@@ -79,11 +79,11 @@ class Messages:
 
     PARENT_SET_SUCCESS = '🆔✅ **Custom Folder link set successfully.**\n__Your custom folder id - {}\nUse__ ```/{} clear``` __to clear it.__'
     
-    PARENT_CLEAR_SUCCESS = f"""🆔🚮 **Custom Folder ID Cleared Successfuly.**\n__Use /{BotCommands.SetFolder[0]} (Folder Link)to set it back__."""
+    PARENT_CLEAR_SUCCESS = f"""🆔🚮 **Custom Folder ID Cleared Successfuly.**\n__Use /{BotCommands.SetFolder} (Folder Link)to set it back__."""
     
     CURRENT_PARENT = '🆔 **Your Current Custom Folder ID - {}**\n__Use__ /{} (Folder link) __to change it.__'
     
-    REVOKED = f"""🔓 **Revoked current logged account successfully.**\n__Use /{BotCommands.Authorize[0]} to authenticate again and use this bot.__"""
+    REVOKED = f"""🔓 **Revoked current logged account successfully.**\n__Use /{BotCommands.Authorize} to authenticate again and use this bot.__"""
     
     NOT_FOLDER_LINK = """❗ **Invalid folder link.**\n__The link you send its not belong to a folder.__"""
     
