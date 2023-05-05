@@ -12,6 +12,7 @@ class config:
 
 class _BotCommands:
     def __init__(self):
+        self.Start = 'start'
         self.Download = 'download'
         self.Authorize = 'auth'
         self.SetFolder = 'setfolder'
