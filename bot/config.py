@@ -40,7 +40,7 @@ class Messages:
 
         f"**Custom Folder for Upload**\n__Want to upload in custom folder or in__ **TeamDrive** __ ?\nUse /{BotCommands.SetFolder} (Folder URL) to set custom upload folder.\nAll the files are uploaded in the custom folder you provide.__",
 
-        f"**Delete Google Drive Files**\n__Delete google drive files. Use /{BotCommands.Delete} (File/Folder URL) to delete file or reply /{BotCommands.Delete} to bot message.\nYou can also empty trash files use /{BotCommands.EmptyTrash\nNote: Files are deleted permanently. This process cannot be undone.\n\n**Copy Google Drive Files**\n__Yes, Clone or Copy Google Drive Files.\n__Use /{BotCommands.Clone} (File id / Folder id or URL) to copy Google Drive Files in your Google Drive Account.__",
+        f"**Delete Google Drive Files**\n__Delete google drive files. Use /{BotCommands.Delete} (File/Folder URL) to delete file or reply /{BotCommands.Delete} to bot message.\nYou can also empty trash files use /{BotCommands.EmptyTrash}\nNote: Files are deleted permanently. This process cannot be undone.\n\n**Copy Google Drive Files**\n__Yes, Clone or Copy Google Drive Files.\n__Use /{BotCommands.Clone} (File id / Folder id or URL) to copy Google Drive Files in your Google Drive Account.__",
 
         "**Join Channel @drivetalkchannel**"
         ]
