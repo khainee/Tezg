@@ -9,7 +9,7 @@ from bot import bot
 @bot.on_message(filters.private & filters.incoming & filters.command(['start']), group=2)
 async def start(client, message):
     try:
-      await message.reply_text(Messages.START_MSG.format(message.from_user.mention), disable_web_page_preview=True)
+      await message.reply_text(Messages.START_MSG.format(message.from_user.mention), disable_web_page_preview=True, reply_to_message_id=message.id)
     except FloodWait as e:
       await asyncio.sleep(e.x)
     except RPCError as e:
