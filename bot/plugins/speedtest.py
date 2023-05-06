@@ -20,20 +20,6 @@ async def speedtest(client, message):
 ├ <b>Time:</b> <code>{result['timestamp']}</code>
 ├ <b>Data Sent:</b> <code>{get_readable_file_size(int(result['bytes_sent']))}</code>
 ╰ <b>Data Received:</b> <code>{get_readable_file_size(int(result['bytes_received']))}</code>
-╭─《 🌐 SPEEDTEST SERVER 》
-├ <b>Name:</b> <code>{result['server']['name']}</code>
-├ <b>Country:</b> <code>{result['server']['country']}, {result['server']['cc']}</code>
-├ <b>Sponsor:</b> <code>{result['server']['sponsor']}</code>
-├ <b>Latency:</b> <code>{result['server']['latency']}</code>
-├ <b>Latitude:</b> <code>{result['server']['lat']}</code>
-╰ <b>Longitude:</b> <code>{result['server']['lon']}</code>
-╭─《 👤 CLIENT DETAILS 》
-├ <b>IP Address:</b> <code>{result['client']['ip']}</code>
-├ <b>Latitude:</b> <code>{result['client']['lat']}</code>
-├ <b>Longitude:</b> <code>{result['client']['lon']}</code>
-├ <b>Country:</b> <code>{result['client']['country']}</code>
-├ <b>ISP:</b> <code>{result['client']['isp']}</code>
-╰ <b>ISP Rating:</b> <code>{result['client']['isprating']}</code>
 '''
     await speed.edit(string_speed)
 
