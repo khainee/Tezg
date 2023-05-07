@@ -3,7 +3,8 @@ import re
 import json
 import logging
 from bot import LOGGER
-from time import sleep
+
+
 from tenacity import *
 import urllib.parse as urlparse
 from bot.config import Messages
@@ -15,6 +16,7 @@ from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaFileUpload
 from bot.helpers.sql_helper import gDriveDB, idsDB
 
+
 class GoogleDrive:
   def __init__(self, user_id):
     self.__G_DRIVE_DIR_MIME_TYPE = "application/vnd.google-apps.folder"
@@ -22,6 +24,7 @@ class GoogleDrive:
     self.__G_DRIVE_DIR_BASE_DOWNLOAD_URL = "https://drive.google.com/drive/folders/{}"
     self.__service = self.authorize(gDriveDB.search(user_id))
     self.__parent_id = idsDB.search_parent(user_id)
+
 
   def getIdFromUrl(self, link: str):
       if "folders" in link or "file" in link:
@@ -33,6 +36,7 @@ class GoogleDrive:
       parsed = urlparse.urlparse(link)
       return parse_qs(parsed.query)['id'][0]
 
+
   @retry(wait=wait_exponential(multiplier=2, min=3, max=6), stop=stop_after_attempt(3),
          retry=retry_if_exception_type(Exception))
   def __set_permission(self, file_id):
@@ -43,6 +47,7 @@ class GoogleDrive:
           'withLink': True
       }
       return self.__service.permissions().create(fileId=file_id, body=permissions, supportsAllDrives=True).execute()
+
 
   @retry(wait=wait_exponential(multiplier=2, min=3, max=6), stop=stop_after_attempt(5),
     retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
@@ -65,6 +70,7 @@ class GoogleDrive:
               break
       return files
 
+
   @retry(wait=wait_exponential(multiplier=2, min=3, max=6), stop=stop_after_attempt(5),
     retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
   def copyFile(self, file_id, dest_id):
@@ -79,6 +85,7 @@ class GoogleDrive:
                  raise IndexError('LimitExceeded')
               else:
                  raise err
+
 
   def cloneFolder(self, name, local_path, folder_id, parent_id):
     files = self.getFilesByFolderId(folder_id)
@@ -102,6 +109,7 @@ class GoogleDrive:
                 return err
     return new_id
 
+
   @retry(wait=wait_exponential(multiplier=2, min=3, max=6), stop=stop_after_attempt(5),
     retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
   def create_directory(self, directory_name, parent_id=None):
@@ -120,6 +128,7 @@ class GoogleDrive:
     except:
       pass
     return file_id
+
 
   def clone(self, link):
     self.transferred_size = 0
@@ -143,6 +152,7 @@ class GoogleDrive:
       err = str(err).replace('>', '').replace('<', '')
       LOGGER.error(err)
       return f"**ERROR:** ```{err}```"
+
 
   @retry(wait=wait_exponential(multiplier=2, min=3, max=6), stop=stop_after_attempt(5),
     retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
@@ -193,6 +203,7 @@ class GoogleDrive:
       except Exception as e:
         return f"**ERROR:** ```{e}```"
 
+
   @retry(wait=wait_exponential(multiplier=2, min=3, max=6), stop=stop_after_attempt(5),
     retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
   def checkFolderLink(self, link: str):
@@ -214,6 +225,7 @@ class GoogleDrive:
     else:
       return False, Messages.NOT_FOLDER_LINK
 
+
   @retry(wait=wait_exponential(multiplier=2, min=3, max=6), stop=stop_after_attempt(5),
     retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
   def delete_file(self, link: str):
@@ -233,7 +245,8 @@ class GoogleDrive:
           return Messages.INSUFFICIENT_PERMISSONS.format(file_id)
         else:
           return f"**ERROR:** ```{str(err).replace('>', '').replace('<', '')}```"
-      
+
+
   def emptyTrash(self):
     try:
       self.__service.files().emptyTrash().execute()
