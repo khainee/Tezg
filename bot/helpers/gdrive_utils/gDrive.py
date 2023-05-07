@@ -74,7 +74,7 @@ class GoogleDrive:
   def copyFile(self, file_id, dest_id):
       body = {'parents': [dest_id]}
       try:
-          res = self.__service.files().copy(supportsAllDrives=True,fileId=file_id,body=body).execute()
+          res = self.__service.files().copy(supportsAllDrives=True, fileId=file_id, body=body).execute()
           return res
       except HttpError as err:
           if err.resp.get('content-type', '').startswith('application/json'):
