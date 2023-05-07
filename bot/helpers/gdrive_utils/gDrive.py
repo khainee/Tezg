@@ -48,7 +48,7 @@ class GoogleDrive:
 
 
   @retry(wait=wait_exponential(multiplier=2, min=3, max=6), stop=stop_after_attempt(5),
-    retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
+         retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
   def getFilesByFolderId(self, folder_id):
       page_token = None
       q = f"'{folder_id}' in parents"
@@ -70,7 +70,7 @@ class GoogleDrive:
 
 
   @retry(wait=wait_exponential(multiplier=2, min=3, max=6), stop=stop_after_attempt(5),
-    retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
+         retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
   def copyFile(self, file_id, dest_id):
       body = {'parents': [dest_id]}
       try:
@@ -109,7 +109,7 @@ class GoogleDrive:
 
 
   @retry(wait=wait_exponential(multiplier=2, min=3, max=6), stop=stop_after_attempt(5),
-    retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
+         retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
   def create_directory(self, directory_name, parent_id=None):
     file_metadata = {
         "name": directory_name,
@@ -153,7 +153,7 @@ class GoogleDrive:
 
 
   @retry(wait=wait_exponential(multiplier=2, min=3, max=6), stop=stop_after_attempt(5),
-    retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
+         retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
   async def upload_file(self, file_path, sent_message, mimeType=None):
       mime_type = mimeType if mimeType else guess_type(file_path)[0]
       mime_type = mime_type if mime_type else "text/plain"
@@ -203,7 +203,7 @@ class GoogleDrive:
 
 
   @retry(wait=wait_exponential(multiplier=2, min=3, max=6), stop=stop_after_attempt(5),
-    retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
+         retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
   def checkFolderLink(self, link: str):
     try:
       file_id = self.getIdFromUrl(link)
@@ -225,7 +225,7 @@ class GoogleDrive:
 
 
   @retry(wait=wait_exponential(multiplier=2, min=3, max=6), stop=stop_after_attempt(5),
-    retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
+         retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
   def delete_file(self, link: str):
     try:
       file_id = self.getIdFromUrl(link)
