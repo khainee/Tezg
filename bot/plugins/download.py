@@ -31,15 +31,15 @@ async def _telegram_file(client, message):
   user_id = message.from_user.id
   sent_message = await message.reply_text('🕵️**Checking File...**')
   if message.document:
-    file = message.document
+      file = message.document
   elif message.video:
-    file = message.video
+      file = message.video
   elif message.audio:
-    file = message.audio
+      file = message.audio
   elif message.photo:
-  	file = message.photo
-  	file.mime_type = "images/png"
-  	file.file_name = f"IMG-{user_id}-{message.id}.png"
+      file = message.photo
+      file.mime_type = "images/png"
+      file.file_name = f"IMG-{user_id}-{message.id}.png"
   await sent_message.edit(Messages.DOWNLOAD_TG_FILE.format(file.file_name, humanbytes(file.file_size), file.mime_type))
   LOGGER.info(f'Download:{user_id}: {file.file_id}')
   try:
