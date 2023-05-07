@@ -71,7 +71,7 @@ async def _ytdl(client, message):
     LOGGER.info(f'YTDL:{user_id}: {link}')
     await sent_message.edit(Messages.DOWNLOADING.format(link))
     result, file_path = utube_dl(link)
-    if result:
+    if result is True:
       await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
       msg = await GoogleDrive(user_id).upload_file(file_path, sent_message)
       await sent_message.edit(msg)
@@ -93,14 +93,14 @@ async def _gd(client, message, user_id, sent_message, url):
 async def _dl(client, message, user_id, sent_message, url):
     try:
       r, dl_url = await direct_link(url)
-      if r == True:
+      if r is True:
         link = dl_url.strip()
         dl_path = DOWNLOAD_DIRECTORY
         gid = uuid4().hex[:16]
         LOGGER.info(f'Download:{user_id}: {link}')
         await sent_message.edit(Messages.DOWNLOADING.format(link))
         result, file_path = await download_file(link, dl_path, gid, sent_message)
-        if result == True and os.path.exists(file_path):
+        if result is True and os.path.exists(file_path):
           await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
           msg = await GoogleDrive(user_id).upload_file(file_path, sent_message)
           await sent_message.edit(msg)
@@ -117,7 +117,7 @@ async def _share_link(client, message, user_id, sent_message, url):
     try:
       LOGGER.info(f'Share link Copy:{user_id}: {url}')
       result, dl_url = await direct_link(url)
-      if result == True:
+      if result is True:
         return await _gd(client, message, user_id, sent_message, dl_url)
       else:
         await sent_message.edit(Messages.DOWNLOAD_ERROR.format(dl_url, url))
