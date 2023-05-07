@@ -92,26 +92,27 @@ async def _gd(client, message, user_id, sent_message, url):
 
 async def _dl(client, message, user_id, sent_message, url):
     try:
-      r, dl_url = await direct_link(url)
-      if r is True:
-        link = dl_url.strip()
-        dl_path = DOWNLOAD_DIRECTORY
-        gid = uuid4().hex[:16]
-        LOGGER.info(f'Download:{user_id}: {link}')
-        await sent_message.edit(Messages.DOWNLOADING.format(link))
-        result, file_path = await download_file(link, dl_path, gid, sent_message)
-        if result is True and os.path.exists(file_path):
-          await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
-          msg = await GoogleDrive(user_id).upload_file(file_path, sent_message)
-          await sent_message.edit(msg)
-          LOGGER.info(f'Deleteing: {file_path}')
-          os.remove(file_path)
+        r, dl_url = await direct_link(url)
+        if r is True:
+            link = dl_url.strip()
+            dl_path = DOWNLOAD_DIRECTORY
+            gid = uuid4().hex[:16]
+            LOGGER.info(f'Download:{user_id}: {link}')
+            await sent_message.edit(Messages.DOWNLOADING.format(link))
+            result, file_path = await download_file(link, dl_path, gid, sent_message)
+            if result is True and os.path.exists(file_path):
+                await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
+                msg = await GoogleDrive(user_id).upload_file(file_path, sent_message)
+                await sent_message.edit(msg)
+                LOGGER.info(f'Deleteing: {file_path}')
+                os.remove(file_path)
+            else:
+                await sent_message.edit(Messages.DOWNLOAD_ERROR.format(file_path, link))
         else:
-          await sent_message.edit(Messages.DOWNLOAD_ERROR.format(file_path, link))
-      else:
-          await sent_message.edit(Messages.DOWNLOAD_ERROR.format(dl_url, None))
+            await sent_message.edit(Messages.DOWNLOAD_ERROR.format(dl_url, None))
     except Exception as e:
         await sent_message.edit(f'🕵️**Link error...\n{e}**')
+
 
 async def _share_link(client, message, user_id, sent_message, url):
     try:
