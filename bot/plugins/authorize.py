@@ -20,35 +20,35 @@ flow = None
 
 @bot.on_message(filters.private & filters.incoming & filters.command(BotCommands.Authorize))
 async def _auth(client, message):
-  user_id = message.from_user.id
-  creds = gDriveDB.search(user_id)
-  if creds is not None:
-    creds.refresh(Http())
-    gDriveDB._set(user_id, creds)
-    await message.reply_text(Messages.ALREADY_AUTH, quote=True)
-  else:
-    global flow
-    try:
-      flow = OAuth2WebServerFlow(
-              response_type='code',
-              access_type='offline',
-              prompt='consent',
-              client_id=G_DRIVE_CLIENT_ID,
-              client_secret=G_DRIVE_CLIENT_SECRET,
-              scope=OAUTH_SCOPE,
-              redirect_uri=REDIRECT_URI,
-      )
-      auth_url = flow.step1_get_authorize_url()
-      LOGGER.info(f'AuthURL:{user_id}')
-      await message.reply_text(
-        text=Messages.AUTH_TEXT.format(auth_url),
-        quote=True,
-        reply_markup=InlineKeyboardMarkup(
-                  [[InlineKeyboardButton("Authorization URL", url=auth_url)]]
+    user_id = message.from_user.id
+    creds = gDriveDB.search(user_id)
+    if creds is not None:
+        creds.refresh(Http())
+        gDriveDB._set(user_id, creds)
+        await message.reply_text(Messages.ALREADY_AUTH, quote=True)
+    else:
+        global flow
+        try:
+            flow = OAuth2WebServerFlow(
+                    response_type='code',
+                    access_type='offline',
+                    prompt='consent',
+                    client_id=G_DRIVE_CLIENT_ID,
+                    client_secret=G_DRIVE_CLIENT_SECRET,
+                    scope=OAUTH_SCOPE,
+                    redirect_uri=REDIRECT_URI,
+            )
+            auth_url = flow.step1_get_authorize_url()
+            LOGGER.info(f'AuthURL:{user_id}')
+            await message.reply_text(
+              text=Messages.AUTH_TEXT.format(auth_url),
+              quote=True,
+              reply_markup=InlineKeyboardMarkup(
+                        [[InlineKeyboardButton("Authorization URL", url=auth_url)]]
+                    )
               )
-        )
-    except Exception as e:
-      await message.reply_text(f"**ERROR:** ```{e}```", quote=True)
+        except Exception as e:
+            await message.reply_text(f"**ERROR:** ```{e}```", quote=True)
 
 @bot.on_message(filters.private & filters.incoming & filters.command(BotCommands.Revoke) & CustomFilters.auth_users)
 async def _revoke(client, message):
