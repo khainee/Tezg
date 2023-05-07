@@ -1,5 +1,5 @@
 class config:
-    BOT_TOKEN = "6177070670:AAF4XMqVka2P0pboli9g9CWKOg-Y-cwqTdQ"
+    BOT_TOKEN = "5797214418:AAFIQg-FiiE6M7Cj6fSFrMTzqQ8cqkD2JcM"
     APP_ID = "10112326"
     API_HASH = "76b4e277c75aaf991589d78eca42946a"
     DATABASE_URL = "mongodb://mongo:TpghbMFn6sO3JyPFzrRP@containers-us-west-148.railway.app:6601"
@@ -21,9 +21,7 @@ class BotCommands:
     EmptyTrash = 'emptytrash'
     YtDl = 'ytdl'
     Storage = 'storage'
-    Speed = 'speedtest'
     Ping = 'ping'
-    Stats = 'stats'
 
 class Messages:
     START_MSG = """**Hi there {}.**\n__I'm Google Drive Uploader Bot V3.You can use me to upload any file / video to Google Drive from direct link or Telegram Files.__\n__You can know more from /help.__ \n***Supported Direct Link***\nFacebook Video\nGoogle Drive\nYoutube\nSolidfiles\nAnonfiles\nMediafire\nZippyshare\n[Yt-dlp support sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)\nOne Drive\nTera Box\nGdtot"""
