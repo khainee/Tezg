@@ -3,7 +3,7 @@ import re
 import json
 import logging
 from bot import LOGGER
-from tenacity import retry, wait_exponential, stop_after_attempt, retry_if_exception_type, RetryError
+from tenacity import retry, wait_exponential, stop_after_attempt, retry_if_exception_type, RetryError, before_log
 import urllib.parse as urlparse
 from bot.config import Messages
 from mimetypes import guess_type
