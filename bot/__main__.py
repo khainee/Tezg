@@ -9,10 +9,7 @@ async def main():
     if os.path.isfile(".restartmsg"):
         with open(".restartmsg") as f:
             chat_id, msg_id = map(int, f)
-        try:
             await bot.edit_message_text(chat_id=chat_id, message_id=msg_id, text='Restarted Successfully!')
-        except:
-            pass
     await bot.set_bot_commands([
         BotCommand(f'{BotCommands.Start}', 'Start Command'),
         BotCommand(f'{BotCommands.Download}', 'Download support link'),
