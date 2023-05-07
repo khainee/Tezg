@@ -9,20 +9,20 @@ from bot.helpers.utils import aria2, humanbytes
 
 async def download_file(url, dl_path, gid, sent_message):
     try:
-        aria2.add_uris([url], {'dir': dl_path,  'gid': gid})
+        aria2.add_uris([url], {'dir': dl_path, 'gid': gid})
         while True:
             downloads = aria2.get_downloads(gids=[gid])
             for download in downloads:
                 download.update()
-                if download.completed_length != 0 :
+                if download.completed_length is not 0:
                   LOGGER.error(f"a: {download.completed_length}")
                   progress = "{:.2f}".format(download.progress)
                   progress_bar = "📥 Downloading File...\n"
-                  progress_bar+= f"File name: {download.name}\n"
-                  progress_bar+= f"File size: {humanbytes(download.total_length)}\n"
-                  progress_bar+= f"Speed: {humanbytes(download.download_speed)}/s|ETA: {download.eta}\n"
-                  progress_bar+= f"Processed size: {humanbytes(download.completed_length)}\n"
-                  progress_bar+= f"Progress: {progress}%"
+                  progress_bar += f"File name: {download.name}\n"
+                  progress_bar += f"File size: {humanbytes(download.total_length)}\n"
+                  progress_bar += f"Speed: {humanbytes(download.download_speed)}/s|ETA: {download.eta}\n"
+                  progress_bar += f"Processed size: {humanbytes(download.completed_length)}\n"
+                  progress_bar += f"Progress: {progress}%"
                   await sent_message.edit(progress_bar)
                 for file in download.files:
                     path = file.path
@@ -56,7 +56,7 @@ def utube_dl(link):
     except DownloadError as e:
       return False, str(e)
     for path in glob.glob(os.path.join(DOWNLOAD_DIRECTORY, '*')):
-      if path.endswith(('.avi', '.mov', '.flv', '.wmv', '.3gp','.mpeg', '.webm', '.mp4', '.mkv', '.acc', '.m4a', '.mp3', '.ogg', '.wav')) and \
+      if path.endswith(('.avi', '.mov', '.flv', '.wmv', '.3gp', '.mpeg', '.webm', '.mp4', '.mkv', '.acc', '.m4a', '.mp3', '.ogg', '.wav')) and \
           path.startswith(ytdl.prepare_filename(meta)):
         return True, path
     return False, 'Something went wrong! No video file exists on server.'
