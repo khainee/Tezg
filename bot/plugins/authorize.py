@@ -1,13 +1,10 @@
-import re
 import json
 from httplib2 import Http
 from bot import LOGGER, G_DRIVE_CLIENT_ID, G_DRIVE_CLIENT_SECRET, bot
 from bot.config import Messages
-from pyrogram import Client, filters
+from pyrogram import filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from oauth2client.client import OAuth2WebServerFlow, FlowExchangeError
-from googleapiclient.discovery import build
-from googleapiclient.errors import HttpError
 from bot.helpers.sql_helper import gDriveDB
 from bot.config import BotCommands
 from bot.helpers.utils import CustomFilters
