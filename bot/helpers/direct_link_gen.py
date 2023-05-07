@@ -11,6 +11,7 @@ from lxml import etree
 from bot.helpers.utils import is_share_link
 from bot import LOGGER
 
+
 async def direct_link(url):
     if 'facebook' in url:
         return await _fb(url)
