@@ -12,7 +12,7 @@ async def _clone(client, message):
         link = message.command[1]
         LOGGER.info(f'Copy:{user_id}: {link}')
         result, dl_url = await direct_link(link)
-        if result == True:
+        if result is True:
             sent_message = await message.reply_text(Messages.CLONING.format(link), quote=True)
             msg = GoogleDrive(user_id).clone(dl_url)
             await sent_message.edit(msg)
