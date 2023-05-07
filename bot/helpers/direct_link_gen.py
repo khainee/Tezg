@@ -9,7 +9,6 @@ from uuid import uuid4
 from urllib.parse import parse_qs, urlparse
 from lxml import etree
 from bot.helpers.utils import is_share_link
-from bot import LOGGER
 
 
 async def direct_link(url):
@@ -37,6 +36,7 @@ async def direct_link(url):
     else:
         return False, 'No Downloader for the link'
 
+
 async def _fb(url):
     try:
         r = post("https://yt1s.io/api/ajaxSearch/facebook", data={"q": url, "vt": "facebook"}).text
@@ -52,6 +52,7 @@ async def _fb(url):
         print(f"Error: {e}")
         return False, e
 
+
 async def _solidfiles(url):
     cget = create_scraper().request
     try:
@@ -64,6 +65,7 @@ async def _solidfiles(url):
         return True, loads(mainOptions)["downloadUrl"]
     except Exception as e:
         return False, e
+
 
 async def _mediafire(url):
     cget = create_scraper().request
@@ -78,6 +80,7 @@ async def _mediafire(url):
 
 async def _indexlink(url):
     return True, url
+
 
 async def tera_box(url):
     if not path.isfile('terabox.txt'):
@@ -100,6 +103,7 @@ async def tera_box(url):
     if result['isdir'] != '0':
         return False, "ERROR: Can't download folder"
     return True, result['dlink']
+
 
 async def one_drive(link):
     cget = create_scraper().request
@@ -130,6 +134,7 @@ async def one_drive(link):
     if "@content.downloadUrl" not in resp:
         return False, 'ERROR: Direct link not found'
     return True, resp['@content.downloadUrl']
+
 
 async def gdtot(url):
     cget = create_scraper().request
@@ -163,6 +168,7 @@ async def gdtot(url):
     raw = urlparse(token_url)
     final_url = f'{raw.scheme}://{raw.hostname}{path}'
     return await sharer_scraper(final_url)
+
 
 async def sharer_scraper(url):
     cget = create_scraper().request
@@ -208,6 +214,7 @@ async def sharer_scraper(url):
         return True, drive_link[0]
     else:
         return False, 'ERROR: Drive Link not found, Try in your broswer'
+
 
 async def filepress(url):
     cget = create_scraper().request
