@@ -14,7 +14,7 @@ async def download_file(url, dl_path, gid, sent_message):
             downloads = aria2.get_downloads(gids=[gid])
             for download in downloads:
                 download.update()
-                if download.completed_length is not 0:
+                if download.completed_length != 0:
                   LOGGER.error(f"a: {download.completed_length}")
                   progress = "{:.2f}".format(download.progress)
                   progress_bar = "📥 Downloading File...\n"
