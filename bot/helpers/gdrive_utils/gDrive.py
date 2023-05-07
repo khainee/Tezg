@@ -29,7 +29,7 @@ class GoogleDrive:
   def getIdFromUrl(self, link: str):
       if "folders" in link or "file" in link:
           regex = r"https://drive\.google\.com/(drive)?/?u?/?\d?/?(mobile)?/?(file)?(folders)?/?d?/([-\w]+)[?+]?/?(w+)?"
-          res = re.search(regex,link)
+          res = re.search(regex, link)
           if res is None:
               raise IndexError("GDrive ID not found.")
           return res.group(5)
