@@ -5,6 +5,7 @@ import logging
 from bot import LOGGER
 from tenacity import retry, wait_exponential, stop_after_attempt, retry_if_exception_type, RetryError, before_log
 import urllib.parse as urlparse
+from httplib2 import Http
 from bot.config import Messages
 from mimetypes import guess_type
 from urllib.parse import parse_qs
@@ -253,4 +254,5 @@ class GoogleDrive:
       return f"**ERROR:** ```{str(err).replace('>', '').replace('<', '')}```"
 
   def authorize(self, creds):
+    creds.refresh(Http())
     return build('drive', 'v3', credentials=creds, cache_discovery=False)
