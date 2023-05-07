@@ -42,8 +42,8 @@ async def download_file(url, dl_path, gid, sent_message):
 
 def utube_dl(link):
   ytdl_opts = {
-    'outtmpl' : os.path.join(DOWNLOAD_DIRECTORY, '%(title)s'),
-    'noplaylist' : True,
+    'outtmpl': os.path.join(DOWNLOAD_DIRECTORY, '%(title)s'),
+    'noplaylist': True,
     'logger': LOGGER,
     'format': 'bestvideo+bestaudio/best',
     'geo_bypass_country': 'IN',
