@@ -43,6 +43,7 @@ async def _auth(client, message):
                 reply_markup=InlineKeyboardMarkup(
                     [[InlineKeyboardButton("Authorization URL", url=auth_url)]]
                 )
+            )
         except Exception as e:
             await message.reply_text(f"**ERROR:** ```{e}```", quote=True)
 
