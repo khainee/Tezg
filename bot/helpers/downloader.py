@@ -39,7 +39,7 @@ async def download_file(url, dl_path, gid, sent_message):
     except Exception as error:
         return False, error
     finally:
-        aria2.remove([download], force=True, files=True, clean=True)
+        aria2.remove([download], force=True, files=False, clean=True)
 
 def utube_dl(link):
   ytdl_opts = {
