@@ -25,7 +25,7 @@ async def download_file(url, dl_path, gid, sent_message):
               await sent_message.edit(progress_bar)
             except:
               pass
-            path = download.files.path
+            path = download.files[0].path
             if download.is_complete:
               LOGGER.info("Download complete")
               if os.path.exists(path):
