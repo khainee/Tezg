@@ -11,7 +11,7 @@ async def download_file(url, dl_path, gid, sent_message):
     try:
         aria2.add_uris([url], {'dir': dl_path, 'gid': gid})
         while True:
-            downloads = aria2.get_downloads(gids=[gid])
+            downloads = aria2.get_download(gids=[gid])
             for download in downloads:
                 download.update()
                 if download.completed_length != 0:
