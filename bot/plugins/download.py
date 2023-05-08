@@ -91,7 +91,7 @@ async def _gd(client, message, user_id, sent_message, url):
     await sent_message.edit(msg)
 
 async def _dl(client, message, user_id, sent_message, url):
-#    try:
+    try:
         r, dl_url = await direct_link(url)
         if r is True:
             link = dl_url.strip()
@@ -110,8 +110,8 @@ async def _dl(client, message, user_id, sent_message, url):
                 await sent_message.edit(Messages.DOWNLOAD_ERROR.format(file_path, link))
         else:
             await sent_message.edit(Messages.DOWNLOAD_ERROR.format(dl_url, None))
-#    except Exception as e:
-#        await sent_message.edit(f'🕵️**Link error...\n{e}**')
+    except Exception as e:
+        await sent_message.edit(f'🕵️**Link error...\n{e}**')
 
 
 async def _share_link(client, message, user_id, sent_message, url):
