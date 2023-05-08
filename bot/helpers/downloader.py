@@ -11,31 +11,29 @@ async def download_file(url, dl_path, gid, sent_message):
     try:
         aria2.add_uris([url], {'dir': dl_path, 'gid': gid})
         while True:
-            downloads = aria2.get_download(gids=[gid])
-            for download in downloads:
-                download.update()
-                if download.completed_length != 0:
-                  progress = "{:.2f}".format(download.progress)
-                  progress_bar = "📥 Downloading File...\n"
-                  progress_bar += f"File name: {download.name}\n"
-                  progress_bar += f"File size: {humanbytes(download.total_length)}\n"
-                  progress_bar += f"Speed: {humanbytes(download.download_speed)}/s|ETA: {download.eta}\n"
-                  progress_bar += f"Processed size: {humanbytes(download.completed_length)}\n"
-                  progress_bar += f"Progress: {progress}%"
-                  try:
-                    await sent_message.edit(progress_bar)
-                  except:
-                    pass
-                for file in download.files:
-                    path = file.path
-                if download.is_complete:
-                    LOGGER.info("Download complete")
-                    if os.path.exists(path):
-                        return True, path
-                    else:
-                        return False, path
-                elif download.has_failed:
-                    return False, download.error_message
+            download = aria2.get_download(gids=[gid])
+            download.update()
+            if download.completed_length != 0:
+            progress = "{:.2f}".format(download.progress)
+            progress_bar = "📥 Downloading File...\n"
+            progress_bar += f"File name: {download.name}\n"
+            progress_bar += f"File size: {humanbytes(download.total_length)}\n"
+            progress_bar += f"Speed: {humanbytes(download.download_speed)}/s|ETA: {download.eta}\n"
+            progress_bar += f"Processed size: {humanbytes(download.completed_length)}\n"
+            progress_bar += f"Progress: {progress}%"
+            try:
+              await sent_message.edit(progress_bar)
+            except:
+              pass
+            path = download.file.path
+            if download.is_complete:
+              LOGGER.info("Download complete")
+              if os.path.exists(path):
+                return True, path
+              else:
+                return False, path
+            elif download.has_failed:
+              return False, download.error_message
             await asyncio.sleep(0.5)
     except aria2p.client.ClientException as error:
         return False, error
