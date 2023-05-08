@@ -11,7 +11,6 @@ async def download_file(url, dl_path, gid, sent_message):
     try:
         download = aria2.add_uris([url], {'dir': dl_path, 'gid': gid})
         while True:
-            #download = aria2.get_download(gid=[gid])
             download.update()
             if download.completed_length != 0:
               progress = "{:.2f}".format(download.progress)
@@ -40,7 +39,7 @@ async def download_file(url, dl_path, gid, sent_message):
     except Exception as error:
         return False, error
     finally:
-        aria2.remove(download, force=True, files=True, clean=True)
+        aria2.remove([download], force=True, files=True, clean=True)
 
 def utube_dl(link):
   ytdl_opts = {
