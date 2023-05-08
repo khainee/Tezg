@@ -8,7 +8,7 @@ from bot import DOWNLOAD_DIRECTORY, LOGGER
 from bot.helpers.utils import aria2, humanbytes
 
 async def download_file(url, dl_path, gid, sent_message):
-#    try:
+    try:
         download = aria2.add_uris([url], {'dir': dl_path, 'gid': gid})
         while True:
             #download = aria2.get_download(gid=[gid])
@@ -35,10 +35,12 @@ async def download_file(url, dl_path, gid, sent_message):
             elif download.has_failed:
               return False, download.error_message
             await asyncio.sleep(0.5)
-#    except aria2p.client.ClientException as error:
-#        return False, error
-#    except Exception as error:
-#        return False, error
+    except aria2p.client.ClientException as error:
+        return False, error
+    except Exception as error:
+        return False, error
+    finally:
+        aria2.remove(download, force=True, files=True, clean=True)
 
 def utube_dl(link):
   ytdl_opts = {
