@@ -11,7 +11,7 @@ async def download_file(url, dl_path, gid, sent_message):
     try:
         aria2.add_uris([url], {'dir': dl_path, 'gid': gid})
         while True:
-            download = aria2.get_download(gids=[gid])
+            download = aria2.get_download(gid=[gid])
             download.update()
             if download.completed_length != 0:
               progress = "{:.2f}".format(download.progress)
