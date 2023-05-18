@@ -1,5 +1,6 @@
 import os
 import logging
+import pyrogram
 from pyrogram.types import BotCommand
 from bot.config import BotCommands
 from bot import bot, DOWNLOAD_DIRECTORY, LOGGER
