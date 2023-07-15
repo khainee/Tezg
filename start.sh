@@ -5,4 +5,4 @@ aria2c --allow-overwrite=true --auto-file-renaming=true \
        --min-split-size=10M --optimize-concurrent-downloads=true --reuse-uri=true \
        --rpc-max-request-size=1024M --split=20 \
        --summary-interval=0 --user-agent='Mozilla/5.0 (Linux; Android 11; M2010J19SI) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Mobile Safari/537.36' --disable-ipv6 &
-       python -m http.server 8080 & python3 -m bot
+python -m http.server 8080 & python3 -m bot
