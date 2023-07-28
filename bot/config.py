@@ -1,8 +1,8 @@
 class config:
-    BOT_TOKEN = "5797214418:AAFIQg-FiiE6M7Cj6fSFrMTzqQ8cqkD2JcM"
+    BOT_TOKEN = "5797214418:AAEUuTwaaQaI_QcTEER9g-U71TyiJdOyhaE"
     APP_ID = "10112326"
     API_HASH = "76b4e277c75aaf991589d78eca42946a"
-    DATABASE_URL = "mongodb://mongo:TpghbMFn6sO3JyPFzrRP@containers-us-west-148.railway.app:6601"
+    DATABASE_URL = "mongodb+srv://khaine:Hp206164$@mltb.zp6ekkt.mongodb.net/?retryWrites=true&w=majority"
     SUDO_USERS = "5227230295" # Sepearted by space.
     SUPPORT_CHAT_LINK = ""
     DOWNLOAD_DIRECTORY = "/usr/src/app/downloads/"
