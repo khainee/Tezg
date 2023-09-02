@@ -1,5 +1,5 @@
 class config:
-    BOT_TOKEN = "5797214418:AAEUuTwaaQaI_QcTEER9g-U71TyiJdOyhaE"
+    BOT_TOKEN = "6395111785:AAH73MMyX0r5WRO5zmFLlQ7rCy-Vw0oV7KQ"
     APP_ID = "10112326"
     API_HASH = "76b4e277c75aaf991589d78eca42946a"
     DATABASE_URL = "mongodb+srv://khaine:Hp206164$@mltb.zp6ekkt.mongodb.net/?retryWrites=true&w=majority"
