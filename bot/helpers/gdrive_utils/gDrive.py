@@ -255,7 +255,8 @@ class GoogleDrive:
 
   def getmail(self, creds):
     service = build('oauth2', 'v2', credentials=creds, cache_discovery=False)
-    return service.userinfo().get().execute()['email']
+    userinfo = service.userinfo().get().execute()
+    return userinfo['email']
 
   def authorize(self, creds):
     creds.refresh(Http())
