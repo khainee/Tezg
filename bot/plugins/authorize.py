@@ -11,7 +11,10 @@ from bot.config import BotCommands
 from bot.helpers.utils import CustomFilters
 
 
-OAUTH_SCOPE = "https://www.googleapis.com/auth/drive, https://www.googleapis.com/auth/userinfo.email"
+OAUTH_SCOPE = [
+    "https://www.googleapis.com/auth/drive",
+    "https://www.googleapis.com/auth/userinfo.email"
+]
 REDIRECT_URI = "https://www.drivetalkmm.tech/gdrive-auth"
 
 flow = OAuth2WebServerFlow(
