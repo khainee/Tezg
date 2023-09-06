@@ -15,13 +15,13 @@ OAUTH_SCOPE = "https://www.googleapis.com/auth/drive, https://www.googleapis.com
 REDIRECT_URI = "https://www.drivetalkmm.tech/gdrive-auth"
 
 flow = OAuth2WebServerFlow(
-    response_type='code',
-    access_type='offline',
-    prompt='consent',
     client_id=G_DRIVE_CLIENT_ID,
     client_secret=G_DRIVE_CLIENT_SECRET,
     scope=OAUTH_SCOPE,
     redirect_uri=REDIRECT_URI
+    response_type='code',
+    access_type='offline',
+    prompt='consent',
 )
 
 @bot.on_message(filters.private & filters.incoming & filters.command(BotCommands.Authorize))
@@ -82,7 +82,8 @@ async def _token(client, message):
                 creds = flow.step2_exchange(message.text)
                 gDriveDB._set(user_id, creds)
                 LOGGER.info(f'AuthSuccess: {user_id}')
-                await sent_message.edit(Messages.AUTH_SUCCESSFULLY.format(GoogleDrive.getmail)
+                mail = GoogleDrive(user_id).getmail
+                await sent_message.edit(Messages.AUTH_SUCCESSFULLY.format(mail))
                 flow = None
             except FlowExchangeError:
                 await sent_message.edit(Messages.INVALID_AUTH_CODE)
