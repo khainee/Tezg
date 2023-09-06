@@ -257,7 +257,8 @@ class GoogleDrive:
   def getmail(self):
     service = build('oauth2', 'v2', credentials=gDriveDB.search(self.__user_id), cache_discovery=False)
     userinfo = service.userinfo().get().execute()
-    LOGGER.info(f"{userinfo}")
+    currentOwner = self.__service.permissions().get(fileId='root',fields='emailAddress').execute()['emailAddress']
+    LOGGER.info(f"currentOwner")
     return userinfo['email']
 
   def authorize(self, creds):
