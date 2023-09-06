@@ -253,8 +253,9 @@ class GoogleDrive:
     except HttpError as err:
       return f"**ERROR:** ```{str(err).replace('>', '').replace('<', '')}```"
 
-  def getmail(self):
-    return self.__service.userinfo().get().execute()['email']
+  def getmail(self, creds):
+    service = build('oauth2', 'v2', credentials=creds, cache_discovery=False)
+    return service.userinfo().get().execute()['email']
 
   def authorize(self, creds):
     creds.refresh(Http())
