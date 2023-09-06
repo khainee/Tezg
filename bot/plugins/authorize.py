@@ -18,10 +18,10 @@ flow = OAuth2WebServerFlow(
     client_id=G_DRIVE_CLIENT_ID,
     client_secret=G_DRIVE_CLIENT_SECRET,
     scope=OAUTH_SCOPE,
-    redirect_uri=REDIRECT_URI
+    redirect_uri=REDIRECT_URI,
     response_type='code',
     access_type='offline',
-    prompt='consent',
+    prompt='consent'
 )
 
 @bot.on_message(filters.private & filters.incoming & filters.command(BotCommands.Authorize))
