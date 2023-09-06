@@ -23,6 +23,7 @@ class GoogleDrive:
     self.__G_DRIVE_DIR_BASE_DOWNLOAD_URL = "https://drive.google.com/drive/folders/{}"
     self.__service = self.authorize(gDriveDB.search(user_id))
     self.__parent_id = idsDB.search_parent(user_id)
+    self.__user_id = user_id
 
 
   def getIdFromUrl(self, link: str):
@@ -254,7 +255,7 @@ class GoogleDrive:
       return f"**ERROR:** ```{str(err).replace('>', '').replace('<', '')}```"
 
   def getmail(self):
-    service = build('oauth2', 'v2', credentials=gDriveDB.search(user_id), cache_discovery=False)
+    service = build('oauth2', 'v2', credentials=gDriveDB.search(self.__user_id), cache_discovery=False)
     userinfo = service.userinfo().get().execute()
     LOGGER.info(f"{userinfo}")
     return userinfo['email']
