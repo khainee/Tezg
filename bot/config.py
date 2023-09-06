@@ -64,7 +64,7 @@ class Messages:
 
     FLOW_IS_NONE = f"""❗ **Invalid Code**\n__Run {BotCommands.Authorize} first.__"""
 
-    AUTH_SUCCESSFULLY = """🔐 **Authorized Google Drive account Successfully.**"""
+    AUTH_SUCCESSFULLY = """🔐 **Authorized with {} Successfully.**"""
 
     INVALID_AUTH_CODE = """❗ **Invalid Code**\n__The code you have sent is invalid or already used before. Generate new one by the Authorization URL__"""
 
