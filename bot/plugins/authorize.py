@@ -85,7 +85,7 @@ async def _token(client, message):
                 creds = flow.step2_exchange(message.text)
                 gDriveDB._set(user_id, creds)
                 LOGGER.info(f'AuthSuccess: {user_id}')
-                mail = GoogleDrive(user_id).getmail
+                mail = GoogleDrive(user_id).getmail()
                 await sent_message.edit(Messages.AUTH_SUCCESSFULLY.format(mail))
                 flow = None
             except FlowExchangeError:
