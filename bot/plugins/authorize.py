@@ -6,11 +6,12 @@ from pyrogram import filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from oauth2client.client import OAuth2WebServerFlow, FlowExchangeError
 from bot.helpers.sql_helper import gDriveDB
+from bot.helpers.gdrive_utils import GoogleDrive
 from bot.config import BotCommands
 from bot.helpers.utils import CustomFilters
 
 
-OAUTH_SCOPE = "https://www.googleapis.com/auth/drive"
+OAUTH_SCOPE = "https://www.googleapis.com/auth/drive, https://www.googleapis.com/auth/userinfo.email"
 REDIRECT_URI = "https://www.drivetalkmm.tech/gdrive-auth"
 
 flow = OAuth2WebServerFlow(
@@ -81,7 +82,7 @@ async def _token(client, message):
                 creds = flow.step2_exchange(message.text)
                 gDriveDB._set(user_id, creds)
                 LOGGER.info(f'AuthSuccess: {user_id}')
-                await sent_message.edit(Messages.AUTH_SUCCESSFULLY)
+                await sent_message.edit(Messages.AUTH_SUCCESSFULLY.format(GoogleDrive.getmail)
                 flow = None
             except FlowExchangeError:
                 await sent_message.edit(Messages.INVALID_AUTH_CODE)
