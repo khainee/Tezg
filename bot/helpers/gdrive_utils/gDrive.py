@@ -255,11 +255,9 @@ class GoogleDrive:
       return f"**ERROR:** ```{str(err).replace('>', '').replace('<', '')}```"
 
   def getmail(self):
-    service = build('oauth2', 'v2', credentials=gDriveDB.search(self.__user_id), cache_discovery=False)
-    userinfo = service.userinfo().get().execute()
-    currentOwner = self.__service.permissions().get(fileId='root',fields='emailAddress').execute()['emailAddress']
-    LOGGER.info(f"currentOwner")
-    return userinfo['email']
+    mail = drive_service.files().get(fileId=file_id).execute()
+    LOGGER.info(f"{mail}")
+    return None
 
   def authorize(self, creds):
     creds.refresh(Http())
