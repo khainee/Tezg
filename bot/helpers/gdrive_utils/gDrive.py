@@ -255,9 +255,9 @@ class GoogleDrive:
       return f"**ERROR:** ```{str(err).replace('>', '').replace('<', '')}```"
 
   def getmail(self):
-    mail = self.__service.files().get(fileId="root").execute()['owners'][0]['emailAddress']
+    mail = self.__service.user().get().get('email')
     LOGGER.info(f"{mail}")
-    return None
+    return mail
 
   def authorize(self, creds):
     creds.refresh(Http())
