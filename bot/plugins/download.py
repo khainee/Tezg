@@ -12,13 +12,10 @@ from uuid import uuid4
 
 @bot.on_message(filters.private & filters.incoming & filters.text & (filters.command(BotCommands.Download) | filters.regex('^(ht|f)tp*')) & CustomFilters.auth_users)
 async def _download(client, message):
-    user_id = message.from_user.id
     if not message.media:
         sent_message = await message.reply_text('🕵️**Checking link...**')
-        if message.command:
-            url = message.command[1]
-        else:
-            url = message.text
+        url = message.command[1] if message.command else message.text
+        user_id = message.from_user.id
         if 'drive.google.com' in url:
             return await _gd(client, message, user_id, sent_message, url)
         if is_share_link(url):
@@ -64,23 +61,23 @@ async def progress(current, total, sent_message, file):
 
 @bot.on_message(filters.incoming & filters.private & filters.command(BotCommands.YtDl) & CustomFilters.auth_users)
 async def _ytdl(client, message):
-  user_id = message.from_user.id
-  if len(message.command) > 1:
-    sent_message = await message.reply_text('🕵️**Checking Link...**')
-    link = message.command[1]
-    LOGGER.info(f'YTDL:{user_id}: {link}')
-    await sent_message.edit(Messages.DOWNLOADING.format(link))
-    result, file_path = utube_dl(link)
-    if result is True:
-      await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
-      msg = await GoogleDrive(user_id).upload_file(file_path, sent_message)
-      await sent_message.edit(msg)
-      LOGGER.info(f'Deleteing: {file_path}')
-      os.remove(file_path)
+    if len(message.command) > 1:
+        sent_message = await message.reply_text('🕵️**Checking Link...**')
+        link = message.command[1]
+        user_id = message.from_user.id
+        LOGGER.info(f'YTDL:{user_id}: {link}')
+        await sent_message.edit(Messages.DOWNLOADING.format(link))
+        result, file_path = utube_dl(link)
+        if result is True:
+          await sent_message.edit(Messages.DOWNLOADED_SUCCESSFULLY.format(os.path.basename(file_path), humanbytes(os.path.getsize(file_path))))
+          msg = await GoogleDrive(user_id).upload_file(file_path, sent_message)
+          await sent_message.edit(msg)
+          LOGGER.info(f'Deleteing: {file_path}')
+          os.remove(file_path)
+        else:
+          await sent_message.edit(Messages.DOWNLOAD_ERROR.format(file_path, link))
     else:
-      await sent_message.edit(Messages.DOWNLOAD_ERROR.format(file_path, link))
-  else:
-    await sent_message.edit(Messages.PROVIDE_YTDL_LINK)
+        await sent_message.edit(Messages.PROVIDE_YTDL_LINK)
 
 #downloader
 

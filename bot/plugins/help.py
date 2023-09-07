@@ -44,24 +44,26 @@ def help_answer(c, callback_query):
 
 
 def map(pos):
-    if(pos==1):
-        button = [
-            [InlineKeyboardButton(text = '-->', callback_data = "help+2")]
-        ]
-    elif(pos==len(Messages.HELP_MSG)-1):
+    if (pos==1):
+        return [[InlineKeyboardButton(text='-->', callback_data="help+2")]]
+    elif (pos==len(Messages.HELP_MSG)-1):
 
-        button = [
+        return [
             [
-             InlineKeyboardButton(text = 'Support Chat', url = "https://t.me/drivetalkchannel"),
+                InlineKeyboardButton(
+                    text='Support Chat', url="https://t.me/drivetalkchannel"
+                ),
             ],
-            [InlineKeyboardButton(text = '<--', callback_data = f"help+{pos-1}")]
-
+            [InlineKeyboardButton(text='<--', callback_data=f"help+{pos-1}")],
         ]
     else:
-        button = [
+        return [
             [
-                InlineKeyboardButton(text = '<--', callback_data = f"help+{pos-1}"),
-                InlineKeyboardButton(text = '-->', callback_data = f"help+{pos+1}")
+                InlineKeyboardButton(
+                    text='<--', callback_data=f"help+{pos-1}"
+                ),
+                InlineKeyboardButton(
+                    text='-->', callback_data=f"help+{pos+1}"
+                ),
             ],
         ]
-    return button

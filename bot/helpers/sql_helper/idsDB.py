@@ -1,8 +1,7 @@
 from bot.helpers.sql_helper import parent_id
 
 def search_parent(chat_id):
-    result = parent_id.find_one({"_id": chat_id})
-    if result:
+    if result := parent_id.find_one({"_id": chat_id}):
         return result["parent_id"]
     else:
         return "root"

@@ -8,9 +8,9 @@ from bot import LOGGER, bot
 
 @bot.on_message(filters.private & filters.incoming & filters.command(BotCommands.Clone) & CustomFilters.auth_users)
 async def _clone(client, message):
-    user_id = message.from_user.id
     if len(message.command) > 1:
         link = message.command[1]
+        user_id = message.from_user.id
         LOGGER.info(f'Copy:{user_id}: {link}')
         result, dl_url = await direct_link(link)
         if result is True:
@@ -20,4 +20,4 @@ async def _clone(client, message):
         else:
             await sent_message.edit(Messages.CLONE_ERROR.format(dl_url, link))
     else:
-      await sent_message.edit(Messages.PROVIDE_GDRIVE_URL.format(BotCommands.Clone))
+        await sent_message.edit(Messages.PROVIDE_GDRIVE_URL.format(BotCommands.Clone))

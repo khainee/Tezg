@@ -23,7 +23,7 @@ def humanbytes(size: int) -> str:
     while size > power:
         size /= power
         number += 1
-    return str(round(size, 2)) + " " + dict_power_n[number] + 'B'
+    return f"{str(round(size, 2))} {dict_power_n[number]}B"
 
 def is_share_link(url):
     return bool(re.match(r'https?:\/\/.+\.gdtot\.\S+|https?:\/\/(filepress|filebee|appdrive|gdflix)\.\S+', url))

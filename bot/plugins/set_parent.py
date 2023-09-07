@@ -10,7 +10,7 @@ def _set_parent(client, message):
   user_id = message.from_user.id
   if len(message.command) > 1:
     link = message.command[1]
-    if not 'clear' in link:
+    if 'clear' not in link:
       sent_message = message.reply_text('🕵️**Checking Link...**', quote=True)
       gdrive = GoogleDrive(user_id)
       try:
