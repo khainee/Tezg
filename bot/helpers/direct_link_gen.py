@@ -3,7 +3,7 @@ from http.cookiejar import MozillaCookieJar
 from os import path
 from re import search, findall
 from json import loads
-from requests import post
+from requests import Session
 from bs4 import BeautifulSoup
 from uuid import uuid4
 from urllib.parse import parse_qs, urlparse
@@ -39,39 +39,40 @@ async def direct_link(url):
 
 async def _fb(url):
     try:
-        r = post("https://yt1s.io/api/ajaxSearch/facebook", data={"q": url, "vt": "facebook"}).text
-        bs = BeautifulSoup(r, "html5lib")
-        js = str(bs).replace('<html><head></head><body>{"status":"ok","p":"facebook","links":', '').replace('</body></html>', '').replace('},', ',')
-        contents = loads(js)
-        if 'hd' in contents:
-            durl = str(contents['hd']).replace('&amp;', '&')
-        else:
-            durl = str(contents['sd']).replace('&amp;', '&')
-        return True, durl
+        with Session() as scraper:
+            r = scraper.post("https://yt1s.io/api/ajaxSearch/facebook", data={"q": url, "vt": "facebook"}).text
+            bs = BeautifulSoup(r, "html5lib")
+            js = str(bs).replace('<html><head></head><body>{"status":"ok","p":"facebook","links":', '').replace('</body></html>', '').replace('},', ',')
+            contents = loads(js)
+            if 'hd' in contents:
+                durl = str(contents['hd']).replace('&amp;', '&')
+            else:
+                durl = str(contents['sd']).replace('&amp;', '&')
+            return True, durl
     except Exception as e:
         print(f"Error: {e}")
         return False, e
 
 
 async def _solidfiles(url):
-    cget = create_scraper().request
     try:
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36'
-        }
-        pageSource = cget('get', url, headers=headers).text
-        mainOptions = str(
-            search(r'viewerOptions\'\,\ (.*?)\)\;', pageSource).group(1))
-        return True, loads(mainOptions)["downloadUrl"]
+        with create_scraper() as scraper:
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36'
+            }
+            pageSource = scraper.get(url, headers=headers).text
+            mainOptions = str(
+                search(r'viewerOptions\'\,\ (.*?)\)\;', pageSource).group(1))
+            return True, loads(mainOptions)["downloadUrl"]
     except Exception as e:
         return False, e
 
 
 async def _mediafire(url):
-    cget = create_scraper().request
     try:
-        url = cget('get', url).url
-        page = cget('get', url).text
+        with create_scraper() as scraper:
+            url = scraper.get(url).url
+            page = scraper.get(url).text
     except Exception as e:
         return False, e
     if not (final_link := findall(r"\'(https?:\/\/download\d+\.mediafire\.com\/\S+\/\S+\/\S+)\'", page)):
@@ -85,25 +86,41 @@ async def _indexlink(url):
 async def tera_box(url):
     if not path.isfile('terabox.txt'):
         return False, "ERROR: terabox.txt not found"
-    session = create_scraper()
     try:
-        res = session.request('GET', url)
-        key = res.url.split('?surl=')[-1]
+    with Session() as scraper:
         jar = MozillaCookieJar('terabox.txt')
         jar.load()
-        session.cookies.update(jar)
-        res = session.request(
-            'GET', f'https://www.terabox.com/share/list?app_id=250528&shorturl={key}&root=1')
-        result = res.json()['list']
+        cookies = {cookie.name: cookie.value for cookie in jar}
+        _res = scraper.get(url, cookies=cookies)
+        if jsToken := findall(r'window\.jsToken.*%22(.*)%22', _res.text):
+            jsToken = jsToken[0]
+        else:
+            return False, ('ERROR: jsToken not found!.')
+        shortUrl = parse_qs(urlparse(_res.url).query).get('surl')
+        if not shortUrl:
+            return False, ("ERROR: Could not find surl")
+        params = {
+            'app_id': '250528',
+            'jsToken': jsToken,
+            'shorturl': shortUrl,
+            'root': '1'
+            }
+        json = scraper.get("https://www.1024tera.com/share/list", cookies=cookies, params=params).json()
+        if json['errno'] not in [0, '0']:
+            if 'errmsg' in json:
+                return False, (f"ERROR: {json['errmsg']}")
+            else:
+                return False, 'ERROR: Something went wrong!'
+        contents = json["list"]
+        if len(contents) > 1:
+            return False, ("ERROR: Can't download mutiple files")
+        content = contents[0]
+        if (dlink := content['dlink']) and content['isdir'] == '0':
+            return True, dlink
+        else:
+            return False, "ERROR: Can't download folder"
     except Exception as e:
         return False, e
-    if len(result) > 1:
-        return False, "ERROR: Can't download mutiple files"
-    result = result[0]
-    if result['isdir'] != '0':
-        return False, "ERROR: Can't download folder"
-    return True, result['dlink']
-
 
 async def one_drive(link):
     cget = create_scraper().request
