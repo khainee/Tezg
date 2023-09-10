@@ -79,15 +79,32 @@ async def start(client, message):
             await asyncio.sleep(e.x)
         except RPCError as e:
             await message.reply_text(e, quote=True)
-elif len(message.commamd) > 1:
-    token = message.command[1]
-    
-
+    elif len(message.commamd) > 1:
+        token = message.command[1]
+        if is_vaild_token(token):
+            creds = None
+            global flow
+            if flow:
+                try:
+                    user_id = message.from_user.id
+                    sent_message = await message.reply_text("🕵️**Checking received code...**", quote=True)
+                    creds = flow.step2_exchange(message.text)
+                    gDriveDB._set(user_id, creds)
+                    LOGGER.info(f'AuthSuccess: {user_id}')
+                    mail = GoogleDrive(user_id).getmail()
+                    await sent_message.edit(Messages.AUTH_SUCCESSFULLY.format(mail))
+                    flow = None
+                except FlowExchangeError:
+                    await sent_message.edit(Messages.INVALID_AUTH_CODE)
+                except Exception as e:
+                    LOGGER.error(f"**ERROR:** ```{e}```")
+            else:
+                await sent_message.edit(Messages.FLOW_IS_NONE, quote=True)
+            
 @bot.on_message(filters.private & filters.incoming & filters.text & ~CustomFilters.auth_users)
 async def _token(client, message):
     token = message.text.split()[-1]
-    WORD = len(token)
-    if WORD == 73 and token[1] == "/":
+    if is_vaild_token(token):
         creds = None
         global flow
         if flow:
@@ -103,6 +120,6 @@ async def _token(client, message):
             except FlowExchangeError:
                 await sent_message.edit(Messages.INVALID_AUTH_CODE)
             except Exception as e:
-                await sent_message.edit(f"**ERROR:** ```{e}```")
+                LOGGER.error(f"**ERROR:** ```{e}```")
         else:
             await sent_message.edit(Messages.FLOW_IS_NONE, quote=True)
