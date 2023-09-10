@@ -53,7 +53,7 @@ async def _auth(client, message):
                 text=Messages.AUTH_TEXT.format(auth_url),
                 quote=True,
                 reply_markup=InlineKeyboardMarkup(
-                    [[InlineKeyboardButton("Authorization URL", url=auth_url)]]
+                    [[InlineKeyboardButton("Authorization URL", login_url=auth_url)]]
                 )
             )
         except Exception as e:
@@ -79,7 +79,7 @@ async def _token(client, message):
         creds = None
         global flow
         if flow:
-            #try:
+            try:
                 user_id = message.from_user.id
                 sent_message = await message.reply_text("🕵️**Checking received code...**", quote=True)
                 creds = flow.step2_exchange(message.text)
@@ -88,9 +88,9 @@ async def _token(client, message):
                 mail = GoogleDrive(user_id).getmail()
                 await sent_message.edit(Messages.AUTH_SUCCESSFULLY.format(mail))
                 flow = None
-            #except FlowExchangeError:
-                #await sent_message.edit(Messages.INVALID_AUTH_CODE)
-            #except Exception as e:
-                #await sent_message.edit(f"**ERROR:** ```{e}```")
+            except FlowExchangeError:
+                await sent_message.edit(Messages.INVALID_AUTH_CODE)
+            except Exception as e:
+                await sent_message.edit(f"**ERROR:** ```{e}```")
         else:
             await sent_message.edit(Messages.FLOW_IS_NONE, quote=True)
