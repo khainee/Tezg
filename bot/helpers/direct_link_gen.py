@@ -97,7 +97,7 @@ async def tera_box(url):
             else:
                 return False, ('ERROR: jsToken not found!.')
             shortUrl = parse_qs(urlparse(_res.url).query).get('surl')
-           if not shortUrl:
+            if not shortUrl:
                 return False, ("ERROR: Could not find surl")
             params = {
                 'app_id': '250528',
