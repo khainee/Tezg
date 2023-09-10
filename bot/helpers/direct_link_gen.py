@@ -87,38 +87,38 @@ async def tera_box(url):
     if not path.isfile('terabox.txt'):
         return False, "ERROR: terabox.txt not found"
     try:
-    with Session() as scraper:
-        jar = MozillaCookieJar('terabox.txt')
-        jar.load()
-        cookies = {cookie.name: cookie.value for cookie in jar}
-        _res = scraper.get(url, cookies=cookies)
-        if jsToken := findall(r'window\.jsToken.*%22(.*)%22', _res.text):
-            jsToken = jsToken[0]
-        else:
-            return False, ('ERROR: jsToken not found!.')
-        shortUrl = parse_qs(urlparse(_res.url).query).get('surl')
-        if not shortUrl:
-            return False, ("ERROR: Could not find surl")
-        params = {
-            'app_id': '250528',
-            'jsToken': jsToken,
-            'shorturl': shortUrl,
-            'root': '1'
-            }
-        json = scraper.get("https://www.1024tera.com/share/list", cookies=cookies, params=params).json()
-        if json['errno'] not in [0, '0']:
-            if 'errmsg' in json:
-                return False, (f"ERROR: {json['errmsg']}")
+        with Session() as scraper:
+            jar = MozillaCookieJar('terabox.txt')
+            jar.load()
+            cookies = {cookie.name: cookie.value for cookie in jar}
+            _res = scraper.get(url, cookies=cookies)
+            if jsToken := findall(r'window\.jsToken.*%22(.*)%22', _res.text):
+                jsToken = jsToken[0]
             else:
-                return False, 'ERROR: Something went wrong!'
-        contents = json["list"]
-        if len(contents) > 1:
-            return False, ("ERROR: Can't download mutiple files")
-        content = contents[0]
-        if (dlink := content['dlink']) and content['isdir'] == '0':
-            return True, dlink
-        else:
-            return False, "ERROR: Can't download folder"
+                return False, ('ERROR: jsToken not found!.')
+            shortUrl = parse_qs(urlparse(_res.url).query).get('surl')
+           if not shortUrl:
+                return False, ("ERROR: Could not find surl")
+            params = {
+                'app_id': '250528',
+                'jsToken': jsToken,
+                'shorturl': shortUrl,
+                'root': '1'
+                }
+            json = scraper.get("https://www.1024tera.com/share/list", cookies=cookies, params=params).json()
+            if json['errno'] not in [0, '0']:
+                if 'errmsg' in json:
+                    return False, (f"ERROR: {json['errmsg']}")
+                else:
+                    return False, 'ERROR: Something went wrong!'
+            contents = json["list"]
+            if len(contents) > 1:
+                return False, ("ERROR: Can't download mutiple files")
+            content = contents[0]
+            if (dlink := content['dlink']) and content['isdir'] == '0':
+                return True, dlink
+            else:
+                return False, "ERROR: Can't download folder"
     except Exception as e:
         return False, e
 
