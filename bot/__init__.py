@@ -14,6 +14,11 @@ basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
 
 LOGGER = getLogger(__name__)
 
+def changetz(*args):
+    return datetime.now(timezone("Asia/Rangoon")).timetuple()
+Formatter.converter = changetz
+LOGGER.info("TIMEZONE synced with logging status")
+
 botStartTime = time()
 install()
 
