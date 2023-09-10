@@ -53,7 +53,7 @@ async def _auth(client, message):
                 text=Messages.AUTH_TEXT.format(auth_url),
                 quote=True,
                 reply_markup=InlineKeyboardMarkup(
-                    [[InlineKeyboardButton("Authorization URL", login_url=auth_url)]]
+                    [[InlineKeyboardButton("Authorization URL", url=auth_url)]]
                 )
             )
         except Exception as e:
