@@ -28,4 +28,7 @@ def humanbytes(size: int) -> str:
 def is_share_link(url):
     return bool(re.match(r'https?:\/\/.+\.gdtot\.\S+|https?:\/\/(filepress|filebee|appdrive|gdflix)\.\S+', url))
 
+def is_vaild_token(token):
+    return bool(re.metch(r'^.\/.{71}$', token))
+
 aria2 = aria2p.API(aria2p.Client(host="http://localhost", port=6800, secret=""))
