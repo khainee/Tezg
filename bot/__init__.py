@@ -4,6 +4,7 @@ from logging import getLogger, FileHandler, StreamHandler, INFO, basicConfig
 from pyrogram import Client
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from time import time
+from uvloop import install
 from datetime import datetime
 import logging
 
@@ -14,6 +15,7 @@ basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
 LOGGER = getLogger(__name__)
 
 botStartTime = time()
+install()
 
 ENV = bool(os.environ.get('ENV', False))
 try:
