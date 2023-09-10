@@ -70,6 +70,18 @@ async def _revoke(client, message):
     except Exception as e:
         await sent_message.edit(f"**ERROR:** ```{e}```", quote=True)
 
+@bot.on_message(filters.private & filters.incoming & filters.command(['start']), group=2)
+async def start(client, message):
+    if len(message.command) == 1:
+        try:
+            await message.reply_text(Messages.START_MSG.format(message.from_user.mention), disable_web_page_preview=True, reply_to_message_id=message.id)
+        except FloodWait as e:
+            await asyncio.sleep(e.x)
+        except RPCError as e:
+            await message.reply_text(e, quote=True)
+elif len(message.commamd) > 1:
+    token = message.command[1]
+    
 
 @bot.on_message(filters.private & filters.incoming & filters.text & ~CustomFilters.auth_users)
 async def _token(client, message):
