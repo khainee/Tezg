@@ -1,6 +1,6 @@
 import os
 from pytz import timezone
-from logging import getLogger, FileHandler, StreamHandler, INFO, basicConfig
+from logging import getLogger, FileHandler, StreamHandler, INFO, basicConfig, Formatter
 from pyrogram import Client
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from time import time
